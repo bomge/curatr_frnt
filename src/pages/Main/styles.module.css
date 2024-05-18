@@ -1,0 +1,15 @@
+.card {
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.card:hover {
+    transform: scale(1.02);
+}
+
+.cardCompleted {
+    opacity: 0.5;
+}
+
+.cardCompleted:hover {
+    opacity: 1;
+}

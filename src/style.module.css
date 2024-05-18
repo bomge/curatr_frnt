@@ -1,0 +1,12 @@
+p{
+	word-break: break-all;
+}
+
+a{
+	text-decoration: none;
+}
+
+label:has(+ input:required)::after {
+	content: ' *';
+	color: red;
+  }

@@ -1,0 +1,18 @@
+.buttonGroup {
+	background: rgb(46 127 207 / 10%);
+	color:#5763a799;
+  }
+
+  .buttonGroup:hover {
+	background: rgb(119 182 244 / 12%);
+  }
+
+.link {
+	/* color:inherit */
+	color:#848484de
+}
+
+.link:hover {
+	/* color:#00000069; */
+	color:light-dark(#4b4b4b69, rgb(181 177 177 / 86%));;
+}
