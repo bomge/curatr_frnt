@@ -17,7 +17,7 @@ interface LinkItemProps {
 	return (
 	  <Tooltip label={tooltip} openDelay={openDelay} disabled={!tooltip}>
 		<Link to={url || '/'} key={url} className={styles.link}>
-		  {loading? `Place Holder` : text }
+		  {loading? 'Place Holder' : text }
 		</Link>
 	  </Tooltip>
 	);

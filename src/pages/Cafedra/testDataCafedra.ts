@@ -1,6 +1,6 @@
-import { CafedraInfo, Person, Group, FacultyInfo } from "./Cafedras.page";
+import type { CafedraInfo, Person, Group, FacultyInfo } from "./Cafedras.page";
 
-  const persons: Person[] = [
+export  const persons: Person[] = [
 	{ id: 1, firstName: 'Алексей', lastName: 'Иванов', surName: 'Петрович', role: 'Профессор' },
 	{ id: 2, firstName: 'Мария', lastName: 'Смирнова', surName: 'Игоревна', role: 'Доктор наук' },
 	{ id: 3, firstName: 'Сергей', lastName: 'Кузнецов', surName: 'Александрович', role: 'Куратор ИП-21' },

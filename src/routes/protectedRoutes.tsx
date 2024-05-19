@@ -44,6 +44,12 @@ const protectedRoutes_: Routes = [
 		component: lazy(() => import('@/pages/Cafedra/Cafedras.page')),
 		// role: ['admin', 'manager', 'user'], // Adjust roles as needed
 	  },
+	{
+		key: 'groups-search',
+		path: '/groups',
+		component: lazy(() => import('@/pages/Group/Groups.page')),
+		// role: ['admin', 'manager', 'user'], // Adjust roles as needed
+	  },
   ];
 
 export default protectedRoutes_;

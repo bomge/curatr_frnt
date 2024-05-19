@@ -14,8 +14,8 @@ const Layouts: React.FC<LayoutProps> = ({ children }) => {
   const { colorScheme } = useMantineColorScheme();
 	const isMobile = !!useMediaQuery('(max-width: 600px)');
 
-	const pl = isMobile ? 'xl' : '4rem';
-	const pr = isMobile ? '1.5rem' : '2rem';
+	const pl = isMobile ? '0.6rem' : '4rem';
+	const pr = isMobile ? '0.6rem' : '2rem';
 
   return (
     <div>
@@ -25,7 +25,7 @@ const Layouts: React.FC<LayoutProps> = ({ children }) => {
       m='0'
        bg={colorScheme === 'dark' ? '#272727' : '#f4f4f4'}>
       <Header />
-        <Box pos='relative' pl={pl}>
+        <Box pos='relative' pl={pl} pr={pr}>
       {children}
         </Box>
       </Paper>

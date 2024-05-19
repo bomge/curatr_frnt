@@ -221,7 +221,7 @@ const EventDetails: React.FC<EventDetailsProps> = ({
     ]);
 
     return (
-        <Stack gap="0" pl={isMobile ? '1rem' : '2rem'} maw="50rem">
+        <Stack gap="0" maw="50rem">
             <Text fw={600} size="md" mb="1.5rem">
                 Мероприятие
             </Text>

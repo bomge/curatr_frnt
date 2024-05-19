@@ -28,7 +28,7 @@ export default function Header() {
   };
 
   const items = filteredLinks.map((link) => (
-    <Link to={link.link} style={{color:'inherit'}}>
+    <Link to={link.link} style={{color:'inherit', textDecoration:'none'}}>
     <Tabs.Tab key={link.label} value={link.link} onClick={() => navigate(link.link)}>
       {link.label}
     </Tabs.Tab>
@@ -45,7 +45,7 @@ export default function Header() {
 
 
   return (
-    <Tabs defaultValue='' pl='xl' mb='md' value={getActiveTab()} bg={isDark?'':'white'}>
+    <Tabs defaultValue='' pl='0.6rem' mb='md' value={getActiveTab()} bg={isDark?'':'white'}>
       <Tabs.List>{items}
       
       <Group gap="xs" pr="md"
