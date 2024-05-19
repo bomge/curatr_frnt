@@ -148,7 +148,7 @@ const CafedraSearch: React.FC<SearchCafedraProps> = ({
 				{selectedCafedraData || (loading&& selectedCafedra) ? (
 					<>
 						<Text mt='1rem' style={{ wordBreak: 'break-word', fontWeight: '655', textAlign: 'center' }}>
-							{selectedCafedraData?.fullName}
+							Кафедра {selectedCafedraData?.fullName}
 						</Text>
 						<Text mb='1rem' style={{ wordBreak: 'break-word' }}>
 							{selectedCafedraData?.shortName}

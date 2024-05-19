@@ -1,5 +1,5 @@
 import type { CafedraInfo, FacultyInfo } from "@/pages/Cafedra/Cafedras.page";
-import { Group, LoadingOverlay, Select, Stack, Text } from "@mantine/core";
+import { Box, Button, Group, LoadingOverlay, Select, Stack, Text } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { useState } from "react";
 import { EditableField } from "../Fields/EditableField";
@@ -59,12 +59,15 @@ const GroupSearch: React.FC<SearchGroupProps> = ({
 	loading
 }) => {
 	const isMobile = !!useMediaQuery('(max-width: 600px)');
+    const [isEditing, setIsEditing] = useState(false);
+	const toggleEditing = () => setIsEditing(!isEditing);
+
 
 	const handleFacultyChange = (facultyId: string | null) => {
 		onFacultyChange(facultyId);
 		if (!facultyId || (facultyId &&
 			!isCafedraInFaculty(faculties, facultyId, selectedCafedra))
-		){
+		) {
 
 			console.log('clear cafedra')
 			handleCafedraChange('');
@@ -73,9 +76,8 @@ const GroupSearch: React.FC<SearchGroupProps> = ({
 
 	const handleCafedraChange = (cafedraId: string | null) => {
 		onCafedraChange(cafedraId);
-		console.log(cafedraId,selectedCafedra)
-		if (!cafedraId || (cafedraId && !isGroupInCafedra(cafedras, cafedraId, selectedGroup)))
-		 {
+		console.log(cafedraId, selectedCafedra)
+		if (!cafedraId || (cafedraId && !isGroupInCafedra(cafedras, cafedraId, selectedGroup))) {
 			console.log('clear group')
 			onGroupChange('');
 		}
@@ -158,9 +160,10 @@ const GroupSearch: React.FC<SearchGroupProps> = ({
 
 	// const selectedGroupData = groups?.find((g) => g.id === Number(selectedGroup));
 
-	const selectedCafedraData = cafedras?.find((c) => c.id === Number(selectedCafedra));
-
-	console.log(selectedCafedraData)
+	const selectedCafedraData = selectedGroupData? cafedras?.find((c) => c.groups.find(g=>g.id == +selectedGroupData.id)) : null
+	const selectedFacultyData = selectedCafedraData? faculties?.find((c) => c.cafedras.find(g=>g.id == +selectedCafedraData.id)) : null
+	const groupLeader = selectedGroupData?.students.find(s=>s.isLeader)
+	console.log(selectedGroupData)
 
 	const pl = isMobile ? '0rem' : '2rem';
 	const pr = isMobile ? '0.15rem' : '2rem';
@@ -174,8 +177,10 @@ const GroupSearch: React.FC<SearchGroupProps> = ({
 				Информация о группе
 			</Text>
 			<Stack gap="0" maw="150rem" align="center">
+				<Box pos='relative' >
+				<Stack justify="center" gap={isMobile ? '0.4rem' : '1rem'} mb={isMobile ? '0.4rem' : '0.5rem'}>
 
-				<Group justify="center" gap={isMobile ? '0.4rem' : '1rem'} mb={isMobile ? '0.4rem' : '0.5rem'}>
+				<Group >
 					<Select
 						placeholder="Выберите факультет"
 						description="Факультет"
@@ -213,6 +218,7 @@ const GroupSearch: React.FC<SearchGroupProps> = ({
 					/>
 				</Group>
 				<Select
+					style={{alignSelf: isMobile?'':'center'}}
 					placeholder="Выберите группу"
 					//@ts-ignore
 					data={groupOptions}
@@ -235,13 +241,27 @@ const GroupSearch: React.FC<SearchGroupProps> = ({
 						},
 					}}
 				/>
-				{selectedCafedraData || (loading && selectedCafedra) ? (
+				{selectedGroupData && <Button
+                        onClick={toggleEditing}
+                        color={isEditing ? '#00ff83a6' : 'blue'}
+                        // disabled={isUploading}
+						pos={isMobile?'inherit':'absolute'}
+						right='0'
+						bottom={isMobile ? '' : '0.5rem'}
+						w='fit-content'
+						style={{alignSelf:'center'}}
+					>
+                        {isEditing ? 'Сохранить' : 'Редактировать'}
+                    </Button>}
+				</Stack>
+				</Box>
+				{selectedGroupData || (loading && selectedGroup) ? (
 					<>
 						<Text mt='1rem' style={{ wordBreak: 'break-word', fontWeight: '655', textAlign: 'center' }}>
-							{selectedCafedraData?.fullName}
+							{selectedGroupData?.shortName}
 						</Text>
 						<Text mb='1rem' style={{ wordBreak: 'break-word' }}>
-							{selectedCafedraData?.shortName}
+							{selectedGroupData?.fullName}
 						</Text>
 						<Group w={isMobile ? '22rem' : "25rem"}>
 							<table>
@@ -302,7 +322,30 @@ const GroupSearch: React.FC<SearchGroupProps> = ({
 										}}
 									/>
 									<EditableField
-										label="Сотрудники"
+										label="Кафедра"
+										value={selectedCafedraData?.fullName}
+										setValue={() => { }}
+										isEditing={false}
+										isMobile={isMobile}
+										component={Links}
+										multiline
+										compProps={{
+											links: selectedCafedraData?.fullName && {
+												url: `/cafedras?cafedra=${selectedCafedraData?.id}`,
+												text: `${selectedCafedraData?.fullName}`,
+												tooltip: selectedFacultyData && `${selectedFacultyData.shortName} \n(${selectedFacultyData.fullName})`,
+											},
+											loading
+										}}
+										fallback={{
+											label: "Кафедра",
+											value: 'Не выбрана 😕',
+											isEditing: false,
+											component: EditableTextField
+										}}
+									/>
+									<EditableField
+										label="Куратор"
 										value={selectedCafedraData?.workers.length}
 										setValue={() => { }}
 										isEditing={false}
@@ -310,47 +353,67 @@ const GroupSearch: React.FC<SearchGroupProps> = ({
 										component={Links}
 										multiline
 										compProps={{
-											links: selectedCafedraData?.workers.length && selectedCafedraData?.workers.map(worker => {
-												return {
-													url: `/profile/${worker.id}`,
-													text: `${worker.firstName} ${worker.lastName}`,
-													tooltip: worker.role,
-													// openDelay:30
-												}
-											}),
+											links: selectedCafedraData?.headCafedra && {
+												url: `/profile/${selectedCafedraData?.headCafedra.id}`,
+												text: `${selectedCafedraData?.headCafedra.firstName} ${selectedCafedraData?.headCafedra.lastName}`,
+												tooltip: selectedCafedraData?.headCafedra.role,
+											},
 											loading
 										}}
 										fallback={{
-											label: "Сотрудники",
-											value: 'Пока никто здесь не работает 😕',
+											label: "Куратор",
+											value: 'Не выбран 😕',
 											isEditing: false,
 											component: EditableTextField
 										}}
 									/>
 									<EditableField
-										label="Группы"
-										multiline
-										value={selectedCafedraData?.groups.length}
+										label="Староста"
+										value={groupLeader}
 										setValue={() => { }}
 										isEditing={false}
 										isMobile={isMobile}
 										component={Links}
+										multiline
 										compProps={{
-											links: selectedCafedraData?.groups.length && selectedCafedraData?.groups.map(group => {
-												return {
-													url: `/group/${group.id}`,
-													text: group.shortName,
-													tooltip: group.fullName,
-													openDelay: 30
-												}
-											}),
+											links: groupLeader && {
+												url: `/student/${groupLeader.id}`,
+												text: `${groupLeader.firstName} ${groupLeader.lastName}`,
+												// tooltip: selectedCafedraData?.headCafedra.role,
+											},
 											loading
 										}}
 										fallback={{
-											label: "Сотрудники",
-											value: 'Пока никаких групп здесь нет 😕',
+											label: "Староста",
+											value: 'Не выбран 😕',
 											isEditing: false,
 											component: EditableTextField
+										}}
+									/>
+									<EditableField
+										label="Студенты"
+										value={selectedGroupData?.students.length}
+										setValue={() => { }}
+										isEditing={false}
+										isMobile={isMobile}
+										component={Links}
+										multiline
+										compProps={{
+											links:
+												selectedGroupData?.students.length &&
+												selectedGroupData?.students.map((student) => {
+													return {
+														url: `/student/${student.id}`,
+														text: `${student.firstName} ${student.lastName}`,
+													};
+												}),
+											loading,
+										}}
+										fallback={{
+											label: "Студенты",
+											value: "Пока нет студентов в этой группе 😕",
+											isEditing: false,
+											component: EditableTextField,
 										}}
 									/>
 
@@ -361,7 +424,7 @@ const GroupSearch: React.FC<SearchGroupProps> = ({
 				) : (
 
 					<Text mt='1rem'>
-						{(selectedCafedra && !loading) ?
+						{(selectedGroupData && !loading) ?
 							'Похоже вы ввели что-то не так 🤒' :
 							"Выберите кафедру, чтобы увидеть информацию"
 						}

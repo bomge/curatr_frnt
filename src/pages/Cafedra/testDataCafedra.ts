@@ -63,7 +63,7 @@ export  const persons: Person[] = [
 	{
 	  id: 1,
 	  shortName: 'КТиП',
-	  fullName: 'Кафедра Компьютерных Технологий и Программирования',
+	  fullName: 'Компьютерных Технологий и Программирования',
 	  dean: null,//persons[0],
 	  headCafedra: null,//persons[1],
 	  workers: [],
@@ -75,7 +75,7 @@ export  const persons: Person[] = [
 	{
 	  id: 2,
 	  shortName: 'ЭиМ',
-	  fullName: 'Кафедра Экономики и Менеджмента',
+	  fullName: 'Экономики и Менеджмента',
 	  dean: persons[4],
 	  headCafedra: persons[5],
 	  workers: [persons[6], persons[7]],
@@ -84,7 +84,7 @@ export  const persons: Person[] = [
 	{
 	  id: 3,
 	  shortName: 'ГУиП',
-	  fullName: 'Кафедра Государственного Управления и Политологии',
+	  fullName: 'Государственного Управления и Политологии',
 	  dean: persons[8],
 	  headCafedra: persons[9],
 	  workers: [persons[10], persons[11]],
@@ -93,7 +93,7 @@ export  const persons: Person[] = [
 	{
 	  id: 4,
 	  shortName: 'ПМиВТ',
-	  fullName: 'Кафедра Прикладной Математики и Вычислительной Техники',
+	  fullName: 'Прикладной Математики и Вычислительной Техники',
 	  dean: persons[12],
 	  headCafedra: persons[13],
 	  workers: [persons[14], persons[15]],
@@ -102,7 +102,7 @@ export  const persons: Person[] = [
 	{
 	  id: 5,
 	  shortName: 'ЛиП',
-	  fullName: 'Кафедра Лингвистики и Перевода',
+	  fullName: 'Лингвистики и Перевода',
 	  dean: persons[16],
 	  headCafedra: persons[17],
 	  workers: [persons[18], persons[19]],
@@ -111,7 +111,7 @@ export  const persons: Person[] = [
 	{
 	  id: 6,
 	  shortName: 'ИТиКБ',
-	  fullName: 'Кафедра Информационных Технологий и Кибербезопасности',
+	  fullName: 'Информационных Технологий и Кибербезопасности',
 	  dean: persons[20],
 	  headCafedra: persons[21],
 	  workers: [persons[22], persons[23]],
@@ -120,7 +120,7 @@ export  const persons: Person[] = [
 	{
 	  id: 7,
 	  shortName: 'БиТиМ',
-	  fullName: 'Кафедра Бизнеса и Технологического Менеджмента',
+	  fullName: 'Бизнеса и Технологического Менеджмента',
 	  dean: persons[24],
 	  headCafedra: persons[25],
 	  workers: [persons[26], persons[27]],
@@ -129,7 +129,7 @@ export  const persons: Person[] = [
 	{
 	  id: 8,
 	  shortName: 'СиС',
-	  fullName: 'Кафедра Социальных Исследований и Статистики',
+	  fullName: 'Социальных Исследований и Статистики',
 	  dean: persons[28], // Using Мария Смирнова again as dean
 	  headCafedra: persons[29], // Using Сергей Кузнецов again as headCafedra
 	  workers: [persons[30], persons[31], persons[32], persons[33], persons[34]],

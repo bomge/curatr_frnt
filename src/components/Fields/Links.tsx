@@ -16,7 +16,7 @@ interface LinkItemProps {
 	if ((!url || !text) && !loading) return null;
 	return (
 	  <Tooltip label={tooltip} openDelay={openDelay} disabled={!tooltip}>
-		<Link to={url || '/'} key={url} className={styles.link}>
+		<Link to={url || '/'} key={url} className={styles.link} style={{textDecoration:'none'}}>
 		  {loading? 'Place Holder' : text }
 		</Link>
 	  </Tooltip>
