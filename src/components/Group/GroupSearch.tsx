@@ -260,10 +260,10 @@ const GroupSearch: React.FC<SearchGroupProps> = ({
 						<Text mt='1rem' style={{ wordBreak: 'break-word', fontWeight: '655', textAlign: 'center' }}>
 							{selectedGroupData?.shortName}
 						</Text>
-						<Text mb='1rem' style={{ wordBreak: 'break-word' }}>
+						<Text mb='1rem' style={{ wordBreak: 'break-word' }} ta='center'>
 							{selectedGroupData?.fullName}
 						</Text>
-						<Group w={isMobile ? '22rem' : "25rem"}>
+						<Group w={isMobile ? '24rem' : "25rem"}>
 							<table>
 								<tbody>
 
