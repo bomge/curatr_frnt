@@ -25,7 +25,7 @@ const Layouts: React.FC<LayoutProps> = ({ children }) => {
       m='0'
        bg={colorScheme === 'dark' ? '#272727' : '#f4f4f4'}>
       <Header />
-        <Box pos='relative' pl={pl} pr={pr}>
+        <Box pos='relative' pl={pl} pr={pr} pb='1rem'>
       {children}
         </Box>
       </Paper>

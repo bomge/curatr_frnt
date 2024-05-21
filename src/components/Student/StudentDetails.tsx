@@ -4,7 +4,7 @@ import {
     showSuccessNotification,
     showErrorNotification,
 } from '@/util/notification';
-import { Stack, Group, Button, Text, Checkbox } from '@mantine/core';
+import { Stack, Group, Button, Text, Checkbox, Box } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { IconSelector } from '@tabler/icons-react';
 import type React from 'react';
@@ -229,7 +229,7 @@ const StudentDetails: React.FC<StudentDetailsProps> = ({
     return (
         <Stack gap="0" pl={'0' || (isMobile ? '1rem' : '2rem')} maw="150rem">
             <Text fw={600} size="md" mb="1.5rem">
-                Профиль
+                Профиль студента
             </Text>
             <Group>
                 <Stack gap='0'>
@@ -260,6 +260,8 @@ const StudentDetails: React.FC<StudentDetailsProps> = ({
                     </Text>
                 ))}
             <Group maw="150rem">
+                <Box w='27rem'>
+
                 <table>
                     <tbody>
                         <EditableField
@@ -446,6 +448,9 @@ const StudentDetails: React.FC<StudentDetailsProps> = ({
                             isMobile={isMobile}
                             component={EditableTextField}
                             isHidden={userRole !== 'admin'}
+                            compProps={{
+                                w:'17rem'
+                            }}
                         />
                         <EditableField
                             label="Мать"
@@ -469,6 +474,7 @@ const StudentDetails: React.FC<StudentDetailsProps> = ({
                         />
                     </tbody>
                 </table>
+                </Box>
                 {/* <Image
 						src={profileData.img || imgPlaceHolder}
 						alt="Profile"

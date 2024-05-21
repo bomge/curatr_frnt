@@ -63,63 +63,66 @@ export const EditableContactPersonField: React.FC<EditableContactPersonFieldProp
 
     return (
         <>
+
             {isEditing ? (
-                <Group>
-                    <EditableTextField
-                        value={firstName}
-                        setValue={setFirstName}
-                        isEditing={isEditing}
-                        isMobile={isMobile}
-                        description="Имя"
-                    />
-                    <EditableTextField
-                        value={lastName}
-                        setValue={setLastName}
-                        isEditing={isEditing}
-                        isMobile={isMobile}
-                        description="Фамилия"
-                    />
-                    <EditableTextField
-                        value={surName}
-                        setValue={setSurName}
-                        isEditing={isEditing}
-                        isMobile={isMobile}
-                        description="Отчество"
-                    />
-                    <EditableTextField
-                        value={phone}
-                        setValue={setPhone}
-                        isEditing={isEditing}
-                        isMobile={isMobile}
-                        description="Номер телефона"
-                    />
-                    <EditableTextField
-                        value={phoneWork}
-                        setValue={setPhoneWork}
-                        isEditing={isEditing}
-                        isMobile={isMobile}
-                        description="Номер телефона (раб)"
-                    />
-                    <EditableTextField
-                        value={work}
-                        setValue={setWork}
-                        isEditing={isEditing}
-                        isMobile={isMobile}
-                        description="Место работы"
-                    />
-                    <EditableTextField
-                        value={jobPosition}
-                        setValue={setJobPosition}
-                        isEditing={isEditing}
-                        isMobile={isMobile}
-                        description="Должность"
-                    />
-                </Group>
+                <>
+                    <Group>
+
+                        <EditableTextField
+                            value={firstName}
+                            setValue={setFirstName}
+                            isEditing={isEditing}
+                            isMobile={isMobile}
+                            description="Имя"
+                        />
+                        <EditableTextField
+                            value={lastName}
+                            setValue={setLastName}
+                            isEditing={isEditing}
+                            isMobile={isMobile}
+                            description="Фамилия"
+                        />
+                        <EditableTextField
+                            value={surName}
+                            setValue={setSurName}
+                            isEditing={isEditing}
+                            isMobile={isMobile}
+                            description="Отчество"
+                        />
+                        <EditableTextField
+                            value={phone}
+                            setValue={setPhone}
+                            isEditing={isEditing}
+                            isMobile={isMobile}
+                            description="Номер телефона"
+                        />
+                        <EditableTextField
+                            value={phoneWork}
+                            setValue={setPhoneWork}
+                            isEditing={isEditing}
+                            isMobile={isMobile}
+                            description="Номер телефона (раб)"
+                        />
+                        <EditableTextField
+                            value={work}
+                            setValue={setWork}
+                            isEditing={isEditing}
+                            isMobile={isMobile}
+                            description="Место работы"
+                        />
+                        <EditableTextField
+                            value={jobPosition}
+                            setValue={setJobPosition}
+                            isEditing={isEditing}
+                            isMobile={isMobile}
+                            description="Должность"
+                        />
+                    </Group>
+                </>
             ) : (
                 <Text>
-                    {`${value?.firstName || ''} ${value?.surName || ''} ${
-                        value?.lastName || ''
-                    }`}
+                    {`${value?.firstName || ''} ${value?.surName || ''} ${value?.lastName || ''
+                        }`}
                     {value?.phone && ` ${value.phone}`}
                     {value?.phoneWork &&
                         `, Рабочий телефон: ${value.phoneWork}`}

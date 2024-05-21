@@ -14,8 +14,8 @@ const SingleLineField: React.FC<LineFielLinedProps> = ({ label, children,isEditi
                 textAlign: 'right',
                 marginRight: '2rem',
                 paddingBottom: '0.5rem',
-                minWidth: '5rem',
-                verticalAlign:isEditing? '' :'baseline',
+                minWidth: '10rem',
+                verticalAlign:'baseline',
             }}
         >
             <Text fw={600}>{label}:</Text>
