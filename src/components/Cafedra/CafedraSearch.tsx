@@ -248,7 +248,7 @@ const CafedraSearch: React.FC<SearchCafedraProps> = ({
 										compProps={{
 											links: selectedCafedraData?.groups.length && selectedCafedraData?.groups.map(group => {
 												return {
-													url: `/group/${group.id}`,
+													url: `/groups?group=${group.id}`,
 													text: group.shortName,
 													tooltip: group.fullName,
 													openDelay: 30

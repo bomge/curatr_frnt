@@ -35,6 +35,7 @@ import { useState, useRef, useCallback } from 'react';
 import { ru } from 'date-fns/locale';
 import { addHours, startOfDay, endOfDay } from 'date-fns';
 import ReactQuill from 'react-quill';
+import FormattedDateTime from '../EventCard/FormattedDateTime';
 interface EditableTextFieldProps {
     value: string;
     setValue: (value: string) => void;
@@ -56,7 +57,7 @@ export const EditableTextField: React.FC<EditableTextFieldProps> = ({
     <>
         {isEditing ? (
             <TextInput
-                maw="15rem"
+                // maw="25rem"
                 value={value}
                 onChange={(e) => setValue(e.currentTarget.value)}
                 error={error}
@@ -64,7 +65,7 @@ export const EditableTextField: React.FC<EditableTextFieldProps> = ({
                 {...props}
             />
         ) : (
-            <Text>{value}</Text>
+            <Text {...props}>{value}</Text>
         )}
     </>
 );
@@ -78,6 +79,8 @@ interface EditableSelectFieldProps {
     icon?: React.ReactNode;
     placeholder?: string;
     error?: string;
+    searchable?: boolean;
+    allowDeselect?: boolean;
 }
 
 export const EditableSelectField: React.FC<EditableSelectFieldProps> = ({
@@ -89,6 +92,7 @@ export const EditableSelectField: React.FC<EditableSelectFieldProps> = ({
     icon,
     placeholder,
     error,
+    ...props
 }) => (
     <>
         {isEditing ? (
@@ -101,6 +105,7 @@ export const EditableSelectField: React.FC<EditableSelectFieldProps> = ({
                 allowDeselect={false}
                 error={error}
                 nothingFoundMessage="Nothing found..."
+                {...props}
             />
         ) : (
             <Text>{value}</Text>
