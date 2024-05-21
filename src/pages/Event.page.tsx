@@ -4,8 +4,8 @@ import type React from 'react';
 const eventData = {
 	id: 1,
 	name: 'Faculty Meeting',
-	startDate: '2024-05-08T10:00',
-	endDate: '2024-05-10T12:00',
+	startDate: new Date().toISOString(),
+	endDate: new Date().toISOString(),
 	type: 'Administrative Event',
 	status: 'Completed',
 	creator: {

@@ -19,6 +19,7 @@ import { Link } from 'react-router-dom';
 import { useMediaQuery } from '@mantine/hooks';
 import { useState } from 'react';
 import { MobileStackPcGroup } from '@/components/Fields/EditableField';
+import FormattedDateTime from '@/components/EventCard/FormattedDateTime';
 
 export const eventTypeColor = {
     'Academic Event': 'indigo',
@@ -182,17 +183,9 @@ const MainPage = () => {
 
                                 <Group>
                                     <Text size="xs">
-                                        {format(
-                                            new Date(event.startDate),
-                                            'dd.MM.yy HH:mm',
-                                            { locale: ru },
-                                        )}
+                                    <FormattedDateTime date={event.startDate} />
                                         {' - '}
-                                        {format(
-                                            new Date(event.endDate),
-                                            'dd.MM.yy HH:mm',
-                                            { locale: ru },
-                                        )}{' '}
+                                        <FormattedDateTime date={event.endDate} size='xs'/>{' '}
                                         <Text size="xs" color="cyan">
                                             {+new Date(event.endDate) <
                                             Date.now()
