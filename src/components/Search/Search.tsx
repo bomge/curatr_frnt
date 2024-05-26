@@ -4,7 +4,7 @@ import { useMediaQuery } from "@mantine/hooks";
 import { useState } from "react";
 import SearchCard from "./searchcard";
 import SearchInput from "./SearchInput";
-
+import classes from './style.module.css'
 interface SearchGroupProps {
 	loading: boolean;
 	onSearchChange: (str: string) => void;
@@ -17,7 +17,7 @@ const PersonSearch: React.FC<SearchGroupProps> = ({ result, loading, onSearchCha
 
 	return (
 		<Stack gap="0" pl={isMobile ? '0rem' : '2rem'} mr={isMobile ? '0.15rem' : '2rem'} maw="150rem">
-			<Text fw={600} size="md" mb="0.3rem" ta='center'>
+			<Text fw={600} size="md"  ta='center'>
 				Поиск людей
 			</Text>
 			<Stack gap="0" maw="150rem" align="center">
@@ -26,10 +26,12 @@ const PersonSearch: React.FC<SearchGroupProps> = ({ result, loading, onSearchCha
 					<LoadingOverlay visible={loading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
 					<Paper shadow="xs" p="0.3rem" miw={isMobile ? '23rem' : '30rem'} maw={isMobile ? '99dvw' : '35rem'}
 						mih={isMobile?'69dvh': '78dvh'}
-						bg='gray.1'>
+						// bg='gray.1'
+						className={classes.paperSearch}
+						>
 						{result.result.length === 0 ? (
 							<Text ta='center'>
-								Ничего не найдено :(
+								Ничего не найдено 😕
 							</Text>
 						) : (
 							result.result.map((person) => (
