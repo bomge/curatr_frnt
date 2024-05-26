@@ -32,7 +32,7 @@ export interface ExtendedCafedra extends CafedraInfo {
 const GroupPage: React.FC = () => {
 
 	const [searchParams, setSearchParams] = useSearchParams();
-	const navigate = useNavigate();
+	
 
 	const [loading, setLoading] = useState(true);
 	const [faculties, setFaculties] = useState<FacultyInfo[]>([]);
@@ -56,32 +56,6 @@ const GroupPage: React.FC = () => {
 		}
 		setSearchParams(searchParams);
 	}, [searchParams, setSearchParams]);
-
-	const handleFacultyChange = (facultyId: string | null) => {
-		if (facultyId) {
-			searchParams.set('faculty', facultyId);
-		} else {
-			searchParams.delete('faculty');
-		}
-		setSearchParams(searchParams);
-	};
-
-	const handleCafedraChange = (cafedraId: string | null) => {
-		if (cafedraId) {
-			searchParams.set('cafedra', cafedraId);
-		} else {
-			searchParams.delete('cafedra');
-		}
-		setSearchParams(searchParams);
-	};
-	const handleGroupChange = (groupId: string | null) => {
-		if (groupId) {
-			searchParams.set('group', groupId);
-		} else {
-			searchParams.delete('group');
-		}
-		setSearchParams(searchParams);
-	};
 
 
 	const handleGroupDataUpdated = (updatedGroupData: ExtentedGroup) => {
@@ -107,9 +81,9 @@ const GroupPage: React.FC = () => {
 			selectedFaculty={searchParams.get('faculty') || null}
 			selectedCafedra={searchParams.get('cafedra') || null}
 			selectedGroup={searchParams.get("group") || null}
-			onFacultyChange={handleFacultyChange}
-			onCafedraChange={handleCafedraChange}
-			onGroupChange={handleGroupChange}
+			onFacultyChange={(id)=>handleSearchParamChange('faculty',id)}
+			onCafedraChange={(id)=>handleSearchParamChange('cafedra',id)}
+			onGroupChange={(id)=>handleSearchParamChange('group',id)}
 			loading={loading}
 			onGroupDataUpdated={handleGroupDataUpdated}
 		/>

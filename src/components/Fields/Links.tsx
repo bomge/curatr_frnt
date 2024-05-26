@@ -9,10 +9,10 @@ interface LinkItemProps {
 	tooltip?: string;
 	openDelay?: number;
 	loading?: boolean;
-
+	isMobile?: boolean;
   }
 
-  const LinkItem: React.FC<LinkItemProps> = ({ url, text, tooltip,loading, openDelay = 30 }) => {
+  const LinkItem: React.FC<LinkItemProps> = ({ url, text, tooltip,loading, openDelay = 30, isMobile }) => {
 	if ((!url || !text) && !loading) return null;
 	return (
 	  <Tooltip label={tooltip} openDelay={openDelay} disabled={!tooltip}>
@@ -26,14 +26,15 @@ interface LinkItemProps {
 interface LinksProps {
   links: LinkItemProps[] | LinkItemProps;
   loading?: boolean;
+  isMobile?: boolean;
 }
 
-const Links: React.FC<LinksProps> = ({ links,loading }) => {
+const Links: React.FC<LinksProps> = ({ links,loading,isMobile }) => {
 	// if(!links) return null
 	const renderLinks = (linksArray: LinkItemProps[]) => {
 		return linksArray.map(({ url, text, tooltip, openDelay,  }, index) => (
 		  <React.Fragment key={url}>
-			<LinkItem url={url} text={text} tooltip={tooltip} openDelay={openDelay} loading={loading} />
+			<LinkItem url={url} text={text} tooltip={tooltip} openDelay={openDelay} loading={loading} isMobile={isMobile} />
 			{index < linksArray.length - 1 && ', '}
 		  </React.Fragment>
 		));

@@ -188,7 +188,7 @@ export const EditableDateTimeField: React.FC<EditableDateTimeFieldProps> = ({
         ) : (
             <Group gap="xs">
                 {/* <Text>{format(value, 'dd.MM.yyyy HH:mm', { locale: ru })}</Text> */}
-                <FormattedDateTime date={value} yearFull/>
+                <FormattedDateTime date={value?.toString()} yearFull/>
                 {showEstTime && <EstTimeText value={value} />}
             </Group>
         )}

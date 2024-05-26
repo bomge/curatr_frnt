@@ -292,6 +292,9 @@ const EventDetails: React.FC<EventDetailsProps> = ({
                             )}
                             isHidden={!isEditing}
                             error={errors.type}
+                            compProps={{
+                                searchable:false
+                            }}
                         />
                         <EditableField
                             label="Статус"
@@ -308,6 +311,9 @@ const EventDetails: React.FC<EventDetailsProps> = ({
                             )}
                             isHidden={!isEditing}
                             error={errors.status}
+                            compProps={{
+                                searchable:false
+                            }}
                         />
                         <EditableField
                             label="Создатель"

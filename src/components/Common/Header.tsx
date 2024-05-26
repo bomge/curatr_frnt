@@ -9,6 +9,7 @@ const links = [
   { link: '/main', label: 'Главная',},
   { link: '/cafedras', label: 'Кафедры',},
   { link: '/groups', label: 'Группы'},
+  { link: '/search', label: 'Поиск'},
   { link: '/student/1', label: 'Студенты' },
   { link: '/reports', label: 'Отчеты', role: ['admin', 'manager'] },
   { link: '/management', label: 'Управление', role: ['admin'] },

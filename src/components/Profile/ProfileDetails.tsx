@@ -312,6 +312,10 @@ console.log('x')
                                 label: r.name,
                             }))}
                             error={errors.role}
+                            compProps={{
+                                searchable:false
+                            }
+                            }
                         />
                         <EditableField
                             label="Группа"

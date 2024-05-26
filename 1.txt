@@ -1,0 +1,1182 @@
+import CafedraSearch from "@/components/Cafedra/CafedraSearch";
+import { useState, useEffect, useCallback } from "react";
+import { useSearchParams, useNavigate } from "react-router-dom";
+import type { CafedraInfo, FacultyInfo, Group, Person } from "../Cafedra/Cafedras.page";
+import { persons } from "../Cafedra/testDataCafedra";
+import { faculties as testFaculties} from '../Cafedra/testDataCafedra';
+import GroupSearch from "@/components/Group/GroupSearch";
+
+export interface ExtentedGroup extends Group{
+	students: Student[]
+}
+
+export interface Student extends Person{
+	isLeader?: boolean
+}
+
+export interface ExtendedCafedra extends CafedraInfo{
+	groups: ExtentedGroup[];
+}
+
+
+
+
+
+  
+  const GroupPage: React.FC = () => {
+
+	const [searchParams, setSearchParams] = useSearchParams();
+	const navigate = useNavigate();
+  
+	const [loading, setLoading] = useState(true);
+	const [faculties, setFaculties] = useState<FacultyInfo[]>([]);
+	const [cafedras, setCafedras] = useState<ExtendedCafedra[]>([]);
+  
+	useEffect(() => {
+	  const fetchData = setTimeout(() => {
+		setFaculties(testFaculties);
+		setCafedras(cafedras_w_extendGr);
+		setLoading(false);
+	  }, 500);
+  
+	  return () => clearTimeout(fetchData);
+	}, []);
+  
+	const handleSearchParamChange = useCallback((param: string, value: string | null) => {
+		if (value) {
+		  searchParams.set(param, value);
+		} else {
+		  searchParams.delete(param);
+		}
+		setSearchParams(searchParams);
+	  }, [searchParams, setSearchParams]);
+
+	const handleFacultyChange = (facultyId: string | null) => {
+	  if (facultyId) {
+		searchParams.set('faculty', facultyId);
+	  } else {
+		searchParams.delete('faculty');
+	  }
+	  setSearchParams(searchParams);
+	};
+	
+	const handleCafedraChange = (cafedraId: string | null) => {
+	  if (cafedraId) {
+		searchParams.set('cafedra', cafedraId);
+	  } else {
+		searchParams.delete('cafedra');
+	  }
+	  setSearchParams(searchParams);
+	};
+	const handleGroupChange = (groupId: string | null) => {
+	  if (groupId) {
+		searchParams.set('group', groupId);
+	  } else {
+		searchParams.delete('group');
+	  }
+	  setSearchParams(searchParams);
+	};
+  
+	return (<>
+	   <GroupSearch
+		  faculties={faculties}
+		  cafedras={cafedras}
+		  selectedFaculty={searchParams.get('faculty') || null}
+		  selectedCafedra={searchParams.get('cafedra') || null}
+		  selectedGroup={searchParams.get("group") || null}
+		  onFacultyChange={handleFacultyChange}
+		  onCafedraChange={handleCafedraChange}
+		  onGroupChange={handleGroupChange}
+		  loading={loading}
+		  />
+	</>
+	)
+  };
+  
+  export default GroupPage;
+
+
+  import type { CafedraInfo, FacultyInfo } from "@/pages/Cafedra/Cafedras.page";
+import { Box, Button, Group, LoadingOverlay, Select, Stack, Text } from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
+import { useState } from "react";
+import { EditableField } from "../Fields/EditableField";
+import Links from "../Fields/Links";
+import { EditableTextField } from "../Fields/OtherFields";
+import type { ExtendedCafedra } from "@/pages/Group/Groups.page";
+
+const isCafedraInFaculty = (
+	faculties: FacultyInfo[],
+	facultyId: string | null,
+	cafedraId: string | null
+) => {
+	if (!facultyId || !cafedraId) return false;
+
+	const faculty = faculties.find((f) => String(f.id) === facultyId);
+	if (!faculty) return false;
+
+	console.log(faculty)
+
+	return faculty.cafedras.some((c) => String(c.id) === cafedraId);
+};
+
+const isGroupInCafedra = (
+	cafedras: ExtendedCafedra[],
+	cafedraId: string | null,
+	groupId: string | null
+) => {
+	if (!cafedraId || !groupId) return false;
+
+	const cafedra = cafedras.find((c) => String(c.id) === cafedraId);
+	if (!cafedra) return false;
+
+	return cafedra.groups.some((g) => String(g.id) === groupId);
+};
+
+interface SearchGroupProps {
+	faculties: FacultyInfo[];
+	cafedras: ExtendedCafedra[];
+	selectedFaculty: string | null;
+	selectedCafedra: string | null;
+	selectedGroup: string | null;
+	onFacultyChange: (facultyId: string | null) => void;
+	onCafedraChange: (cafedraId: string | null) => void;
+	onGroupChange: (cafedraId: string | null) => void;
+	loading: boolean
+}
+
+const GroupSearch: React.FC<SearchGroupProps> = ({
+	faculties,
+	cafedras,
+	selectedFaculty,
+	selectedCafedra,
+	selectedGroup,
+	onFacultyChange,
+	onCafedraChange,
+	onGroupChange,
+	loading
+}) => {
+	const isMobile = !!useMediaQuery('(max-width: 600px)');
+    const [isEditing, setIsEditing] = useState(false);
+	const toggleEditing = () => setIsEditing(!isEditing);
+
+
+	const handleFacultyChange = (facultyId: string | null) => {
+		onFacultyChange(facultyId);
+		if (!facultyId || (facultyId &&
+			!isCafedraInFaculty(faculties, facultyId, selectedCafedra))
+		) {
+
+			console.log('clear cafedra')
+			handleCafedraChange('');
+		}
+	};
+
+	const handleCafedraChange = (cafedraId: string | null) => {
+		onCafedraChange(cafedraId);
+		console.log(cafedraId, selectedCafedra)
+		if (!cafedraId || (cafedraId && !isGroupInCafedra(cafedras, cafedraId, selectedGroup))) {
+			console.log('clear group')
+			onGroupChange('');
+		}
+	};
+	const handleGroupChange = (groupId: string | null) => {
+		onGroupChange(groupId);
+	};
+
+	const facultyOptions = faculties.map((faculty) => ({
+		value: faculty.id.toString(),
+		label: faculty.fullName,
+	}));
+
+	const cafedraOptions = selectedFaculty
+		? faculties
+			?.find((f) => f.id === Number(selectedFaculty))
+			?.cafedras.map((cafedraId) => {
+				const cafedra = cafedras?.find((c) => c.id === cafedraId.id);
+				return cafedra
+					? {
+						value: cafedra.id.toString(),
+						label: cafedra.fullName,
+					}
+					: null;
+			})
+			.filter(Boolean)
+		: faculties.flatMap((faculty) => [
+			{
+				group: faculty.fullName,
+				items: faculty.cafedras
+					.map((cafedraId) => {
+						const cafedra = cafedras.find((c) => c.id === cafedraId.id);
+						return cafedra
+							? {
+								value: cafedra.id.toString(),
+								label: cafedra.fullName,
+							}
+							: null;
+					})
+					.filter(Boolean),
+			},
+		]);
+
+	const groupOptions = selectedCafedra
+		? cafedras
+			.find((c) => c.id === Number(selectedCafedra))
+			?.groups.map((group) => ({
+				value: group.id.toString(),
+				label: group.shortName,
+			})) || []
+		: selectedFaculty
+			? cafedras
+				.filter((c) =>
+					faculties.find((f) => f.id === Number(selectedFaculty))?.cafedras.some(
+						(cafedraId) => cafedraId.id === c.id
+					)
+				)
+				.flatMap((c) => [
+					{
+						group: c.fullName,
+						items: c.groups.map((group) => ({
+							value: group.id.toString(),
+							label: group.shortName,
+						})),
+					},
+				])
+			: cafedras.flatMap((c) => [
+				{
+					group: c.fullName,
+					items: c.groups.map((group) => ({
+						value: group.id.toString(),
+						label: group.shortName,
+					})),
+				},
+			]);
+
+	const selectedGroupData = selectedGroup
+		? cafedras.flatMap((c) => c.groups).find((g) => g.id === Number(selectedGroup))
+		: null;
+
+	// const selectedGroupData = groups?.find((g) => g.id === Number(selectedGroup));
+
+	const selectedCafedraData = selectedGroupData? cafedras?.find((c) => c.groups.find(g=>g.id == +selectedGroupData.id)) : null
+	const selectedFacultyData = selectedCafedraData? faculties?.find((c) => c.cafedras.find(g=>g.id == +selectedCafedraData.id)) : null
+	const groupLeader = selectedGroupData?.students.find(s=>s.isLeader)
+	console.log(selectedGroupData)
+
+	const pl = isMobile ? '0rem' : '2rem';
+	const pr = isMobile ? '0.15rem' : '2rem';
+	return (
+		<Stack gap="0" pl={'0' || pl} mr={pr} maw="150rem">
+			{loading && <LoadingOverlay visible={loading} zIndex={1000} overlayProps={{
+				radius: "sm",
+				blur: 2
+			}} />}
+			<Text fw={600} size="md" mb="1.5rem">
+				Информация о группе
+			</Text>
+			<Stack gap="0" maw="150rem" align="center">
+				<Box pos='relative' >
+				<Stack justify="center" gap={isMobile ? '0.4rem' : '1rem'} mb={isMobile ? '0.4rem' : '0.5rem'}>
+
+				<Group >
+					<Select
+						placeholder="Выберите факультет"
+						description="Факультет"
+						data={facultyOptions}
+						value={selectedFaculty || null}
+						onChange={handleFacultyChange}
+						w="22rem"
+						searchable
+						clearable
+						nothingFoundMessage="Nothing found..."
+						styles={{
+							input: {
+								fontSize: '0.8rem',
+							},
+						}}
+					/>
+					<Select
+						placeholder="Выберите кафедру"
+						//@ts-ignore
+						data={cafedraOptions}
+						value={selectedCafedra || null}
+						onChange={handleCafedraChange}
+						w="22rem"
+						searchable
+						required
+						nothingFoundMessage="Nothing found..."
+						withAsterisk
+						clearable
+						description='Кафедра'
+						styles={{
+							input: {
+								fontSize: '0.8rem',
+							},
+						}}
+					/>
+				</Group>
+				<Select
+					style={{alignSelf: isMobile?'':'center'}}
+					placeholder="Выберите группу"
+					//@ts-ignore
+					data={groupOptions}
+					value={selectedGroup || null}
+					onChange={handleGroupChange}
+					w="22rem"
+					searchable
+					required
+					nothingFoundMessage="Nothing found..."
+					withAsterisk
+					clearable
+					description={
+						<span>
+							Группа<span style={{ color: "red" }}>&nbsp;*</span>
+						</span>
+					}
+					styles={{
+						input: {
+							fontSize: "0.8rem",
+						},
+					}}
+				/>
+				{selectedGroupData && <Button
+                        onClick={toggleEditing}
+                        color={isEditing ? '#00ff83a6' : 'blue'}
+                        // disabled={isUploading}
+						pos={isMobile?'inherit':'absolute'}
+						right='0'
+						bottom={isMobile ? '' : '0.5rem'}
+						w='fit-content'
+						style={{alignSelf:'center'}}
+					>
+                        {isEditing ? 'Сохранить' : 'Редактировать'}
+                    </Button>}
+				</Stack>
+				</Box>
+				{selectedGroupData || (loading && selectedGroup) ? (
+					<>
+						<Text mt='1rem' style={{ wordBreak: 'break-word', fontWeight: '655', textAlign: 'center' }}>
+							{selectedGroupData?.shortName}
+						</Text>
+						<Text mb='1rem' style={{ wordBreak: 'break-word' }} ta='center'>
+							{selectedGroupData?.fullName}
+						</Text>
+						<Group w={isMobile ? '24rem' : "25rem"}>
+							<table>
+								<tbody>
+
+									{/* <EditableField
+										label="Название"
+										value={selectedCafedra.fullName}
+										setValue={() => { }}
+										isEditing={false}
+										isMobile={false}
+										component={EditableTextField}
+									/> */}
+									<EditableField
+										label="Декан"
+										value={selectedCafedraData?.dean && `${selectedCafedraData?.dean.firstName} ${selectedCafedraData?.dean.lastName}`}
+										setValue={() => { }}
+										isEditing={false}
+										multiline
+										isMobile={isMobile}
+										component={Links}
+										compProps={{
+											links: selectedCafedraData?.dean && {
+												url: `/profile/${selectedCafedraData?.dean.id}`,
+												text: `${selectedCafedraData?.dean.firstName} ${selectedCafedraData?.dean.lastName}`,
+												tooltip: selectedCafedraData?.dean.role,
+											},
+											loading
+										}}
+										fallback={{
+											label: "Декан",
+											value: 'Не выбран 😕',
+											isEditing: false,
+											component: EditableTextField
+										}}
+									/>
+									<EditableField
+										multiline
+										label="Заведующий кафедрой"
+										value={selectedCafedraData?.headCafedra && `${selectedCafedraData?.headCafedra.firstName || ''} ${selectedCafedraData?.headCafedra.lastName || ''}`}
+										setValue={() => { }}
+										isEditing={false}
+										isMobile={isMobile}
+										component={Links}
+										compProps={{
+											links: selectedCafedraData?.headCafedra && {
+												url: `/profile/${selectedCafedraData?.headCafedra.id}`,
+												text: `${selectedCafedraData?.headCafedra.firstName} ${selectedCafedraData?.headCafedra.lastName}`,
+												tooltip: selectedCafedraData?.headCafedra.role,
+											},
+											loading
+										}}
+										fallback={{
+											label: "Заведующий кафедрой",
+											value: 'Не выбран 😕',
+											isEditing: false,
+											component: EditableTextField
+										}}
+									/>
+									<EditableField
+										label="Кафедра"
+										value={selectedCafedraData?.fullName}
+										setValue={() => { }}
+										isEditing={false}
+										isMobile={isMobile}
+										component={Links}
+										multiline
+										compProps={{
+											links: selectedCafedraData?.fullName && {
+												url: `/cafedras?cafedra=${selectedCafedraData?.id}`,
+												text: `${selectedCafedraData?.fullName}`,
+												tooltip: selectedFacultyData && `${selectedFacultyData.shortName} \n(${selectedFacultyData.fullName})`,
+											},
+											loading
+										}}
+										fallback={{
+											label: "Кафедра",
+											value: 'Не выбрана 😕',
+											isEditing: false,
+											component: EditableTextField
+										}}
+									/>
+									<EditableField
+										label="Куратор"
+										value={selectedCafedraData?.workers.length}
+										setValue={() => { }}
+										isEditing={false}
+										isMobile={isMobile}
+										component={Links}
+										multiline
+										compProps={{
+											links: selectedCafedraData?.headCafedra && {
+												url: `/profile/${selectedCafedraData?.headCafedra.id}`,
+												text: `${selectedCafedraData?.headCafedra.firstName} ${selectedCafedraData?.headCafedra.lastName}`,
+												tooltip: selectedCafedraData?.headCafedra.role,
+											},
+											loading
+										}}
+										fallback={{
+											label: "Куратор",
+											value: 'Не выбран 😕',
+											isEditing: false,
+											component: EditableTextField
+										}}
+									/>
+									<EditableField
+										label="Староста"
+										value={groupLeader}
+										setValue={() => { }}
+										isEditing={false}
+										isMobile={isMobile}
+										component={Links}
+										multiline
+										compProps={{
+											links: groupLeader && {
+												url: `/student/${groupLeader.id}`,
+												text: `${groupLeader.firstName} ${groupLeader.lastName}`,
+												// tooltip: selectedCafedraData?.headCafedra.role,
+											},
+											loading
+										}}
+										fallback={{
+											label: "Староста",
+											value: 'Не выбран 😕',
+											isEditing: false,
+											component: EditableTextField
+										}}
+									/>
+									<EditableField
+										label="Студенты"
+										value={selectedGroupData?.students.length}
+										setValue={() => { }}
+										isEditing={false}
+										isMobile={isMobile}
+										component={Links}
+										multiline
+										compProps={{
+											links:
+												selectedGroupData?.students.length &&
+												selectedGroupData?.students.map((student) => {
+													return {
+														url: `/student/${student.id}`,
+														text: `${student.firstName} ${student.lastName}`,
+													};
+												}),
+											loading,
+										}}
+										fallback={{
+											label: "Студенты",
+											value: "Пока нет студентов в этой группе 😕",
+											isEditing: false,
+											component: EditableTextField,
+										}}
+									/>
+
+								</tbody>
+							</table>
+						</Group>
+					</>
+				) : (
+
+					<Text mt='1rem'>
+						{(selectedGroupData && !loading) ?
+							'Похоже вы ввели что-то не так 🤒' :
+							"Выберите кафедру, чтобы увидеть информацию"
+						}
+					</Text>
+				)}
+			</Stack>
+
+		</Stack>
+	)
+}
+
+export default GroupSearch
+
+import type React from 'react';
+import { useState } from 'react';
+import {
+    Text,
+    Group,
+    Button,
+    Stack,
+} from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
+import ruLocaleDate from 'date-fns/locale/ru';
+import {
+    IconSelector,
+} from '@tabler/icons-react';
+import 'dayjs/locale/ru';
+import imgPlaceHolder from '../../assets/Без названия (2).png';
+import type { IGroup, IProfile } from '@/pages/Profile.page';
+import * as Yup from 'yup';
+import {
+    showErrorNotification,
+    showSuccessNotification,
+} from '@/util/notification';
+import { isYupValidationError } from '../EventDetails/EventDetails';
+import { EditableField } from '../Fields/EditableField';
+import { EditableTextField, EditableSelectField, EditableDateField, ImageUpload } from '../Fields/OtherFields';
+
+const validationSchema = Yup.object().shape({
+    firstName: Yup.string().required('First name is required').trim(),
+    lastName: Yup.string().required('Last name is required').trim(),
+    surName: Yup.string().nullable().trim(),
+    birthdayDate: Yup.date()
+        .max(new Date(), 'Birthday date must be in the past')
+        .nullable(),
+    phone: Yup.string().nullable().trim(),
+    role: Yup.string().required('Role is required'),
+    group: Yup.string().when('role', {
+        is: 'Куратор',
+        // biome-ignore lint/suspicious/noThenProperty: <explanation>
+        then: (schema) =>
+            schema.required('Group is required for Куратор role').trim(),
+        otherwise: (schema) => schema.nullable().trim(),
+    }),
+    faculty: Yup.string().when(['role', 'group'], {
+        is: (role: string, group: string) =>
+            role === 'Куратор' || role === 'Декан',
+        // biome-ignore lint/suspicious/noThenProperty: <explanation>
+        then: (schema) =>
+            schema
+                .required('Faculty is required for Куратор and Декан roles')
+                .trim(),
+        otherwise: (schema) => schema.nullable().trim(),
+    }),
+    department: Yup.string().when('role', {
+        is: 'Куратор',
+        // biome-ignore lint/suspicious/noThenProperty: <explanation>
+        then: (schema) =>
+            schema.required('Department is required for Куратор role').trim(),
+        otherwise: (schema) => schema.nullable().trim(),
+    }),
+});
+
+type FormErrors = {
+    [K in keyof typeof validationSchema.fields]?: string;
+};
+
+interface IKafedra {
+    name: string;
+    id: number;
+    facultyId: number;
+}
+
+interface NameId {
+    name: string;
+    id: number;
+}
+
+interface ProfileDetailsProps {
+    profileData: IProfile;
+    allGroups: IGroup[];
+    userRole: 'admin' | 'user' | 'manager' | null;
+    allFaculty: NameId[];
+    allDepartments: IKafedra[];
+    allRoles: NameId[];
+}
+
+const ProfileDetails: React.FC<ProfileDetailsProps> = ({
+    profileData,
+    allGroups,
+    userRole,
+    allFaculty,
+    allDepartments,
+    allRoles,
+}) => {
+    const [isEditing, setIsEditing] = useState(false);
+    const [firstName, setFirstName] = useState(profileData.firstName);
+    const [lastName, setLastName] = useState(profileData.lastName);
+    const [surName, setSurName] = useState(profileData.surName);
+    const [role, setRole] = useState(profileData.role);
+    const [group, setGroup] = useState(profileData.group || null);
+    const [faculty, setFaculty] = useState<NameId | null | undefined>(
+        profileData.faculty || null,
+    );
+    const [department, setDepartment] = useState<IKafedra | null | undefined>(
+        profileData.department || null,
+    );
+    const [birthdayDate, setBirthdayDate] = useState(
+        new Date(profileData.birthdayDate),
+    );
+    const [phone, setPhone] = useState(profileData.phone);
+    const [image, setImage] = useState(profileData.img);
+    const [isUploading, setIsUploading] = useState(false);
+    const [errors, setErrors] = useState<FormErrors>({});
+    const [hasSaved, setHasSaved] = useState(false);
+    const isMobile = !!useMediaQuery('(max-width: 600px)');
+
+    const toggleEditing = () => setIsEditing(!isEditing);
+
+    const handleSave = async () => {
+        try {
+            await validationSchema.validate(
+                {
+                    firstName,
+                    lastName,
+                    surName,
+                    birthdayDate,
+                    phone,
+                    role,
+                    group: group?.name,
+                    faculty: faculty?.name,
+                    department: department?.name,
+                },
+                { abortEarly: false },
+            );
+            // Here you can implement the logic to save the edited data
+            console.log('Saving data');
+            profileData.firstName = firstName;
+            profileData.lastName = lastName;
+            profileData.surName = surName;
+            profileData.birthdayDate = birthdayDate.toISOString();
+            profileData.phone = phone;
+            profileData.role = role;
+            //@ts-ignorew
+            profileData.group = group;
+            profileData.faculty = faculty;
+            profileData.department = department;
+            profileData.img = image;
+            toggleEditing();
+            setErrors({});
+            //setHasSaved(false);
+            showSuccessNotification('Данные были успешно обновлены');
+        } catch (validationErrors) {
+            console.log(validationErrors);
+            //setHasSaved(true);
+            if (validationErrors instanceof Yup.ValidationError) {
+                const formattedErrors: FormErrors = {};
+                validationErrors.inner.forEach((error) => {
+                    //@ts-ignore
+                    formattedErrors[error.path!] = error.message;
+                });
+                setErrors(formattedErrors);
+            }
+            showErrorNotification('Произошла ошибка при обновлении данных');
+        }
+    };
+
+    const facultyOptions = allFaculty.map((f) => ({
+        value: String(f.name),
+        label: f.name,
+    }));
+    const filteredDepartments = faculty
+        ? allDepartments
+              .filter((d) => d.facultyId === faculty.id)
+              .map((d) => ({ value: String(d.name), label: d.name }))
+        : [];
+    const filteredGroups = allGroups
+        .filter((a) => a.departmentId == department?.id)
+        .map((d) => ({ value: String(d.name), label: d.name }));
+
+    const getRoleInfo = () => {
+        // biome-ignore lint/suspicious/noImplicitAnyLet: <explanation>
+        let role_, group_, faculty_;
+        // if(isEditing){
+        // role_ = role
+        // group_ = group
+        // faculty_ = faculty
+        // } else {
+        role_ = profileData.role;
+        group_ = profileData.group;
+        faculty_ = profileData.faculty;
+        // }
+
+        switch (role_) {
+            case 'Куратор':
+                return `${role_} ${group_?.name || ''}`; // ${department?.name || ''}`;
+            case 'Декан':
+                return `${role_} ${faculty_?.name || ''}`;
+            default:
+                return role_;
+        }
+    };
+
+    const handleInputChange = async (field: keyof FormErrors, value: any) => {
+        try {
+            await validationSchema.validateAt(field, { [field]: value });
+            setErrors((prevErrors) => ({ ...prevErrors, [field]: undefined }));
+        } catch (validationError) {
+            if (isYupValidationError(validationError)) {
+                setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    [field]: (validationError as Yup.ValidationError).message,
+                }));
+            } else {
+                console.error(validationError);
+            }
+        }
+    };
+console.log('x')
+    return (
+        <Stack gap="0" maw="150rem">
+            <Text fw={600} size="md" mb="1.5rem">
+                Профиль
+            </Text>
+            <Group>
+                <Stack gap="0">
+                    <Text fw={700} size="xl">
+                        {`${profileData.firstName} ${profileData.surName} ${profileData.lastName}`}
+                    </Text>
+                    <Text size="sm" color="dimmed">
+                        {getRoleInfo()}
+                    </Text>
+                </Stack>
+                {userRole === 'admin' && (
+                    <Button
+                        onClick={isEditing ? handleSave : toggleEditing}
+                        color={isEditing ? '#00ff83a6' : 'blue'}
+                        disabled={isUploading}
+                    >
+                        {isEditing ? 'Сохранить' : 'Редактировать'}
+                    </Button>
+                )}
+            </Group>
+
+            {isEditing &&
+                isMobile &&
+                Object.entries(errors).map(([key, value]) => (
+                    <Text key={key} color="red">
+                        {value}
+                    </Text>
+                ))}
+            <Group maw="150rem">
+                <table>
+                    <tbody>
+                        <EditableField
+                            label="Имя"
+                            value={
+                                isEditing ? firstName : profileData.firstName
+                            }
+                            setValue={(value) => {
+                                setFirstName(value);
+                                handleInputChange('firstName', value);
+                            }}
+                            isEditing={isEditing}
+                            isHidden={!isEditing}
+                            isMobile={isMobile}
+                            component={EditableTextField}
+                            // error={hasSaved && errors.firstName}
+                            error={errors.firstName}
+                        />
+                        <EditableField
+                            label="Фамилия"
+                            value={isEditing ? lastName : profileData.lastName}
+                            setValue={(value) => {
+                                setLastName(value);
+                                handleInputChange('lastName', value);
+                            }}
+                            isEditing={isEditing}
+                            isHidden={!isEditing}
+                            isMobile={isMobile}
+                            component={EditableTextField}
+                            error={errors.lastName}
+                        />
+                        <EditableField
+                            label="Отчество"
+                            value={isEditing ? surName : profileData.surName}
+                            setValue={(value) => {
+                                setSurName(value);
+                                handleInputChange('surName', value);
+                            }}
+                            isEditing={isEditing}
+                            isHidden={!isEditing}
+                            isMobile={isMobile}
+                            component={EditableTextField}
+                            error={errors.surName}
+                        />
+                        <EditableField
+                            label="Роль"
+                            value={isEditing ? role : profileData.role}
+                            setValue={(value) => {
+                                setRole(value);
+                                handleInputChange('role', value);
+                            }}
+                            isEditing={isEditing}
+                            isHidden={
+                                !isEditing &&
+                                (role == 'Куратор' ||
+                                    role == 'Декан' ||
+                                    role == 'Проректор')
+                            }
+                            isMobile={isMobile}
+                            component={EditableSelectField}
+                            options={allRoles.map((r) => ({
+                                value: r.name,
+                                label: r.name,
+                            }))}
+                            error={errors.role}
+                        />
+                        <EditableField
+                            label="Группа"
+                            value={
+                                (isEditing
+                                    ? group?.name
+                                    : profileData.group?.name) || null
+                            }
+                            setValue={(value) => {
+                                const newGroup = allGroups.find(
+                                    (x) => x.name === value,
+                                );
+                                setGroup(newGroup ?? null);
+                                handleInputChange('group', newGroup?.name);
+                            }}
+                            isEditing={isEditing}
+                            isHidden={role == 'Декан' || role == 'Проректор'}
+                            isMobile={isMobile}
+                            component={EditableSelectField}
+                            options={filteredGroups}
+                            icon={<IconSelector size={15} />}
+                            placeholder="Search or select a group..."
+                            error={errors.group}
+                        />
+                        <EditableField
+                            label="Факультет"
+                            value={
+                                isEditing
+                                    ? faculty?.name
+                                    : profileData.faculty?.name
+                            }
+                            setValue={(value) => {
+                                const newFaculty = allFaculty.find(
+                                    (x) => x.name == value,
+                                );
+                                setFaculty(newFaculty);
+                                setDepartment(null);
+                                setGroup(null);
+                                handleInputChange('faculty', newFaculty?.name);
+                            }}
+                            isEditing={isEditing}
+                            isMobile={isMobile}
+                            component={EditableSelectField}
+                            options={facultyOptions}
+                            error={errors.faculty}
+                        />
+                        <EditableField
+                            label="Кафедра"
+                            value={
+                                isEditing
+                                    ? department?.name || department
+                                    : profileData.department?.name ||
+                                      profileData.department
+                            }
+                            // setValue={setDepartment}
+                            setValue={(value) => {
+                                const newCafedra = allDepartments.find(
+                                    (x) => x.name == value,
+                                );
+                                setDepartment(newCafedra);
+                                setGroup(null);
+                                handleInputChange(
+                                    'department',
+                                    newCafedra?.name,
+                                );
+                            }}
+                            isEditing={isEditing}
+                            isHidden={role == 'Декан' || role == 'Проректор'}
+                            isMobile={isMobile}
+                            component={EditableSelectField}
+                            options={filteredDepartments}
+                            error={errors.department}
+                        />
+                        <EditableField
+                            label="Дата рождения"
+                            value={
+                                isEditing
+                                    ? birthdayDate
+                                    : profileData.birthdayDate
+                            }
+                            setValue={(value) => {
+                                setBirthdayDate(value);
+                                handleInputChange('birthdayDate', value);
+                            }}
+                            isEditing={isEditing}
+                            isMobile={isMobile}
+                            component={EditableDateField}
+                            error={errors.birthdayDate}
+                        />
+                        <EditableField
+                            label="Телефон"
+                            value={isEditing ? phone : profileData.phone}
+                            setValue={(value) => {
+                                setPhone(value);
+                                handleInputChange('phone', value);
+                            }}
+                            isEditing={isEditing}
+                            isMobile={isMobile}
+                            component={EditableTextField}
+                            error={errors.phone}
+                        />
+                    </tbody>
+                </table>
+                {/* <Image
+                    src={profileData.img || imgPlaceHolder}
+                    alt="Profile"
+                    width={isMobile ? '100%' : 150}
+                    height={isMobile ? 'auto' : 150}
+                    radius="md"
+                    maw={isMobile ? '30rem' : 'auto'}
+                    mah={isMobile ? '30rem' : 'auto'}
+                    style={{ alignSelf: 'baseline' }}
+                /> */}
+                <ImageUpload
+                    initialImage={profileData.img || imgPlaceHolder}
+                    isUploading={isUploading}
+                    setIsUploading={setIsUploading}
+                    image={image!}
+                    setImage={setImage}
+                    isEditing={isEditing}
+                    isMobile={isMobile}
+                />
+            </Group>
+            {isEditing &&
+                !isMobile &&
+                Object.entries(errors).map(([key, value]) => (
+                    <Text key={key} color="red">
+                        {value}
+                    </Text>
+                ))}
+        </Stack>
+    );
+};
+
+export default ProfileDetails;
+
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Text, Tooltip } from '@mantine/core';
+import styles from './styles.module.css'
+
+interface LinkItemProps {
+	url: string;
+	text: string;
+	tooltip?: string;
+	openDelay?: number;
+	loading?: boolean;
+
+  }
+
+  const LinkItem: React.FC<LinkItemProps> = ({ url, text, tooltip,loading, openDelay = 30 }) => {
+	if ((!url || !text) && !loading) return null;
+	return (
+	  <Tooltip label={tooltip} openDelay={openDelay} disabled={!tooltip}>
+		<Link to={url || '/'} key={url} className={styles.link} style={{textDecoration:'none'}}>
+		  {loading? 'Place Holder' : text }
+		</Link>
+	  </Tooltip>
+	);
+  };
+
+interface LinksProps {
+  links: LinkItemProps[] | LinkItemProps;
+  loading?: boolean;
+}
+
+const Links: React.FC<LinksProps> = ({ links,loading }) => {
+	// if(!links) return null
+	const renderLinks = (linksArray: LinkItemProps[]) => {
+		return linksArray.map(({ url, text, tooltip, openDelay,  }, index) => (
+		  <React.Fragment key={url}>
+			<LinkItem url={url} text={text} tooltip={tooltip} openDelay={openDelay} loading={loading} />
+			{index < linksArray.length - 1 && ', '}
+		  </React.Fragment>
+		));
+	  };
+
+  return (
+    <Text style={{wordBreak:'break-word'}}>
+      {Array.isArray(links) ? renderLinks(links) : <LinkItem url={links?.url} text={links?.text} tooltip={links?.tooltip} openDelay={links?.openDelay} loading={loading} />}
+    </Text>
+  );
+};
+
+export default Links;
+
+
+import { Group, Stack, Text } from "@mantine/core";
+import { Spoiler } from "./OtherFields";
+
+interface LineFielLinedProps {
+    label: string;
+    children: React.ReactNode;
+    isEditing: boolean;
+}
+const SingleLineField: React.FC<LineFielLinedProps> = ({ label, children,isEditing }) => (
+    <tr>
+        <td
+            style={{
+                textAlign: 'right',
+                marginRight: '2rem',
+                paddingBottom: '0.5rem',
+                minWidth: '5rem',
+                verticalAlign:isEditing? '' :'baseline',
+            }}
+        >
+            <Text fw={600}>{label}:</Text>
+        </td>
+        <td style={{ paddingBottom: '0.5rem', maxWidth: '30rem', wordBreak:'break-word' }}>
+            {children}
+        </td>
+    </tr>
+);
+
+const MultiLineField: React.FC<LineFielLinedProps> = ({ label, children }) => (
+    <>
+        <tr>
+            <td>
+                <Text fw={600}>{label}:</Text>
+            </td>
+        </tr>
+        <tr>
+            <td colSpan={2} style={{wordBreak:'break-word'}}>{children}</td>
+        </tr>
+    </>
+);
+
+export interface EditableFieldProps {
+    children?: React.ReactNode;
+    label: string;
+    value: any;
+    setValue?: (value: any) => void;
+    isEditing: boolean;
+    isHidden?: boolean;
+    isMobile?: boolean;
+    component: React.FC<any>;
+    options?: { value: string; label: string }[];
+    icon?: React.ReactNode;
+    placeholder?: string;
+    error?: string;
+    spoiler?: boolean;
+    description?: string;
+    showEstTime?: boolean;
+    showAnyWay?: boolean;
+    compProps?: { [key: string]: any };
+    multiline?: boolean;
+    fallback?: EditableFieldProps; // Fallback props
+  }
+  
+  export const EditableField: React.FC<EditableFieldProps> = ({
+    children,
+    label,
+    value,
+    setValue,
+    isEditing,
+    isHidden = false,
+    isMobile,
+    component: Component,
+    options,
+    icon,
+    placeholder,
+    error,
+    spoiler,
+    description,
+    showEstTime,
+    showAnyWay,
+    compProps,
+    multiline,
+    fallback, // Fallback props
+    ...props
+  }) => {
+    // If hidden or no value and not editing and not showAnyWay, render fallback
+    if (isHidden || (!value && !isEditing && !showAnyWay)) {
+      if (fallback) {
+        const { component: FallbackComponent, ...fallbackProps } = fallback;
+        const FieldComponent = isMobile || multiline || fallbackProps.multiline
+          ? MultiLineField
+          : SingleLineField;
+  
+        return (
+          <FieldComponent label={fallbackProps.label} isEditing={fallbackProps.isEditing}>
+            <FallbackComponent {...fallbackProps} />
+          </FieldComponent>
+        );
+      }
+      // If no fallback, return null
+      return null;
+    }
+  
+    const fieldComponent = (
+      <Component
+        value={value}
+        setValue={setValue}
+        isEditing={isEditing}
+        isMobile={isMobile}
+        options={options}
+        icon={icon}
+        placeholder={placeholder}
+        error={error}
+        {...props}
+        showEstTime={showEstTime}
+        description={description}
+        {...compProps}
+      />
+    );
+  
+    const FieldComponent = isMobile || multiline ? MultiLineField : SingleLineField;
+  
+    return (
+      <FieldComponent label={label} isEditing={isEditing}>
+        {spoiler ? (
+          <Spoiler>{children || fieldComponent}</Spoiler>
+        ) : (
+          children || fieldComponent
+        )}
+      </FieldComponent>
+    );
+  };
+
+interface MobileStackPcGroupProps {
+    isMobile: boolean;
+    children: React.ReactNode;
+}
+
+export const MobileStackPcGroup: React.FC<MobileStackPcGroupProps> = ({ children, isMobile }) => {
+    const LayoutComponent = isMobile ? Stack : Group;
+  
+    return <LayoutComponent align="center">{children}</LayoutComponent>;
+  };
+
