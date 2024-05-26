@@ -20,13 +20,17 @@ export const groups: IInfo[] = [
 	{ id: 17, shortName: 'СИС-32', fullName: 'Социальные исследования и статистика' }
   ];
   
-export const faculties: IInfo[] = [
+  export const faculties: IInfo[] = [
 	{ id: 1, shortName: 'ФИТ', fullName: 'Факультет Информационных Технологий' },
 	{ id: 2, shortName: 'ФУиЭ', fullName: 'Факультет Управления и Экономики' },
 	{ id: 3, shortName: 'ФМиВТ', fullName: 'Факультет Математики и Вычислительной Техники' },
-	{ id: 4, shortName: 'ФЛиП', fullName: 'Факультет Лингвистики и Перевода' }
+	{ id: 4, shortName: 'ФЛиП', fullName: 'Факультет Лингвистики и Перевода' },
+	{ id: 5, shortName: 'ФЭМ', fullName: 'Факультет Экономики и Менеджмента' },
+	{ id: 6, shortName: 'ФФиП', fullName: 'Факультет Философии и Психологии' },
+	{ id: 7, shortName: 'ФПиА', fullName: 'Факультет Права и Администрации' },
+	{ id: 8, shortName: 'ФХиБ', fullName: 'Факультет Химии и Биологии' }
   ];
-
+  
 /*   const persons: ISearchPersonWorker[] = [
 	// Проректор
 	{ id: 1, firstName: 'Мария', lastName: 'Смирнова', surName: 'Игоревна', role: 'Проректор', scienceDegree: 'Доктор наук', faculty: faculties[1] },

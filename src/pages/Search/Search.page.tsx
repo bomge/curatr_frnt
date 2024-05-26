@@ -2,86 +2,77 @@ import { useSearchParams } from "react-router-dom";
 import type { Person } from "../Cafedra/Cafedras.page";
 import type { NameId } from "../Profile.page";
 import { useCallback, useEffect, useState } from "react";
-import {students,workers} from './testDataSearch'
+import { students, workers } from './testDataSearch';
 import PersonSearch from "@/components/Search/Search";
-
-/* interface Person {
-	id: number;
-	firstName: string;
-	lastName: string;
-	surName: string;
-	role?:string
-  } */
+import { useDebouncedValue } from '@mantine/hooks';
 
 export interface IInfo {
-	id: number;
-	shortName: string;
-	fullName: string;
-  }
+  id: number;
+  shortName: string;
+  fullName: string;
+}
 
 export interface ISearchPersonWorker extends Person {
-	avatar?: string;
-	scienceDegree: string
-	faculty: IInfo //full short name
-	//cafedra: NameId //full short name
+  avatar?: string;
+  scienceDegree: string;
+  faculty: IInfo;
 }
 
 export interface ISearchPersonStudent extends Person {
-	avatar?: string;
-	isStudent: boolean
-	faculty: IInfo //full short name
-	group:IInfo & {leader?: {id: number}} //check if student is groupLeader
+  avatar?: string;
+  isStudent: boolean;
+  faculty: IInfo;
+  group: IInfo & { leader?: { id: number } };
 }
 
 export interface SearchPersonResult {
-	result: (ISearchPersonWorker | ISearchPersonStudent)[]
-	// workers: ISearchPersonWorker[]
-	// students: ISearchPersonStudent[]
+  result: (ISearchPersonWorker | ISearchPersonStudent)[];
 }
 
-
 const SearchPage: React.FC = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [loading, setLoading] = useState(true);
+  const [result, setResult] = useState<SearchPersonResult>({ result: [] });
+  
+  const initialSearch = searchParams.get('search') || '';
+  const [search, setSearch] = useState(initialSearch);
+  const [debouncedSearch] = useDebouncedValue(search, 500);
 
-	const [searchParams, setSearchParams] = useSearchParams();
+  useEffect(() => {
+    setLoading(true);
+    const fetchData = setTimeout(() => {
+      const filteredResults = [...workers , ...students].filter(person =>
+        person.lastName.toLowerCase().includes(debouncedSearch.toLowerCase())
+      );
+      setResult({ result: filteredResults }); // Show only 3 items
+      // setResult({ result: filteredResults.slice(0, 3) }); // Show only 3 items
+      setLoading(false);
+    }, 500);
 
-	const [loading, setLoading] = useState(true);
-	const [result, setResult] = useState<SearchPersonResult>({result:[]});
+    return () => clearTimeout(fetchData);
+  }, [debouncedSearch]);
 
-	useEffect(() => {
-		const fetchData = setTimeout(() => {
-			setResult({result:[]});
-			setLoading(false);
-		}, 500);
+  const handleSearchParamChange = useCallback((param: string, value: string | null) => {
+    if (value) {
+      searchParams.set(param, value);
+    } else {
+      searchParams.delete(param);
+    }
+    setSearchParams(searchParams);
+  }, [searchParams, setSearchParams]);
 
-		return () => clearTimeout(fetchData);
-	}, []);
+  useEffect(() => {
+    handleSearchParamChange('search', search);
+  }, [search, handleSearchParamChange]);
 
-	const handleSearchParamChange = useCallback((param: string, value: string | null) => {
-		if (value) {
-			searchParams.set(param, value);
-		} else {
-			searchParams.delete(param);
-		}
-		setSearchParams(searchParams);
-	}, [searchParams, setSearchParams]);
-
-
-	const handleInputUpdate = () => {
-		//...	
-	
-		// setResult([]);
-	  };
-	console.log('page')
-	return (<>
-		<PersonSearch
-			result={result}
-			onGroupChange={(str)=>handleSearchParamChange('search',str)}
-			loading={loading}
-			onGroupDataUpdated={handleInputUpdate}
-		/>
-	</>
-	)
+  return (
+    <PersonSearch
+      result={result}
+      onSearchChange={setSearch}
+      loading={loading}
+      initialSearch={initialSearch}
+    />
+  );
 };
 
 export default SearchPage;
-
