@@ -99,7 +99,7 @@ const CafedraSearch: React.FC<SearchCafedraProps> = ({
 			{loading && <LoadingOverlay visible={loading} zIndex={1000} overlayProps={{ radius: "sm", 
 			blur: 2
 			 }} />}
-			<Text fw={600} size="md" mb="1.5rem">
+			<Text fw={600} size="md" mb="1.5rem" ta='center'>
 				Информация о кафедре
 			</Text>
 			<Stack gap="0" maw="150rem" align="center">
