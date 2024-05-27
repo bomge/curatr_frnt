@@ -111,7 +111,7 @@ export const workers: ISearchPersonWorker[] = [
 	{ id: 32, firstName: 'Георгий', lastName: 'Терентьев', surName: 'Евгеньевич', scienceDegree: 'Старший преподаватель', faculty: faculties[6], role: 'Работник' },
 	{ id: 33, firstName: 'Милана', lastName: 'Орлова', surName: 'Степановна', scienceDegree: 'Преподаватель', faculty: faculties[7], role: 'Работник' },
 	{ id: 34, firstName: 'Руслан', lastName: 'Сидоров', surName: 'Романович', scienceDegree: 'Преподаватель', faculty: faculties[7], role: 'Декан' },
-	{ id: 35, firstName: 'Ева', lastName: 'Фомина', surName: 'Борисовна', scienceDegree: 'Доцент', faculty: faculties[7], role: 'Зав. кафедры' }
+	{ id: 355, firstName: 'Ева', lastName: 'Фомина', surName: 'Борисовна', scienceDegree: 'Доцент', faculty: faculties[7], role: 'Зав. кафедры' }
 	];
 export const students: ISearchPersonStudent[] = [
 	{

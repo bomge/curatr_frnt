@@ -3,7 +3,7 @@ import type React from 'react';
 
 const eventData = {
 	id: 1,
-	name: 'Faculty Meeting',
+	name: 'Собрание кафедры',
 	startDate: new Date().toISOString(),
 	endDate: new Date().toISOString(),
 	type: 'Administrative Event',

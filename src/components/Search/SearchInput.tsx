@@ -1,4 +1,4 @@
-import { Input, CloseButton } from "@mantine/core";
+import { Input, CloseButton, TextInput } from "@mantine/core";
 import { useState, useEffect } from "react";
 
 interface SearchInputProps {
@@ -18,12 +18,14 @@ const SearchInput: React.FC<SearchInputProps> = ({ initialSearch, onSearchChange
   };
 
   return (
-    <Input
+    <TextInput
       placeholder="Введите фамиилию"
       value={value}
       onChange={handleChange}
       rightSectionPointerEvents="all"
       mt="md"
+      description='ФИО'
+      // label='ФФИО'
       rightSection={
         <CloseButton
           aria-label="Clear input"

@@ -5,10 +5,10 @@ export const fakeAuthAPI = async (
   // Simulate an API call
   return new Promise((resolve) => {
     setTimeout(() => {
-      if (username === 'admin' && password === '1') {
+      if (username.toLocaleLowerCase() === 'admin' && password === '1') {
         const payload = btoa(JSON.stringify({
           "role":"admin",
-          name: 'OLeg dmitro'
+          name: 'Admin Admin'
         }))
         const token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.${payload}.XNTy5_Ym9yvHhBdxXnlxUDqDlXEYOFxdMYXTTJNVXzE`; // Simulated admin JWT token
         resolve({ success: true, token });

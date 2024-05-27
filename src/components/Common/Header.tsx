@@ -10,7 +10,7 @@ const links = [
   { link: '/cafedras', label: 'Кафедры',},
   { link: '/groups', label: 'Группы'},
   { link: '/search', label: 'Поиск'},
-  { link: '/student/1', label: 'Студенты' },
+  { link: '/student/1', label: 'Студент' },
   { link: '/reports', label: 'Отчеты', role: ['admin', 'manager'], disabled:true },
   { link: '/management', label: 'Управление', role: ['admin'], disabled:true },
   { link: '/admin', label: 'Админ', role: ['admin'], disabled:true },
