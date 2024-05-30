@@ -93,7 +93,7 @@ const CafedraSearch: React.FC<SearchCafedraProps> = ({
 	const selectedCafedraData = cafedras?.find((c) => c.id === Number(selectedCafedra));
 
 	const pl = isMobile ? '0rem' : '2rem';
-	const pr = isMobile ? '1.5rem' : '2rem';
+	const pr = isMobile ? '0.15rem' : '2rem';
 	return (
 		<Stack gap="0" pl={'0' || pl} mr={pr} maw="150rem">
 			{loading && <LoadingOverlay visible={loading} zIndex={1000} overlayProps={{ radius: "sm", 
@@ -102,7 +102,7 @@ const CafedraSearch: React.FC<SearchCafedraProps> = ({
 			<Text fw={600} size="md" mb="1.5rem" ta='center'>
 				Информация о кафедре
 			</Text>
-			<Stack gap="0" maw="150rem" align="center">
+			<Stack align="center" maw="150rem" gap={isMobile ? '0.4rem' : '1rem'} mb={isMobile ? '0.4rem' : '0.5rem'}>
 
 				<Group justify="center">
 					<Select

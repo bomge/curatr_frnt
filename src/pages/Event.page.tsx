@@ -6,8 +6,8 @@ const eventData = {
 	name: 'Собрание кафедры',
 	startDate: new Date().toISOString(),
 	endDate: new Date().toISOString(),
-	type: 'Administrative Event',
-	status: 'Completed',
+	type: 'Административное',
+	status: 'Завершено',
 	creator: {
 	  name: 'Alex Durov',
 	  id: 1,

@@ -49,19 +49,19 @@ interface EventData {
 }
 
 const eventTypeColor: Record<string, string> = {
-    'Academic Event': 'indigo',
-    'Cultural Event': 'plum',
-    'Sports Event': 'teal',
-    'Social Event': 'coral',
-    'Administrative Event': 'slategray',
+    'Академическое': 'indigo',
+    'Культурное': 'plum',
+    'Спортивное': 'teal',
+    'Социальное': 'coral',
+    'Административное': 'slategray',
 };
 
 const eventStatusColor: Record<string, string> = {
-    Upcoming: '#61d62d',
-    'In Progress': 'lightgreen',
-    Completed: 'lightgray',
-    Canceled: 'red',
-    Rescheduled: 'lightblue',
+    Предстоящее: '#61d62d',
+    'В процессе': 'lightgreen',
+    Завершено: 'lightgray',
+    Отменено: 'red',
+    Перенесено: 'lightblue',
 };
 
 // Validation schema using Yup
@@ -125,7 +125,7 @@ const EventBadges: React.FC<EventBadgesProps> =
                 {type}
             </Badge>
             <Badge color={eventStatusColor[status] || 'teal'}>{status}</Badge>
-            {isImportant && <Badge color="red">Important!</Badge>}
+            {isImportant && <Badge color="red">Важное!</Badge>}
         </Group>
     )
 

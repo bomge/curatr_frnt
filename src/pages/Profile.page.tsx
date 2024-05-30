@@ -8,7 +8,8 @@ const profileData: IProfile = {
     department: { name: "Искусственный интеллект", id: 16, facultyId: 5 },
     birthdayDate: "2000-05-11",
     phone: "123-456-7890",
-	img:null
+	img:null,
+	email:'email@example.com'
 }
 
 import ProfileDetails from '@/components/Profile/ProfileDetails';
@@ -33,6 +34,7 @@ export  interface IProfile {
 	birthdayDate: string,
 	phone: string
 	img: string | null
+	email: string
 }
 
 

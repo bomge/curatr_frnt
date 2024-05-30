@@ -6,10 +6,10 @@
     transform: scale(1.02);
 }
 
-.cardCompleted {
+.cardЗавершено {
     opacity: 0.5;
 }
 
-.cardCompleted:hover {
+.cardЗавершено:hover {
     opacity: 1;
 }

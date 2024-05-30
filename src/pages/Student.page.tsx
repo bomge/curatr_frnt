@@ -33,11 +33,11 @@ const studentData: IStudent = {
 	faculty: facultyData.find(f => f.id === 5)!, // АИС
 	department: kafedraData.find(k => k.id === 14), // Программная инженерия
 	birthdayDate: "1999-05-12",
-	phone: "+79161234567",
+	phone: "+37561234567",
 	img: null,
-	phoneHome: "+78121234567",
+	phoneHome: "+3758121234567",
 	socialAccs: "vk.com/ivanov, twitter.com/ipetrov",
-	address: "г. Москва, ул. Ленина, д. 10, кв. 25",
+	address: "г. Гомель, ул. Ленина, д. 10, кв. 25",
 	mother: {
 	  firstName: "Мария",
 	  lastName: "Петрова",

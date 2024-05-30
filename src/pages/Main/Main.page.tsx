@@ -9,7 +9,7 @@ import {
     Indicator,
     useMantineColorScheme,
 } from '@mantine/core';
-import { DatePicker } from '@mantine/dates';
+import { DatePicker, type DatePickerProps } from '@mantine/dates';
 import { events } from './testData';
 import 'dayjs/locale/ru';
 import { formatDistance, format } from 'date-fns';
@@ -20,27 +20,28 @@ import { useMediaQuery } from '@mantine/hooks';
 import { useState } from 'react';
 import { MobileStackPcGroup } from '@/components/Fields/EditableField';
 import FormattedDateTime from '@/components/EventCard/FormattedDateTime';
+import HighlightedDay from '@/components/Main/HighlightedDay';
 
 export const eventTypeColor = {
-    'Academic Event': 'indigo',
-    'Cultural Event': 'plum',
-    'Sports Event': 'teal',
-    'Social Event': 'coral',
-    'Administrative Event': 'slategray',
+    'Академическое': 'indigo',
+    'Культурное': 'plum',
+    'Спортивное': 'teal',
+    'Социальное': 'coral',
+    'Административное': 'slategray',
 };
 
 export const eventStatusColor = {
-    // Upcoming: 'yellow',
-    // Upcoming: '#4cf700',
-    Upcoming: '#61d62d',
-    'In Progress': 'lightgreen',
-    Completed: 'lightgray',
-    Canceled: 'red',
-    Rescheduled: 'lightblue',
+    // Предстоящее: 'yellow',
+    // Предстоящее: '#4cf700',
+    Предстоящее: '#61d62d',
+    'В процессе': 'lightgreen',
+    Завершено: 'lightgray',
+    Отменено: 'red',
+    Перенесено: 'lightblue',
 };
 
 export const eventIndicatorColor = {
-    completed: '#595959',
+    Завершено: '#595959',
     important: 'red',
     active: '#4cf700',
     // active: 'yellow',
@@ -53,6 +54,7 @@ const MainPage = () => {
     const [expandedEvents, setExpandedEvents] = useState<number[]>([]);
     const { colorScheme } = useMantineColorScheme();
     const isMobile = !!useMediaQuery('(max-width: 600px)');
+    const currentDate = new Date();
 
     const filteredEvents = events.filter((event) => {
         const startDate = new Date(event.startDate);
@@ -77,19 +79,19 @@ const MainPage = () => {
     };
 
     const getIndicatorColor = (eventsOnDate: typeof events) => {
-        const completedEvents = eventsOnDate.every(
+        const ЗавершеноEvents = eventsOnDate.every(
             (event) =>
-                event.status === 'Completed' || event.status === 'Canceled',
+                event.status === 'Завершено' || event.status === 'Отменено',
         );
         const hasImportantActiveEvent = eventsOnDate.some(
             (event) =>
                 event.isImportant &&
-                event.status !== 'Completed' &&
-                event.status !== 'Canceled',
+                event.status !== 'Завершено' &&
+                event.status !== 'Отменено',
         );
         const hasActiveEvent = eventsOnDate.some(
             (event) =>
-                event.status !== 'Completed' && event.status !== 'Canceled',
+                event.status !== 'Завершено' && event.status !== 'Отменено',
         );
 
         if (hasImportantActiveEvent) {
@@ -98,8 +100,36 @@ const MainPage = () => {
         if (hasActiveEvent) {
             return eventIndicatorColor['active'];
         }
-        return eventIndicatorColor['completed'];
+        return eventIndicatorColor['Завершено'];
     };
+
+    const getYearControlProps: DatePickerProps['getYearControlProps'] = (date) => {
+        if (date.getFullYear() === new Date().getFullYear()) {
+          return {
+            style: {
+              color: 'var(--mantine-color-blue-filled)',
+              fontWeight: 700,
+            },
+          };
+        }
+      
+      
+        return {};
+      };
+      
+      const getMonthControlProps: DatePickerProps['getMonthControlProps'] = (date) => {
+        if (date.getMonth() === new Date().getMonth() && date.getFullYear() === new Date().getFullYear()) {
+          return {
+            style: {
+              color: 'var(--mantine-color-blue-filled)',
+              fontWeight: 700,
+            },
+          };
+        }
+      
+      
+        return {};
+      };
 
     return (
         <Stack align="center" mt='md'>
@@ -129,42 +159,39 @@ const MainPage = () => {
                             const indicatorColor =
                                 getIndicatorColor(dateEvents);
                             return (
-                                <div style={{ position: 'relative' }}>
-                                    {dateEvents.length > 0 && (
-                                        <Indicator
-                                            size={6}
-                                            color={indicatorColor}
-                                            offset={-1}
-                                        >
-                                            {/* <div>{date.getDate()}</div> */}
-                                        </Indicator>
-                                    )}
-                                    <div>{date.getDate()}</div>
-                                </div>
+                                <HighlightedDay
+                                date={date}
+                                currentDate={currentDate}
+                                dateEvents={dateEvents}
+                                indicatorColor={indicatorColor}
+                                selectedDate={selectedDate}
+                            />
                             );
                         }}
+                        getYearControlProps={getYearControlProps}
+                        getMonthControlProps={getMonthControlProps}
                     />
                 </Paper>
 
                 <Button style={{ alignSelf:  isMobile?'' :'flex-start' }}>
-                    Create Event
+                    Создать мероприятие
                 </Button>
             </MobileStackPcGroup>
             <Stack>
                 {filteredEvents.length > 0 ? (
                     filteredEvents
                     .sort((a, b) => {
-                        const aIsCompleted = a.status === "Canceled" || a.status === "Completed";
-                        const bIsCompleted = b.status === "Canceled" || b.status === "Completed";
+                        const aIsЗавершено = a.status === "Отменено" || a.status === "Завершено";
+                        const bIsЗавершено = b.status === "Отменено" || b.status === "Завершено";
                       
                         // If both events have the same completion status
-                        if (aIsCompleted === bIsCompleted) {
+                        if (aIsЗавершено === bIsЗавершено) {
                           // Sort by startDate
                           return +new Date(a.startDate) - +new Date(b.startDate);
                         }
                       
                         // Sort by completion status (active events first)
-                        return aIsCompleted ? 1 : -1;
+                        return aIsЗавершено ? 1 : -1;
                       })
                         .map((event) => (
                             <Link to='/event/1'  style={{ textDecoration: "none" }}>
@@ -173,9 +200,9 @@ const MainPage = () => {
                                 key={event.id}
                                 data-id={`event-${event.id}`}
                                 className={`${styles.card} ${
-                                    event.status === 'Completed' ||
-                                    event.status === 'canceled'
-                                        ? styles.cardCompleted
+                                    event.status === 'Завершено' ||
+                                    event.status === 'Отменено'
+                                        ? styles.cardЗавершено
                                         : ''
                                 }`}
                             >
@@ -229,7 +256,7 @@ const MainPage = () => {
                                         </Badge>
                                         {event.isImportant ? (
                                             <Badge color="red">
-                                                Important!
+                                                Важное!
                                             </Badge>
                                         ) : (
                                             ''

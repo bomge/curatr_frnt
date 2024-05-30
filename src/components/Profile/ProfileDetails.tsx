@@ -31,6 +31,7 @@ const validationSchema = Yup.object().shape({
         .max(new Date(), 'Birthday date must be in the past')
         .nullable(),
     phone: Yup.string().nullable().trim(),
+    email: Yup.string().nullable().trim(),
     role: Yup.string().required('Role is required'),
     group: Yup.string().when('role', {
         is: 'Куратор',
@@ -106,6 +107,7 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({
         new Date(profileData.birthdayDate),
     );
     const [phone, setPhone] = useState(profileData.phone);
+    const [email, setEmail] = useState(profileData.email);
     const [image, setImage] = useState(profileData.img);
     const [isUploading, setIsUploading] = useState(false);
     const [errors, setErrors] = useState<FormErrors>({});
@@ -416,6 +418,18 @@ console.log('x')
                             isMobile={isMobile}
                             component={EditableTextField}
                             error={errors.phone}
+                        />
+                        <EditableField
+                            label="Email"
+                            value={isEditing ? email : profileData.email}
+                            setValue={(value) => {
+                                setEmail(value);
+                                handleInputChange('email', value);
+                            }}
+                            isEditing={isEditing}
+                            isMobile={isMobile}
+                            component={EditableTextField}
+                            error={errors.email}
                         />
                     </tbody>
                 </table>
