@@ -1,0 +1,3 @@
+.currentDay{
+	background-color: light-dark(var(--mantine-color-yellow-2), #5c98d463)
+}

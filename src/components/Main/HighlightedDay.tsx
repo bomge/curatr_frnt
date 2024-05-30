@@ -1,5 +1,6 @@
 import type React from 'react';
 import { Indicator } from '@mantine/core';
+import classes from './style.module.css'
 
 interface HighlightedDayProps {
     date: Date;
@@ -11,6 +12,7 @@ interface HighlightedDayProps {
 
 const HighlightedDay: React.FC<HighlightedDayProps> = ({ date, currentDate, dateEvents, indicatorColor, selectedDate }) => {
     const isToday = date.toDateString() === currentDate.toDateString();
+
 	const isSelected = selectedDate && date.toDateString() === selectedDate.toDateString();
     // const backgroundColor = isToday && !isSelected ? 'var(--mantine-color-yellow-1)' : '';
     // const backgroundColor = isToday ? 'var(--mantine-color-orange-3)' : '';
@@ -22,10 +24,15 @@ const HighlightedDay: React.FC<HighlightedDayProps> = ({ date, currentDate, date
     : (isToday ? 'light-dark(var(--mantine-color-yellow-2), #5c98d463)' : '');
     // : (isToday ? '#ffec996b' : '');
 	return (
-        <div style={{ position: 'relative', backgroundColor: backgroundColor, borderRadius: '0.25rem',padding: '0.1rem', paddingRight:'0.23rem', paddingLeft:'0.2rem' }}>
+        <div style={{ position: 'relative', 
+		// backgroundColor: backgroundColor, 
+		borderRadius: '0.25rem',padding: '0.1rem', paddingRight:'0.23rem', paddingLeft:'0.2rem' }}
+			className={isToday?classes.currentDay:''}
+		>
             {dateEvents.length > 0 && (
                 <Indicator size={6} color={indicatorColor} offset={-1}>
                     <div>{date.getDate()}</div>
+                    {/* <div>{date.getDate()}</div> */}
                 </Indicator>
             )}
             {!dateEvents.length && <div>{date.getDate()}</div>}
