@@ -256,7 +256,7 @@ const MainPage = () => {
                                         </Badge>
                                         {event.isImportant ? (
                                             <Badge color="red">
-                                                Важное!
+                                                Важное❗️
                                             </Badge>
                                         ) : (
                                             ''

@@ -125,7 +125,7 @@ const EventBadges: React.FC<EventBadgesProps> =
                 {type}
             </Badge>
             <Badge color={eventStatusColor[status] || 'teal'}>{status}</Badge>
-            {isImportant && <Badge color="red">Важное!</Badge>}
+            {isImportant && <Badge color="red">Важное❗️</Badge>}
         </Group>
     )
 

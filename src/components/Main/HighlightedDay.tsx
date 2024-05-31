@@ -27,10 +27,10 @@ const HighlightedDay: React.FC<HighlightedDayProps> = ({ date, currentDate, date
         <div style={{ position: 'relative', 
 		// backgroundColor: backgroundColor, 
 		borderRadius: '0.25rem',padding: '0.1rem', paddingRight:'0.23rem', paddingLeft:'0.2rem' }}
-			className={isToday?classes.currentDay:''}
+			className={isToday && !isSelected?classes.currentDay:''}
 		>
             {dateEvents.length > 0 && (
-                <Indicator size={6} color={indicatorColor} offset={-1}>
+                <Indicator size={6} color={indicatorColor} offset={-1} >
                     <div>{date.getDate()}</div>
                     {/* <div>{date.getDate()}</div> */}
                 </Indicator>

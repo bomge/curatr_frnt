@@ -150,7 +150,7 @@ const CafedraSearch: React.FC<SearchCafedraProps> = ({
 						<Text mt='1rem' style={{ wordBreak: 'break-word', fontWeight: '655', textAlign: 'center' }}>
 							Кафедра {selectedCafedraData?.fullName}
 						</Text>
-						<Text mb='1rem' style={{ wordBreak: 'break-word' }}>
+						<Text mb='0.5rem' style={{ wordBreak: 'break-word' }}>
 							{selectedCafedraData?.shortName}
 						</Text>
 						<Group w={isMobile ? '22rem' : "25rem"}>
