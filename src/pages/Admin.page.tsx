@@ -1,15 +1,21 @@
 import AdminManage from '@/components/Admin/AdminManage';
 import type React from 'react';
-import type { ISearchPersonWorker } from './Search/Search.page';
-import type { CafedraInfo, FacultyInfo } from './Cafedra/Cafedras.page';
-import { workers as testWorkers } from './Search/testDataSearch'
-import { faculties as testFaculties, cafedras as testCafedras } from './Cafedra/testDataCafedra';
+import type { IInfo, ISearchPersonWorker } from './Search/Search.page';
+import type { CafedraInfo, FacultyInfo, Group, Person } from './Cafedra/Cafedras.page';
+// import { workers as testWorkers } from './Search/testDataSearch'
+import { faculties as testFaculties, cafedras as testCafedras, workers as testWorkers } from './Cafedra/testDataCafedra';
 import { useEffect, useState } from 'react';
 
-
+export interface workerFullInfo extends Person {
+  avatar?: string;
+  scienceDegree: string;
+  faculty?: IInfo;
+  cafedra?: IInfo //s.name f.name id
+  group?: IInfo
+}
 
 export interface AdminPageProps {
-  workers: ISearchPersonWorker[]
+  workers: workerFullInfo[]
   faculties: FacultyInfo[]
   cafedras: CafedraInfo[]
   // groups are taken from cafedras
@@ -20,7 +26,7 @@ const AdminPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [faculties, setFaculties] = useState<FacultyInfo[]>([]);
   const [cafedras, setCafedras] = useState<CafedraInfo[]>([]);
-  const [workers, setWorkers] = useState<ISearchPersonWorker[]>([]);
+  const [workers, setWorkers] = useState<workerFullInfo[]>([]);
 
   useEffect(() => {
     const fetchData = setTimeout(() => {
@@ -33,12 +39,17 @@ const AdminPage: React.FC = () => {
     return () => clearTimeout(fetchData);
   }, []);
 
-  const handleSave = (id: number, newData: ISearchPersonWorker) => {
+  const handleSave = (id: number, newData: workerFullInfo) => {
     setWorkers((prevWorkers) =>
       prevWorkers.map((worker) =>
         worker.id === id ? { ...worker, ...newData } : worker
       )
     );
+    //monkey patch
+    const workerIndex = testWorkers.findIndex((worker) => worker.id === id);
+    if (workerIndex !== -1) {
+      testWorkers[workerIndex] = { ...testWorkers[workerIndex], ...newData };
+    }
   };
 
   return <AdminManage

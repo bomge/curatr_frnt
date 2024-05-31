@@ -1,3 +1,4 @@
+import type { workerFullInfo } from "../Admin.page";
 import type { CafedraInfo, Person, Group, FacultyInfo } from "./Cafedras.page";
 
 export  const persons: Person[] = [
@@ -66,10 +67,10 @@ export  const persons: Person[] = [
 	  fullName: 'Компьютерных Технологий и Программирования',
 	  dean: null,//persons[0],
 	  headCafedra: null,//persons[1],
-	  workers: [],
-	//   workers: [persons[2], persons[3]],
+	//   workers: [],
+	  workers: [persons[2], persons[3]],
 	  groups: [
-		// groups[0], groups[1],
+		groups[0], groups[1],
 	  ]
 	},
 	{
@@ -175,4 +176,391 @@ export  const persons: Person[] = [
 	  ]
 	}
   ];
+
+  export const workers: workerFullInfo[] = [
+	{
+	  id: 1,
+	  firstName: "Алексей",
+	  lastName: "Иванов",
+	  surName: "Петрович",
+	  scienceDegree: "Профессор",
+	  faculty: faculties[2],
+	  role: "Декан",
+	  cafedra: cafedras[0], // КТиП is part of ФМиВТ
+	  group: groups[0], // ИП-21 is part of КТиП
+	},
+	{
+	  id: 2,
+	  firstName: "Мария",
+	  lastName: "Смирнова",
+	  surName: "Игоревна",
+	  scienceDegree: "Доктор наук",
+	  faculty: faculties[2],
+	  role: "Работник",
+	  cafedra: cafedras[7], // СиС is part of ФМиВТ
+	  group: groups[15], // СИС-31 is part of СиС
+	},
+	{
+	  id: 3,
+	  firstName: "Сергей",
+	  lastName: "Кузнецов",
+	  surName: "Александрович",
+	  scienceDegree: "Преподаватель",
+	  faculty: faculties[2],
+	  role: "Куратор",
+	  cafedra: cafedras[7], // СиС is part of ФМиВТ
+	  group: groups[15], // СИС-31 is part of СиС
+	},
+	{
+	  id: 4,
+	  firstName: "Ольга",
+	  lastName: "Попова",
+	  surName: "Владимировна",
+	  scienceDegree: "Доцент",
+	  faculty: faculties[2],
+	  role: "Зав. кафедры",
+	  cafedra: cafedras[0], // КТиП is part of ФМиВТ
+	  group: groups[0], // ИП-21 is part of КТиП
+	},
+	{
+	  id: 5,
+	  firstName: "Дмитрий",
+	  lastName: "Соколов",
+	  surName: "Николаевич",
+	  scienceDegree: "Преподаватель",
+	  faculty: faculties[2],
+	  role: "Куратор",
+	  cafedra: cafedras[0], // КТиП is part of ФМиВТ
+	  group: groups[1], // ИП-22 is part of КТиП
+	},
+	{
+	  id: 6,
+	  firstName: "Анна",
+	  lastName: "Лебедева",
+	  surName: "Сергеевна",
+	  scienceDegree: "Ассистент",
+	  faculty: faculties[2],
+	  role: "Работник",
+	  cafedra: cafedras[0], // КТиП is part of ФМиВТ
+	  group: groups[0], // ИП-21 is part of КТиП
+	},
+	{
+	  id: 7,
+	  firstName: "Иван",
+	  lastName: "Козлов",
+	  surName: "Петрович",
+	  scienceDegree: "Преподаватель",
+	  faculty: faculties[1],
+	  role: "Куратор",
+	  cafedra: cafedras[2], // ГУиП is part of ФУиЭ
+	  group: groups[3], // ГУП-41 is part of ГУиП
+	},
+	{
+	  id: 8,
+	  firstName: "Екатерина",
+	  lastName: "Новикова",
+	  surName: "Андреевна",
+	  scienceDegree: "Кандидат наук",
+	  faculty: faculties[1],
+	  role: "Работник",
+	  cafedra: cafedras[2], // ГУиП is part of ФУиЭ
+	  group: groups[4], // ГУП-42 is part of ГУиП
+	},
+	{
+	  id: 9,
+	  firstName: "Максим",
+	  lastName: "Морозов",
+	  surName: "Викторович",
+	  scienceDegree: "Преподаватель",
+	  faculty: faculties[3],
+	  role: "Куратор",
+	  cafedra: cafedras[4], // ЛиП is part of ФЛиП
+	  group: groups[8], // ЛП-32 is part of ЛиП
+	},
+	{
+	  id: 10,
+	  firstName: "Наталья",
+	  lastName: "Павлова",
+	  surName: "Дмитриевна",
+	  scienceDegree: "Преподаватель",
+	  faculty: faculties[3],
+	  role: "Куратор",
+	  cafedra: cafedras[4], // ЛиП is part of ФЛиП
+	  group: groups[9], // ЛП-33 is part of ЛиП
+	},
+	{
+	  id: 11,
+	  firstName: "Владимир",
+	  lastName: "Богданов",
+	  surName: "Иванович",
+	  scienceDegree: "Преподаватель",
+	  faculty: faculties[3],
+	  role: "Декан",
+	  cafedra: cafedras[4], // ЛиП is part of ФЛиП
+	  group: groups[7], // ЛП-31 is part of ЛиП
+	},
+	{
+	  id: 12,
+	  firstName: "Татьяна",
+	  lastName: "Воробьева",
+	  surName: "Александровна",
+	  scienceDegree: "Лаборант",
+	  faculty: faculties[2],
+	  role: "Работник",
+	  cafedra: cafedras[7], // СиС is part of ФМиВТ
+	  group: groups[16], // СИС-32 is part of СиС
+	},
+	{
+	  id: 13,
+	  firstName: "Григорий",
+	  lastName: "Федоров",
+	  surName: "Михайлович",
+	  scienceDegree: "Преподаватель",
+	  faculty: faculties[2],
+	  role: "Куратор",
+	  cafedra: cafedras[7], // СиС is part of ФМиВТ (assuming ФФиП has no cafedras)
+	  group: groups[16], // СИС-32 is part of СиС
+	},
+	{
+	  id: 14,
+	  firstName: "Елена",
+	  lastName: "Михайлова",
+	  surName: "Григорьевна",
+	  scienceDegree: "Преподаватель",
+	  faculty: faculties[3],
+	  role: "Куратор",
+	  cafedra: cafedras[6], // БиТиМ is part of ФУиЭ
+	  group: groups[12], // БТМ-41 is part of БиТиМ
+	},
+	{
+	  id: 15,
+	  firstName: "Юрий",
+	  lastName: "Николаев",
+	  surName: "Васильевич",
+	  scienceDegree: "Преподаватель",
+	  faculty: faculties[3],
+	  role: "Куратор",
+	  cafedra: cafedras[6], // БиТиМ is part of ФУиЭ
+	  group: groups[13], // БТМ-42 is part of БиТиМ
+	},
+	{
+		id: 16,
+		firstName: "Светлана",
+		lastName: "Макарова",
+		surName: "Игоревна",
+		scienceDegree: "Преподаватель",
+		faculty: faculties[3],
+		role: "Декан",
+		cafedra: cafedras[6], // БиТиМ is part of ФУиЭ
+		group: groups[14], // БТМ-43 is part of БиТиМ
+	  },
+	  {
+		id: 17,
+		firstName: "Андрей",
+		lastName: "Зайцев",
+		surName: "Павлович",
+		scienceDegree: "Преподаватель",
+		faculty: faculties[2],
+		role: "Куратор",
+		cafedra: cafedras[7], // СиС is part of ФМиВТ (assuming ФФиП has no cafedras)
+		group: groups[15], // СИС-31 is part of СиС
+	  },
+	  {
+		id: 18,
+		firstName: "Алина",
+		lastName: "Соловьева",
+		surName: "Романовна",
+		scienceDegree: "Преподаватель",
+		faculty: faculties[2],
+		role: "Куратор",
+		cafedra: cafedras[7], // СиС is part of ФМиВТ (assuming ФФиП has no cafedras)
+		group: groups[16], // СИС-32 is part of СиС
+	  },
+	  {
+		id: 19,
+		firstName: "Роман",
+		lastName: "Петров",
+		surName: "Борисович",
+		scienceDegree: "Преподаватель",
+		faculty: faculties[3],
+		role: "Куратор",
+		cafedra: cafedras[2], // ГУиП is part of ФУиЭ (assuming ФПиА has no cafedras)
+		group: groups[3], // ГУП-41 is part of ГУиП
+	  },
+	  {
+		id: 20,
+		firstName: "Марина",
+		lastName: "Васильева",
+		surName: "Геннадьевна",
+		scienceDegree: "Преподаватель",
+		faculty: faculties[3],
+		role: "Куратор",
+		cafedra: cafedras[2], // ГУиП is part of ФУиЭ (assuming ФПиА has no cafedras)
+		group: groups[4], // ГУП-42 is part of ГУиП
+	  },
+	  {
+		id: 21,
+		firstName: "Павел",
+		lastName: "Александров",
+		surName: "Леонидович",
+		scienceDegree: "Преподаватель",
+		faculty: faculties[3],
+		role: "Зав. кафедры",
+		cafedra: cafedras[2], // ГУиП is part of ФУиЭ (assuming ФПиА has no cafedras)
+		group: groups[5], // ГУП-43 is part of ГУиП
+	  },
+	  {
+		id: 22,
+		firstName: "Людмила",
+		lastName: "Мартынова",
+		surName: "Евгеньевна",
+		scienceDegree: "Преподаватель",
+		faculty: faculties[2],
+		role: "Куратор",
+		cafedra: cafedras[7], // СиС is part of ФМиВТ (assuming ФХиБ has no cafedras)
+		group: groups[15], // СИС-31 is part of СиС
+	  },
+	  {
+		id: 23,
+		firstName: "Кирилл",
+		lastName: "Григорьев",
+		surName: "Степанович",
+		scienceDegree: "Преподаватель",
+		faculty: faculties[2],
+		role: "Куратор",
+		cafedra: cafedras[7], // СиС is part of ФМиВТ (assuming ФХиБ has no cafedras)
+		group: groups[16], // СИС-32 is part of СиС
+	  },
+	  {
+		id: 24,
+		firstName: "Вера",
+		lastName: "Афанасьева",
+		surName: "Романовна",
+		scienceDegree: "Старший преподаватель",
+		faculty: faculties[2],
+		role: "Работник",
+		cafedra: cafedras[0], // КТиП is part of ФМиВТ
+		group: groups[0], // ИП-21 is part of КТиП
+	  },
+	  {
+		id: 25,
+		firstName: "Николай",
+		lastName: "Тихонов",
+		surName: "Сергеевич",
+		scienceDegree: "Академик",
+		faculty: faculties[0],
+		role: "Проректор",
+		cafedra: cafedras[1], // ЭиМ is part of ФИТ
+		group: groups[2], // ЭМ-31 is part of ЭиМ
+	  },
+	  {
+		id: 26,
+		firstName: "Игорь",
+		lastName: "Казаков",
+		surName: "Александрович",
+		scienceDegree: "Методист",
+		faculty: faculties[0],
+		role: "Работник",
+		cafedra: cafedras[5], // ИТиКБ is part of ФИТ
+		group: groups[10], // ИТК-21 is part of ИТиКБ
+	  },
+	  {
+		id: 27,
+		firstName: "София",
+		lastName: "Полякова",
+		surName: "Дмитриевна",
+		scienceDegree: "Преподаватель",
+		faculty: faculties[1],
+		role: "Работник",
+		cafedra: cafedras[2], // ГУиП is part of ФУиЭ
+		group: groups[3], // ГУП-41 is part of ГУиП
+	  },
+	  {
+		id: 28,
+		firstName: "Валентин",
+		lastName: "Кузьмин",
+		surName: "Владимирович",
+		scienceDegree: "Старший преподаватель",
+		faculty: faculties[3],
+		role: "Работник",
+		cafedra: cafedras[4], // ЛиП is part of ФЛиП
+		group: groups[7], // ЛП-31 is part of ЛиП
+	  },
+	  {
+		id: 29,
+		firstName: "Лариса",
+		lastName: "Калинина",
+		surName: "Николаевна",
+		scienceDegree: "Доцент",
+		faculty: faculties[3],
+		role: "Зав. кафедры",
+		cafedra: cafedras[4], // ЛиП is part of ФЛиП
+		group: groups[8], // ЛП-32 is part of ЛиП
+	  },
+	  {
+		id: 30,
+		firstName: "Станислав",
+		lastName: "Беляев",
+		surName: "Павлович",
+		scienceDegree: "Преподаватель",
+		faculty: faculties[3],
+		role: "Работник",
+		cafedra: cafedras[6], // БиТиМ is part of ФУиЭ
+		group: groups[12], // БТМ-41 is part of БиТиМ
+	  },{
+		id: 31,
+		firstName: "Анастасия",
+		lastName: "Горбунова",
+		surName: "Геннадьевна",
+		scienceDegree: "Преподаватель",
+		faculty: faculties[2],
+		role: "Работник",
+		cafedra: cafedras[7], // СиС is part of ФМиВТ (assuming ФФиП has no cafедры)
+		group: groups[15], // СИС-31 is part of СиС
+	  },
+	  {
+		id: 32,
+		firstName: "Георгий",
+		lastName: "Терентьев",
+		surName: "Евгеньевич",
+		scienceDegree: "Старший преподаватель",
+		faculty: faculties[3],
+		role: "Работник",
+		cafedra: cafedras[2], // ГУиП is part of ФУиЭ (assuming ФПиА has no cafедры)
+		group: groups[4], // ГУП-42 is part of ГУиП
+	  },
+	  {
+		id: 33,
+		firstName: "Милана",
+		lastName: "Орлова",
+		surName: "Степановна",
+		scienceDegree: "Преподаватель",
+		faculty: faculties[2],
+		role: "Работник",
+		cafedra: cafedras[7], // СиС is part of ФМиВТ (assuming ФХиБ has no cafедры)
+		group: groups[16], // СИС-32 is part of СиС
+	  },
+	  {
+		id: 34,
+		firstName: "Руслан",
+		lastName: "Сидоров",
+		surName: "Романович",
+		scienceDegree: "Преподаватель",
+		faculty: faculties[2],
+		role: "Декан",
+		cafedra: cafedras[7], // СиС is part of ФМиВТ (assuming ФХиБ has no cafедры)
+		group: groups[15], // СИС-31 is part of СиС
+	  },
+	  {
+		id: 355,
+		firstName: "Ева",
+		lastName: "Фомина",
+		surName: "Борисовна",
+		scienceDegree: "Доцент",
+		faculty: faculties[2],
+		role: "Зав. кафедры",
+		cafedra: cafedras[7], // СиС is part of ФМиВТ (assuming ФХиБ has no cafедры)
+		group: groups[16], // СИС-32 is part of СиС
+	  }
+]
   

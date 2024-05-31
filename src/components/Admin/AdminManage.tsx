@@ -5,12 +5,13 @@ import { useMediaQuery } from "@mantine/hooks";
 import { IconPlus } from "@tabler/icons-react";
 import UserTable from "./UserTable";
 import classes from './style.module.css'
+import type { workerFullInfo } from "@/pages/Admin.page";
 interface AdminManageProps {
 	faculties: FacultyInfo[];
 	cafedras: CafedraInfo[];
-	workers: ISearchPersonWorker[]
+	workers: workerFullInfo[]
 	loading: boolean
-	onSave: (id: number, newName: ISearchPersonWorker) => void;
+	onSave: (id: number, newName: workerFullInfo) => void;
 }
 
 const AdminManage: React.FC<AdminManageProps> = ({ cafedras, faculties, loading, workers, onSave }) => {
@@ -24,7 +25,7 @@ const AdminManage: React.FC<AdminManageProps> = ({ cafedras, faculties, loading,
 		<Text fw={600} size="md" ta='center'>
 			Админ панель
 		</Text>
-		<Group gap='0.2rem'>
+		<Group gap='0.2rem' mb='0.2rem'>
 			<Text size="md">
 				Пользователи
 			</Text>
@@ -39,7 +40,7 @@ const AdminManage: React.FC<AdminManageProps> = ({ cafedras, faculties, loading,
 			{/* <div style={{ maxHeight: '75dvh', overflowY: 'auto' }}> */}
 			<ScrollArea h='75dvh'>
 
-				<UserTable workers={workers} onSave={onSave} />
+				<UserTable workers={workers} faculties={faculties} cafedras={cafedras} onSave={onSave} />
 			</ScrollArea>
 			{/* </div> */}
 		</Paper>
