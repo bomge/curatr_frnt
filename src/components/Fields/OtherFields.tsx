@@ -104,7 +104,7 @@ export const EditableSelectField: React.FC<EditableSelectFieldProps> = ({
                 searchable
                 allowDeselect={false}
                 error={error}
-                nothingFoundMessage="Nothing found..."
+                nothingFoundMessage="Ничего не найдено..."
                 {...props}
             />
         ) : (
@@ -634,7 +634,7 @@ export const EditableMultiSelectField: React.FC<EditableMultiSelectFieldProps> =
                     value={value}
                     onChange={setValue}
                     searchable
-                    nothingFoundMessage="Nothing found..."
+                    nothingFoundMessage="Ничего не найдено..."
                     error={error}
                 />
             ) : (

@@ -202,7 +202,7 @@ const GroupSearch: React.FC<SearchGroupProps> = ({
 								w="22rem"
 								searchable
 								clearable
-								nothingFoundMessage="Nothing found..."
+								nothingFoundMessage="Ничего не найдено..."
 								styles={{
 									input: {
 										fontSize: '0.8rem',
@@ -219,7 +219,7 @@ const GroupSearch: React.FC<SearchGroupProps> = ({
 								w="22rem"
 								searchable
 								required
-								nothingFoundMessage="Nothing found..."
+								nothingFoundMessage="Ничего не найдено..."
 								withAsterisk
 								clearable
 								description='Кафедра'
@@ -241,7 +241,7 @@ const GroupSearch: React.FC<SearchGroupProps> = ({
 							w="22rem"
 							searchable
 							required
-							nothingFoundMessage="Nothing found..."
+							nothingFoundMessage="Ничего не найдено..."
 							withAsterisk
 							clearable
 							description={
