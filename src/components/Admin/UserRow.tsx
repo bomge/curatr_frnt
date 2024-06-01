@@ -9,61 +9,62 @@ import EditableSelectField from './EditableSelectField';
 import type { CafedraInfo, FacultyInfo } from '@/pages/Cafedra/Cafedras.page';
 
 const roles = [
-	{ label: 'Декан', value: 'Декан' },
-	{ label: 'Проректор', value: 'Проректор' },
-	{ label: 'зав.Кафедры', value: 'зав.Кафедры' },
-	{ label: 'Куратор', value: 'Куратор' },
-	{ label: 'Работник', value: 'Работник' },
-  ];
-  
-  const scienceDegrees = [
-	{ label: 'Профессор', value: 'Профессор' },
-	{ label: 'Доктор наук', value: 'Доктор наук' },
-	{ label: 'Доцент', value: 'Доцент' },
-	{ label: 'Ассистент', value: 'Ассистент' },
-	{ label: 'Кандидат наук', value: 'Кандидат наук' },
-	{ label: 'Лаборант', value: 'Лаборант' },
-	{ label: 'Старший преподаватель', value: 'Старший преподаватель' },
-	{ label: 'Академик', value: 'Академик' },
-	{ label: 'Преподаватель', value: 'Преподаватель' },
-	{ label: 'Преподаватель-стажер', value: 'Преподаватель-стажер' },
-  ];
+  { label: 'Декан', value: 'Декан' },
+  { label: 'Проректор', value: 'Проректор' },
+  { label: 'зав.Кафедры', value: 'зав.Кафедры' },
+  { label: 'Куратор', value: 'Куратор' },
+  { label: 'Работник', value: 'Работник' },
+];
 
-  const isCafedraInFaculty = (
-    faculties: FacultyInfo[],
-    facultyId: string | null,
-    cafedraId: string | null
-  ) => {
-    if (!facultyId || !cafedraId) return false;
-  
-    const faculty = faculties.find((f) => String(f.id) === facultyId);
-    if (!faculty) return false;
-  
-    return faculty.cafedras.some((c) => String(c.id) === cafedraId);
-  };
-  
-  const isGroupInCafedra = (
-    cafedras: CafedraInfo[],
-    cafedraId: string | null,
-    groupId: string | null
-  ) => {
-    if (!cafedraId || !groupId) return false;
-  
-    const cafedra = cafedras.find((c) => String(c.id) === cafedraId);
-    if (!cafedra) return false;
-  
-    return cafedra.groups.some((g) => String(g.id) === groupId);
-  };
+const scienceDegrees = [
+  { label: 'Профессор', value: 'Профессор' },
+  { label: 'Доктор наук', value: 'Доктор наук' },
+  { label: 'Доцент', value: 'Доцент' },
+  { label: 'Ассистент', value: 'Ассистент' },
+  { label: 'Кандидат наук', value: 'Кандидат наук' },
+  { label: 'Лаборант', value: 'Лаборант' },
+  { label: 'Старший преподаватель', value: 'Старший преподаватель' },
+  { label: 'Академик', value: 'Академик' },
+  { label: 'Преподаватель', value: 'Преподаватель' },
+  { label: 'Преподаватель-стажер', value: 'Преподаватель-стажер' },
+];
+
+const isCafedraInFaculty = (
+  faculties: FacultyInfo[],
+  facultyId: string | null,
+  cafedraId: string | null
+) => {
+  if (!facultyId || !cafedraId) return false;
+
+  const faculty = faculties.find((f) => String(f.id) === facultyId);
+  if (!faculty) return false;
+
+  return faculty.cafedras.some((c) => String(c.id) === cafedraId);
+};
+
+const isGroupInCafedra = (
+  cafedras: CafedraInfo[],
+  cafedraId: string | null,
+  groupId: string | null
+) => {
+  if (!cafedraId || !groupId) return false;
+
+  const cafedra = cafedras.find((c) => String(c.id) === cafedraId);
+  if (!cafedra) return false;
+
+  return cafedra.groups.some((g) => String(g.id) === groupId);
+};
 
 interface UserRowProps {
   worker: workerFullInfo;
   faculties: FacultyInfo[];
-	cafedras: CafedraInfo[];
+  cafedras: CafedraInfo[];
   onSave: (id: number, newData: workerFullInfo) => void;
+  onCancel: (id: number) => void;
 }
 
-const UserRow: React.FC<UserRowProps> = ({ worker,cafedras,faculties, onSave }) => {
-  const [isEditing, setIsEditing] = useState(false);
+const UserRow: React.FC<UserRowProps> = ({ worker, cafedras, faculties, onSave,onCancel }) => {
+  const [isEditing, setIsEditing] = useState(worker.id < 0);
   const [lastName, setLastName] = useState(worker.lastName);
   const [firstName, setFirstName] = useState(worker.firstName);
   const [surName, setSurName] = useState(worker.surName);
@@ -74,16 +75,22 @@ const UserRow: React.FC<UserRowProps> = ({ worker,cafedras,faculties, onSave }) 
   const [selectedGroup, setSelectedGroup] = useState(worker.group?.id.toString() || null);
 
   const handleEdit = () => setIsEditing(true);
-  const handleCancel = () => setIsEditing(false);
+  // const handleCancel = () => setIsEditing(false);
   const handleSave = () => {
-    onSave(worker.id, { ...worker, lastName, firstName, surName,role, scienceDegree,
+    onSave(worker.id, {
+      ...worker, lastName, firstName, surName, role, scienceDegree,
       faculty: faculties.find(f => f.id === Number(selectedFaculty)),
       cafedra: cafedras.find(c => c.id === Number(selectedCafedra)),
       group: cafedras.flatMap(c => c.groups).find(g => g.id === Number(selectedGroup))
     });
     setIsEditing(false);
   };
-
+  const handleCancel = () => {
+    if (worker.id < 0) {
+      onCancel(worker.id);
+    }
+    setIsEditing(false);
+  };
   const handleFacultyChange = (facultyId: string | null) => {
     setSelectedFaculty(facultyId || '');
     if (!facultyId || (facultyId && !isCafedraInFaculty(faculties, facultyId, selectedCafedra))) {
@@ -111,43 +118,43 @@ const UserRow: React.FC<UserRowProps> = ({ worker,cafedras,faculties, onSave }) 
 
   const cafedraOptions = selectedFaculty
     ? faculties
-        .find((f) => f.id === Number(selectedFaculty))
-        ?.cafedras.map((cafedraId) => {
-          const cafedra = cafedras.find((c) => c.id === cafedraId.id);
-          return cafedra
-            ? {
-                value: cafedra.id.toString(),
-                label: `${cafedra.fullName}`,
-              }
-            : null;
-        })
-        .filter(Boolean)
+      .find((f) => f.id === Number(selectedFaculty))
+      ?.cafedras.map((cafedraId) => {
+        const cafedra = cafedras.find((c) => c.id === cafedraId.id);
+        return cafedra
+          ? {
+            value: cafedra.id.toString(),
+            label: `${cafedra.fullName}`,
+          }
+          : null;
+      })
+      .filter(Boolean)
     : faculties.flatMap((faculty) => [
-        {
-          group: faculty.fullName,
-          items: faculty.cafedras
-            .map((cafedraId) => {
-              const cafedra = cafedras.find((c) => c.id === cafedraId.id);
-              return cafedra
-                ? {
-                    value: cafedra.id.toString(),
-                    label: cafedra.fullName,
-                  }
-                : null;
-            })
-            .filter(Boolean),
-        },
-      ]);
+      {
+        group: faculty.fullName,
+        items: faculty.cafedras
+          .map((cafedraId) => {
+            const cafedra = cafedras.find((c) => c.id === cafedraId.id);
+            return cafedra
+              ? {
+                value: cafedra.id.toString(),
+                label: cafedra.fullName,
+              }
+              : null;
+          })
+          .filter(Boolean),
+      },
+    ]);
 
   const groupOptions = selectedCafedra
     ? cafedras
-        .find((c) => c.id === Number(selectedCafedra))
-        ?.groups.map((group) => ({
-          value: group.id.toString(),
-          label: group.shortName,
-        })) || []
+      .find((c) => c.id === Number(selectedCafedra))
+      ?.groups.map((group) => ({
+        value: group.id.toString(),
+        label: group.shortName,
+      })) || []
     : selectedFaculty
-    ? cafedras
+      ? cafedras
         .filter((c) =>
           faculties
             .find((f) => f.id === Number(selectedFaculty))
@@ -162,7 +169,7 @@ const UserRow: React.FC<UserRowProps> = ({ worker,cafedras,faculties, onSave }) 
             })),
           },
         ])
-    : cafedras.flatMap((c) => [
+      : cafedras.flatMap((c) => [
         {
           group: c.fullName,
           items: c.groups.map((group) => ({
@@ -172,22 +179,24 @@ const UserRow: React.FC<UserRowProps> = ({ worker,cafedras,faculties, onSave }) 
         },
       ]);
 
-    useEffect(() => {
-      if (selectedCafedra && !selectedFaculty) {
-        const cafedra = cafedras.find((c) => c.id === Number(selectedCafedra));
-        if (cafedra) {
-          const faculty = faculties.find((f) => f.cafedras.some((caf) => caf.id === cafedra.id));
-          if (faculty) setSelectedFaculty(faculty.id.toString());
-        }
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  useEffect(() => {
+    if (selectedCafedra && !selectedFaculty) {
+      const cafedra = cafedras.find((c) => c.id === Number(selectedCafedra));
+      if (cafedra) {
+        const faculty = faculties.find((f) => f.cafedras.some((caf) => caf.id === cafedra.id));
+        if (faculty) setSelectedFaculty(faculty.id.toString());
       }
-    }, [selectedCafedra, cafedras, faculties]);
-  
-    useEffect(() => {
-      if (selectedGroup && !selectedCafedra) {
-        const cafedra = cafedras.find((c) => c.groups.some((g) => g.id === Number(selectedGroup)));
-        if (cafedra) setSelectedCafedra(cafedra.id.toString());
-      }
-    }, [selectedGroup, cafedras]);
+    }
+  }, [selectedCafedra, cafedras, faculties]);
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  useEffect(() => {
+    if (selectedGroup && !selectedCafedra) {
+      const cafedra = cafedras.find((c) => c.groups.some((g) => g.id === Number(selectedGroup)));
+      if (cafedra) setSelectedCafedra(cafedra.id.toString());
+    }
+  }, [selectedGroup, cafedras]);
 
   return (
     <Table.Tr>
@@ -200,20 +209,21 @@ const UserRow: React.FC<UserRowProps> = ({ worker,cafedras,faculties, onSave }) 
       <Table.Td>
         <EditableField isEditing={isEditing} value={surName} onChange={setSurName} />
       </Table.Td>
-	  <Table.Td>
+      <Table.Td>
         <EditableSelectField isEditing={isEditing} value={role} onChange={setRole} options={roles} text={worker.role} />
       </Table.Td>
       <Table.Td>
         <EditableSelectField isEditing={isEditing} value={scienceDegree} onChange={setScienceDegree} text={worker.scienceDegree} options={scienceDegrees} />
       </Table.Td>
       <Table.Td>
-        <EditableSelectField isEditing={isEditing} value={selectedFaculty} onChange={handleFacultyChange} options={facultyOptions} text={worker.faculty?.shortName} compoProps={{allowDeselect:true, clearable:true}}/>
+        <EditableSelectField isEditing={isEditing} value={selectedFaculty} onChange={handleFacultyChange} options={facultyOptions} text={worker.faculty?.shortName || '-'} compoProps={{ allowDeselect: true, clearable: true }} />
       </Table.Td>
       <Table.Td>
-        <EditableSelectField isEditing={isEditing} value={selectedCafedra} onChange={handleCafedraChange} options={cafedraOptions} text={worker.cafedra?.fullName} compoProps={{allowDeselect:true, clearable:true}}/>
+        {/* //@ts-ignore */}
+        <EditableSelectField isEditing={isEditing} value={selectedCafedra} onChange={handleCafedraChange} options={cafedraOptions} text={worker.cafedra?.fullName || '-'} compoProps={{ allowDeselect: true, clearable: true }} />
       </Table.Td>
       <Table.Td>
-        <EditableSelectField isEditing={isEditing} value={selectedGroup} onChange={setSelectedGroup} options={groupOptions} text={worker.group?.shortName} compoProps={{allowDeselect:true, clearable:true, searchable:true}}/>
+        <EditableSelectField isEditing={isEditing} value={selectedGroup} onChange={setSelectedGroup} options={groupOptions} text={worker.group?.shortName || '-'} compoProps={{ allowDeselect: true, clearable: true, searchable: true }} />
       </Table.Td>
       <Table.Td>
         {isEditing ? (

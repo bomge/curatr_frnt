@@ -10,11 +10,12 @@ interface UserTableProps {
   faculties: FacultyInfo[];
 	cafedras: CafedraInfo[];
   onSave: (id: number, newData: workerFullInfo) => void;
+  onCancel: (id: number) => void;
 }
 
-const UserTable: React.FC<UserTableProps> = ({ workers,cafedras,faculties, onSave }) => {
+const UserTable: React.FC<UserTableProps> = ({ workers,cafedras,faculties, onSave,onCancel }) => {
   const rows = workers.map((worker) => (
-    <UserRow key={worker.id} worker={worker} faculties={faculties} cafedras={cafedras} onSave={onSave} />
+    <UserRow key={worker.id} worker={worker} faculties={faculties} cafedras={cafedras} onSave={onSave} onCancel={onCancel}/>
   ));
 
   return (

@@ -52,12 +52,22 @@ const AdminPage: React.FC = () => {
     }
   };
 
+  const handleAdd = (newWorker: workerFullInfo) => {
+    setWorkers((prevWorkers) => [newWorker, ...prevWorkers]);
+  };
+
+  const handleCancel = (id: number) => {
+    setWorkers((prevWorkers) => prevWorkers.filter((worker) => worker.id !== id));
+  };
+
   return <AdminManage
     faculties={faculties}
     cafedras={cafedras}
     workers={workers}
     loading={loading}
     onSave={handleSave}
+    onAdd={handleAdd}
+    onCancel={handleCancel}
   />;
 };
 

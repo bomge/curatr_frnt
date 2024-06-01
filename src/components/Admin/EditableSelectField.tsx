@@ -5,7 +5,7 @@ interface EditableSelectFieldProps {
   isEditing: boolean;
   value: string | null;
   onChange: (value: string) => void;
-  options: { label: string; value: string }[];
+  options: SelectProps['data'];
   compoProps?: SelectProps
   text?: string; // Optional text prop
 }
