@@ -59,7 +59,7 @@ interface UserRowProps {
   worker: workerFullInfo;
   faculties: FacultyInfo[];
   cafedras: CafedraInfo[];
-  onSave: (id: number, newData: workerFullInfo) => void;
+  onSave: (id: number, newData: workerFullInfo) => Promise<void>;
   onCancel: (id: number) => void;
 }
 
@@ -74,16 +74,21 @@ const UserRow: React.FC<UserRowProps> = ({ worker, cafedras, faculties, onSave,o
   const [selectedCafedra, setSelectedCafedra] = useState(worker.cafedra?.id.toString() || null);
   const [selectedGroup, setSelectedGroup] = useState(worker.group?.id.toString() || null);
 
+  const [loading, setLoading] = useState(false);
+
   const handleEdit = () => setIsEditing(true);
   // const handleCancel = () => setIsEditing(false);
   const handleSave = () => {
+    setLoading(true);
     onSave(worker.id, {
       ...worker, lastName, firstName, surName, role, scienceDegree,
       faculty: faculties.find(f => f.id === Number(selectedFaculty)),
       cafedra: cafedras.find(c => c.id === Number(selectedCafedra)),
       group: cafedras.flatMap(c => c.groups).find(g => g.id === Number(selectedGroup))
+    }).finally(() => {
+      setLoading(false);
+      setIsEditing(false);
     });
-    setIsEditing(false);
   };
   const handleCancel = () => {
     if (worker.id < 0) {
@@ -94,14 +99,12 @@ const UserRow: React.FC<UserRowProps> = ({ worker, cafedras, faculties, onSave,o
   const handleFacultyChange = (facultyId: string | null) => {
     setSelectedFaculty(facultyId || '');
     if (!facultyId || (facultyId && !isCafedraInFaculty(faculties, facultyId, selectedCafedra))) {
-      console.log('clear cafedra')
       handleCafedraChange(null);
     }
   };
 
   const handleCafedraChange = (cafedraId: string | null) => {
     setSelectedCafedra(cafedraId);
-    console.log('cleared cafedra')
     if (!cafedraId || (cafedraId && !isGroupInCafedra(cafedras, cafedraId, selectedGroup))) {
       setSelectedGroup(null);
     }
@@ -228,10 +231,10 @@ const UserRow: React.FC<UserRowProps> = ({ worker, cafedras, faculties, onSave,o
       <Table.Td>
         {isEditing ? (
           <Group gap="xs">
-            <ActionIcon color="green" onClick={handleSave}>
+            <ActionIcon color="green" onClick={handleSave} loading={loading}>
               <IconCheck size={16} />
             </ActionIcon>
-            <ActionIcon color="red" onClick={handleCancel}>
+            <ActionIcon color="red" onClick={handleCancel} loading={loading}>
               <IconX size={16} />
             </ActionIcon>
           </Group>

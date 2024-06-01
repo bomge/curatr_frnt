@@ -12,8 +12,8 @@ interface AdminManageProps {
 	cafedras: CafedraInfo[];
 	workers: workerFullInfo[]
 	loading: boolean
-	onSave: (id: number, newName: workerFullInfo) => void;
-	onAdd: (newWorker: workerFullInfo) => void;
+	onSave: (id: number, newName: workerFullInfo) => Promise<void>;
+  onAdd: (newWorker: workerFullInfo) => Promise<void>;
 	onCancel: (id: number) => void;
 }
 
@@ -34,7 +34,7 @@ const AdminManage: React.FC<AdminManageProps> = ({ cafedras, faculties, loading,
 		  cafedra: undefined,
 		  group: undefined,
 		};
-		onAdd(newWorker);
+		onAdd(newWorker).finally(() => setIsAdding(false));
 	  };
 	
 	  const handleCancelAdd = (id: number) => {
@@ -42,8 +42,8 @@ const AdminManage: React.FC<AdminManageProps> = ({ cafedras, faculties, loading,
 		setIsAdding(false);
 	  };
 	
-	  const handleSaveAdd = (id: number, newData: workerFullInfo) => {
-		onSave(id, newData);
+	  const handleSaveAdd = async (id: number, newData: workerFullInfo) => {
+		await onSave(id, newData)
 		setIsAdding(false);
 	  };
 	

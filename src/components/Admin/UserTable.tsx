@@ -9,7 +9,7 @@ interface UserTableProps {
   workers: workerFullInfo[];
   faculties: FacultyInfo[];
 	cafedras: CafedraInfo[];
-  onSave: (id: number, newData: workerFullInfo) => void;
+  onSave: (id: number, newName: workerFullInfo) => Promise<void>;
   onCancel: (id: number) => void;
 }
 

@@ -39,21 +39,43 @@ const AdminPage: React.FC = () => {
     return () => clearTimeout(fetchData);
   }, []);
 
-  const handleSave = (id: number, newData: workerFullInfo) => {
-    setWorkers((prevWorkers) =>
-      prevWorkers.map((worker) =>
-        worker.id === id ? { ...worker, ...newData } : worker
-      )
-    );
-    //monkey patch
-    const workerIndex = testWorkers.findIndex((worker) => worker.id === id);
-    if (workerIndex !== -1) {
-      testWorkers[workerIndex] = { ...testWorkers[workerIndex], ...newData };
-    }
+  const handleSave = (id: number, newData: workerFullInfo): Promise<void> => {
+    return new Promise((resolve) => {
+      const isWorkerEmpty = Object.values(newData).every(value => !value || value < 0); //change to check negative id
+      if (isWorkerEmpty) {
+        return resolve()
+      }
+
+      setTimeout(async () => {
+        const workerIndex = testWorkers.findIndex((worker) => worker.id === id);
+        if(workerIndex ==-1){
+          const maxId = Math.max(...testWorkers.map((worker) => worker.id), 0);
+          newData.id = maxId + 1;
+        }
+        setWorkers((prevWorkers) =>
+          prevWorkers.map((worker) =>
+            worker.id === id ? { ...worker, ...newData } : worker
+          )
+        );
+
+        if (workerIndex !== -1) {
+          testWorkers[workerIndex] = { ...testWorkers[workerIndex], ...newData };
+        } else {
+          if (!isWorkerEmpty) {
+            testWorkers.unshift(newData);
+          }
+          // New worker, add to the main array
+          // handleAdd(newData).finally(()=> resolve())
+        }
+        resolve()
+      }, 500);
+    });
   };
 
-  const handleAdd = (newWorker: workerFullInfo) => {
+  const handleAdd = (newWorker: workerFullInfo): Promise<void> => {
+    console.log('handleAdd', newWorker);
     setWorkers((prevWorkers) => [newWorker, ...prevWorkers]);
+    return Promise.resolve();
   };
 
   const handleCancel = (id: number) => {
