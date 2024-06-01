@@ -17,7 +17,6 @@ const isCafedraInFaculty = (
 	const faculty = faculties.find((f) => String(f.id) === facultyId);
 	if (!faculty) return false;
 	
-	console.log(faculty)
 
 	return faculty.cafedras.some((c) => String(c.id) === cafedraId);
   };

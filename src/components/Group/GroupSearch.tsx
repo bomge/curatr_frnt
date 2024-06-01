@@ -161,12 +161,9 @@ const GroupSearch: React.FC<SearchGroupProps> = ({
 
 	const selectedCafedraData = selectedGroupData ? cafedras?.find((c) => c.groups.find(g => g.id == +selectedGroupData.id)) : null
 	const selectedFacultyData = selectedCafedraData ? faculties?.find((c) => c.cafedras.find(g => g.id == +selectedCafedraData.id)) : null
-	console.log(selectedGroupData)
-	console.log(selectedCafedraData)
 	const groupLeader = selectedGroupData?.leader
 	const handleSave = (updatedGroupData: ExtentedGroup) => {
 		// Update the local state or perform any other necessary actions
-		console.log('Group data updated successfully:', updatedGroupData);
 		onGroupDataUpdated(updatedGroupData)
 		setIsEditing(false); // Turn off editing mode
 	  };

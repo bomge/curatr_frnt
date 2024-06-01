@@ -215,7 +215,6 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({
             }
         }
     };
-console.log('x')
     return (
         <Stack gap="0" maw="150rem">
             <Text fw={600} size="md" mb="1.5rem">

@@ -71,7 +71,6 @@ const EditableGroupDetails: React.FC<EditableGroupDetailsProps> = ({
     // Reset state or perform any other necessary actions
     onCancel();
   };
-  console.log(String(selectedGroupLeader?.id))
   return (
 <>
 
@@ -127,9 +126,7 @@ const EditableGroupDetails: React.FC<EditableGroupDetailsProps> = ({
         setValue={(value) =>
 			{
 
-				console.log(value)
 				setSelectedGroupLeader(groupData.students.find((s) => s.id == value) || null)
-				console.log(groupData.students.find((s) => s.id == value) || null)
 			}
         }
         isEditing={isEditing}

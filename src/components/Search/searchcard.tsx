@@ -15,7 +15,6 @@ const rareRoles = [
 const SearchCard: React.FC<SearchCardProps> = ({ person, isMobile }) => {
 	const isWorker = 'scienceDegree' in person;
 	const fullName = `${person.lastName} ${person.firstName} ${person.surName || ''}`;
-	console.log(person)
 	const additionalInfo = isWorker
 		? `${person.scienceDegree} - ${person.faculty.shortName} ${rareRoles.includes(person.role) ? person.role : ''}`
 		: `Студент ${person.faculty.shortName} - ${person.group.shortName}`;
