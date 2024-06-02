@@ -1,0 +1,9 @@
+.paperSearch {
+	/* background-color:light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-7)); */
+	background-color:light-dark(var(--mantine-color-gray-1), #1f1f1f75);
+}
+
+.paperCard{
+	background-color:light-dark(#ffffffbf, var(--mantine-color-dark-6));
+
+}
