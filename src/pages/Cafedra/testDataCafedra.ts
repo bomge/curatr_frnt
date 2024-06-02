@@ -1,11 +1,11 @@
 import type { workerFullInfo } from "../Admin.page";
 import type { ExtentedGroup } from "../Group/Groups.page";
 // import { extendsGroups } from "../Group/testDataGroup";
-import type { CafedraFullWorker, FacultyFull } from "../Manage.page";
+import type { CafedraFullWorker, FacultyFull, IfreeWorker } from "../Manage.page";
 import type { CafedraInfo, Person, Group, FacultyInfo } from "./Cafedras.page";
 
 export  const persons: Person[] = [
-	{ id: 1, firstName: 'Алексей', lastName: 'Иванов', surName: 'Петрович', role: 'Профессор' },
+	{ id: 1, firstName: 'Алексей', lastName: 'Иванов', surName: 'Петрович', role: 'Профессор', },
 	{ id: 2, firstName: 'Мария', lastName: 'Смирнова', surName: 'Игоревна', role: 'Доктор наук' },
 	{ id: 3, firstName: 'Сергей', lastName: 'Кузнецов', surName: 'Александрович', role: 'Куратор ИП-21' },
 	{ id: 4, firstName: 'Ольга', lastName: 'Попова', surName: 'Владимировна', role: 'Доцент' },
@@ -565,7 +565,89 @@ export  const persons: Person[] = [
 		cafedra: cafedras[7], // СиС is part of ФМиВТ (assuming ФХиБ has no cafедры)
 		group: groups[16], // СИС-32 is part of СиС
 	  }
-]
+] 
+export const freeWorkers:IfreeWorker[] = [
+  {
+    id: 100,
+    firstName: "Александр",
+    lastName: "Петров",
+    surName: "Иванович",
+    scienceDegree: "Кандидат наук",
+    role: "Работник",
+  },
+  {
+    id: 101,
+    firstName: "Елизавета",
+    lastName: "Соколова",
+    surName: "Андреевна",
+    scienceDegree: "Преподаватель",
+    role: "Работник",
+  },
+  {
+    id: 102,
+    firstName: "Даниил",
+    lastName: "Степанов",
+    surName: "Михайлович",
+    scienceDegree: "Лаборант",
+    role: "Работник",
+  },
+  {
+    id: 103,
+    firstName: "Анжелика",
+    lastName: "Волкова",
+    surName: "Владимировна",
+    scienceDegree: "Ассистент",
+    role: "Работник",
+  },
+  {
+    id: 104,
+    firstName: "Егор",
+    lastName: "Ковалев",
+    surName: "Алексеевич",
+    scienceDegree: "Доцент",
+    role: "Работник",
+  },
+  {
+    id: 105,
+    firstName: "Виктория",
+    lastName: "Никитина",
+    surName: "Сергеевна",
+    scienceDegree: "Преподаватель",
+    role: "Работник",
+  },
+  {
+    id: 106,
+    firstName: "Тимур",
+    lastName: "Ахметов",
+    surName: "Ильдарович",
+    scienceDegree: "Кандидат наук",
+    role: "Работник",
+  },
+  {
+    id: 107,
+    firstName: "Ксения",
+    lastName: "Филиппова",
+    surName: "Евгеньевна",
+    scienceDegree: "Преподаватель",
+    role: "Работник",
+  },
+  {
+    id: 108,
+    firstName: "Артем",
+    lastName: "Гусев",
+    surName: "Игоревич",
+    scienceDegree: "Старший преподаватель",
+    role: "Работник",
+  },
+  {
+    id: 109,
+    firstName: "Полина",
+    lastName: "Семенова",
+    surName: "Дмитриевна",
+    scienceDegree: "Ассистент",
+    role: "Работник",
+  },
+];
 export const extendsGroups: ExtentedGroup[] = [
 	{
 	  id: 1,

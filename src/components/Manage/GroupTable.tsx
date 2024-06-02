@@ -12,29 +12,32 @@ interface GroupTableProps {
 	onCancel: (id: number) => void;
 }
 
-const GroupTable: React.FC<GroupTableProps> = ({ groups, cafedraWorkers,onCancel,onSave }) => {
+const GroupTable: React.FC<GroupTableProps> = ({ groups, cafedraWorkers, onCancel, onSave }) => {
 	const colorScheme = useComputedColorScheme();
 	const isDark = colorScheme == 'dark'
 	const rows = groups.map((group) => (
 		<GroupRow
-		  key={group.id}
-		  group={group}
-		  workers={cafedraWorkers}
-		  onSave={onSave}
-		  onCancel={onCancel}
+			key={group.id}
+			group={group}
+			workers={cafedraWorkers}
+			onSave={onSave}
+			onCancel={onCancel}
 		/>
-	  ));
+	));
 	return (
-		<Table withTableBorder stickyHeaderOffset={-5} highlightOnHover highlightOnHoverColor={isDark ? 'dark.6' : 'gray.2'}>
-			<Table.Thead>
-				<Table.Tr>
-					<Table.Th>Имя(кратк)</Table.Th>
-					<Table.Th>Имя(полн)</Table.Th>
-					<Table.Th>Куратор</Table.Th>
-				</Table.Tr>
-			</Table.Thead>
-			<Table.Tbody>{rows}</Table.Tbody>
-		</Table>
+		<Table.ScrollContainer minWidth={600}>
+
+			<Table withTableBorder stickyHeaderOffset={-5} highlightOnHover highlightOnHoverColor={isDark ? 'dark.6' : 'gray.2'} styles={{ tbody: { background: '#f6f5f27d' } }}>
+				<Table.Thead>
+					<Table.Tr>
+						<Table.Th>Имя(кратк)</Table.Th>
+						<Table.Th>Имя(полн)</Table.Th>
+						<Table.Th>Куратор</Table.Th>
+					</Table.Tr>
+				</Table.Thead>
+				<Table.Tbody>{rows}</Table.Tbody>
+			</Table>
+		</Table.ScrollContainer>
 	);
 };
 

@@ -4,7 +4,8 @@ import { Table, ActionIcon, Group, TextInput, Select } from '@mantine/core';
 import { IconCheck, IconPencil, IconX } from '@tabler/icons-react';
 import type { workerFullInfo } from '@/pages/Admin.page';
 import type { ExtentedGroup } from '@/pages/Group/Groups.page';
-
+import styles from './style.module.css'
+import ConfirmCancelBtns from '../TableComponents/ConfirmCancelBtns';
 interface GroupRowProps {
 	group: ExtentedGroup;
 	workers: workerFullInfo[];
@@ -27,10 +28,10 @@ const GroupRow: React.FC<GroupRowProps> = ({ group, workers, onSave, onCancel })
 		// Check if any required field is non-empty
 		const hasNonEmptyFields = shortName || fullName || curatorId
 		const updatedGroup = isNewGroup && hasNonEmptyFields
-		? { ...group, id: Math.abs(group.id) }
-		: group;
-		
-		console.log(group,isNewGroup && hasNonEmptyFields)
+			? { ...group, id: Math.abs(group.id) }
+			: group;
+
+		console.log(group, isNewGroup && hasNonEmptyFields)
 		onSave(group.id, {
 			...updatedGroup,
 			shortName,
@@ -45,18 +46,18 @@ const GroupRow: React.FC<GroupRowProps> = ({ group, workers, onSave, onCancel })
 		}
 		setIsEditing(false);
 	};
-
+	console.log(workers)
 	const curatorOptions = workers
-		.filter(w => w.role !== 'curator')
+		.filter(w => !w.group || w.id == group.curator?.id)
 		.map(w => ({ value: w.id.toString(), label: `${w.lastName} ${w.firstName[0]}.${w.surName ? w.surName[0] : ''}.` }));
 
 	return (
 		<Table.Tr>
 			<Table.Td>
-				{isEditing ? <TextInput value={shortName} onChange={e => setShortName(e.currentTarget.value)} /> : group.shortName}
+				{isEditing ? <TextInput value={shortName} description='Имя(кратк)' onChange={e => setShortName(e.currentTarget.value)} /> : group.shortName}
 			</Table.Td>
 			<Table.Td>
-				{isEditing ? <TextInput value={fullName} onChange={e => setFullName(e.currentTarget.value)} /> : group.fullName}
+				{isEditing ? <TextInput value={fullName} description='Имя(полн)' onChange={e => setFullName(e.currentTarget.value)} /> : group.fullName}
 			</Table.Td>
 			<Table.Td>
 				{isEditing ? (
@@ -65,6 +66,7 @@ const GroupRow: React.FC<GroupRowProps> = ({ group, workers, onSave, onCancel })
 						value={curatorId}
 						onChange={setCuratorId}
 						clearable
+						description='Свободный работник'
 					/>
 				) : (
 					group.curator ? `${group.curator.lastName} ${group.curator.firstName[0]}.${group.curator.surName ? group.curator.surName[0] : ''}.` : '-'

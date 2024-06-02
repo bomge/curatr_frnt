@@ -11,7 +11,7 @@ export interface workerFullInfo extends Person {
   scienceDegree: string;
   faculty?: IInfo;
   cafedra?: IInfo //s.name f.name id
-  group?: IInfo
+  group?: IInfo | null
 }
 
 export interface AdminPageProps {
