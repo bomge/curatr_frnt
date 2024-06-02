@@ -204,29 +204,29 @@ const UserRow: React.FC<UserRowProps> = ({ worker, cafedras, faculties, onSave,o
   return (
     <Table.Tr>
       <Table.Td>
-        <EditableField isEditing={isEditing} value={lastName} onChange={setLastName} />
+        <EditableField isEditing={isEditing} value={lastName} onChange={setLastName} compProps={{description:'Фамилия'}}/>
       </Table.Td>
       <Table.Td>
-        <EditableField isEditing={isEditing} value={firstName} onChange={setFirstName} />
+        <EditableField isEditing={isEditing} value={firstName} onChange={setFirstName} compProps={{description:'Имя'}}/>
       </Table.Td>
       <Table.Td>
-        <EditableField isEditing={isEditing} value={surName} onChange={setSurName} />
+        <EditableField isEditing={isEditing} value={surName} onChange={setSurName} compProps={{description:'Отчество'}}/>
       </Table.Td>
       <Table.Td>
-        <EditableSelectField isEditing={isEditing} value={role} onChange={setRole} options={roles} text={worker.role} />
+        <EditableSelectField isEditing={isEditing} value={role} onChange={setRole} options={roles} text={worker.role} compoProps={{description:'Роль'}}/>
       </Table.Td>
       <Table.Td>
-        <EditableSelectField isEditing={isEditing} value={scienceDegree} onChange={setScienceDegree} text={worker.scienceDegree} options={scienceDegrees} />
+        <EditableSelectField isEditing={isEditing} value={scienceDegree} onChange={setScienceDegree} text={worker.scienceDegree} options={scienceDegrees} compoProps={{description:'Науч. степень'}} />
       </Table.Td>
       <Table.Td>
-        <EditableSelectField isEditing={isEditing} value={selectedFaculty} onChange={handleFacultyChange} options={facultyOptions} text={worker.faculty?.shortName || '-'} compoProps={{ allowDeselect: true, clearable: true }} />
+        <EditableSelectField isEditing={isEditing} value={selectedFaculty} onChange={handleFacultyChange} options={facultyOptions} text={worker.faculty?.shortName || '-'} compoProps={{ allowDeselect: true, clearable: true,description:'Факультет' }} />
       </Table.Td>
       <Table.Td>
         {/* //@ts-ignore */}
-        <EditableSelectField isEditing={isEditing} value={selectedCafedra} onChange={handleCafedraChange} options={cafedraOptions} text={worker.cafedra?.fullName || '-'} compoProps={{ allowDeselect: true, clearable: true }} />
+        <EditableSelectField isEditing={isEditing} value={selectedCafedra} onChange={handleCafedraChange} options={cafedraOptions} text={worker.cafedra?.fullName || '-'} compoProps={{ allowDeselect: true, clearable: true,description:'Кафедра' }} />
       </Table.Td>
       <Table.Td>
-        <EditableSelectField isEditing={isEditing} value={selectedGroup} onChange={setSelectedGroup} options={groupOptions} text={worker.group?.shortName || '-'} compoProps={{ allowDeselect: true, clearable: true, searchable: true }} />
+        <EditableSelectField isEditing={isEditing} value={selectedGroup} onChange={setSelectedGroup} options={groupOptions} text={worker.group?.shortName || '-'} compoProps={{ allowDeselect: true, clearable: true, searchable: true,description:'Группа' }} />
       </Table.Td>
       <Table.Td>
         {isEditing ? (

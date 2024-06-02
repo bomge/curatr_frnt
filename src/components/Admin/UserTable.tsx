@@ -1,9 +1,10 @@
 import type React from 'react';
-import { Table } from '@mantine/core';
+import { Table, useComputedColorScheme } from '@mantine/core';
 import type { ISearchPersonWorker } from '@/pages/Search/Search.page';
 import UserRow from './UserRow';
 import type { workerFullInfo } from '@/pages/Admin.page';
 import type { FacultyInfo, CafedraInfo } from '@/pages/Cafedra/Cafedras.page';
+import { useColorScheme } from '@mantine/hooks';
 
 interface UserTableProps {
   workers: workerFullInfo[];
@@ -17,11 +18,12 @@ const UserTable: React.FC<UserTableProps> = ({ workers,cafedras,faculties, onSav
   const rows = workers.map((worker) => (
     <UserRow key={worker.id} worker={worker} faculties={faculties} cafedras={cafedras} onSave={onSave} onCancel={onCancel}/>
   ));
-
+  const colorScheme = useComputedColorScheme();
+  const isDark = colorScheme == 'dark'
   return (
 	// <Table.ScrollContainer minWidth='70rem'>
 
-    <Table stickyHeader  stickyHeaderOffset={-5} highlightOnHover withTableBorder layout='auto'>
+    <Table stickyHeader  stickyHeaderOffset={-5} highlightOnHover highlightOnHoverColor={isDark?'dark.6':'gray.2'} withTableBorder layout='auto'>
       <Table.Thead>
         <Table.Tr>
           <Table.Th miw='5rem' w='10%'>Фамилия</Table.Th>

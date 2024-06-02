@@ -26,7 +26,8 @@ const HighlightedDay: React.FC<HighlightedDayProps> = ({ date, currentDate, date
 	return (
         <div style={{ position: 'relative', 
 		// backgroundColor: backgroundColor, 
-		borderRadius: '0.25rem',padding: '0.1rem', paddingRight:'0.23rem', paddingLeft:'0.2rem' }}
+        minWidth:'0.5rem',
+		borderRadius: '0.25rem',padding: '0.1rem', paddingRight:'0.23rem', paddingLeft:'0.23rem' }}
 			className={isToday && !isSelected?classes.currentDay:''}
 		>
             {dateEvents.length > 0 && (

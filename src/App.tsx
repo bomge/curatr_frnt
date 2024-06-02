@@ -11,7 +11,7 @@ import './style.module.css'
 import { Notifications } from '@mantine/notifications';
 export default function App() {
   return (
-    <MantineProvider theme={theme} defaultColorScheme='light'>
+    <MantineProvider theme={theme} >
       <Notifications zIndex={100000000} />
       {/* <Router /> */}
       <BrowserRouter>
