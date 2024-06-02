@@ -1,0 +1,26 @@
+p{
+	word-break: break-all;
+}
+
+a{
+	text-decoration: none;
+}
+
+label:has(+ input:required)::after {
+	content: ' *';
+	color: red;
+  }
+
+.confirmBtn{
+	background-color: #00ff83a6;
+}
+
+.cancelBtn{
+	/* background-color: light-dark(#fb6767, #c82323); */
+	background-color: light-dark(#fb6767, #f93a3ab5);
+}
+
+.cancelBtn:hover{
+	/* background-color: light-dark(#fb6767, #c82323); */
+	background-color: light-dark(#f25e5e, #ff35359e);
+}

@@ -72,14 +72,11 @@ const GroupRow: React.FC<GroupRowProps> = ({ group, workers, onSave, onCancel })
 			</Table.Td>
 			<Table.Td>
 				{isEditing ? (
-					<Group>
-						<ActionIcon color="green" onClick={handleSave} loading={loading}>
-							<IconCheck size={16} />
-						</ActionIcon>
-						<ActionIcon color="red" onClick={handleCancel} loading={loading}>
-							<IconX size={16} />
-						</ActionIcon>
-					</Group>
+					<ConfirmCancelBtns
+						onSave={handleSave}
+						onCancel={handleCancel}
+						loading={loading}
+					/>
 				) : (
 					<ActionIcon onClick={handleEdit}>
 						<IconPencil size={16} />

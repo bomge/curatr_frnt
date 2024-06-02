@@ -7,6 +7,7 @@ import EditableField from './EditableField';
 import type { workerFullInfo } from '@/pages/Admin.page';
 import EditableSelectField from './EditableSelectField';
 import type { CafedraInfo, FacultyInfo } from '@/pages/Cafedra/Cafedras.page';
+import ConfirmCancelBtns from '../TableComponents/ConfirmCancelBtns';
 
 const roles = [
   { label: 'Декан', value: 'Декан' },
@@ -230,14 +231,11 @@ const UserRow: React.FC<UserRowProps> = ({ worker, cafedras, faculties, onSave,o
       </Table.Td>
       <Table.Td>
         {isEditing ? (
-          <Group gap="xs">
-            <ActionIcon color="green" onClick={handleSave} loading={loading}>
-              <IconCheck size={16} />
-            </ActionIcon>
-            <ActionIcon color="red" onClick={handleCancel} loading={loading}>
-              <IconX size={16} />
-            </ActionIcon>
-          </Group>
+          <ConfirmCancelBtns
+          onSave={handleSave}
+          onCancel={handleCancel}
+          loading={loading}
+        />
         ) : (
           <ActionIcon onClick={handleEdit}>
             <IconPencil size={16} />

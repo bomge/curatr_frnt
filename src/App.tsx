@@ -7,7 +7,7 @@ import AppRoutes from './components/Routes/AppRoutes';
 import '@mantine/dates/styles.css';
 import '@mantine/notifications/styles.css';
 
-import './style.module.css'
+import './style.css'
 import { Notifications } from '@mantine/notifications';
 export default function App() {
   return (
