@@ -24,6 +24,7 @@ const WorkerTable: React.FC<WorkerTableProps> = ({ workers, groups, onSave, onCa
 	))
 	const colorScheme = useComputedColorScheme();
 	const isDark = colorScheme == 'dark'
+	console.log(workers)
 	return (
 		<Table.ScrollContainer minWidth={600}>
 

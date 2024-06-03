@@ -18,14 +18,14 @@ const RoleBasedGroupSelect: React.FC<RoleBasedGroupSelectProps> = ({ isEditing, 
     value: group.id.toString(),
     label: `${group.shortName}`,
   }));
-
+  console.log(worker?.group?.shortName)
   return role === 'Куратор' ? (
     <EditableSelectField
       isEditing={isEditing}
       value={selectedGroup}
       onChange={onChange}
       options={groupOptions}
-      text={groups.find(g => g.id.toString() === selectedGroup)?.shortName || '-'}
+      text={worker?.group?.shortName || '-'}
       compoProps={{ allowDeselect: true, clearable: true, searchable: true, description: 'Группа' }}
     />
   ) : (

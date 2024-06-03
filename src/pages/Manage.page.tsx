@@ -5,6 +5,7 @@ import type { workerFullInfo } from './Admin.page';
 import type { CafedraInfo, FacultyInfo, Person } from './Cafedra/Cafedras.page';
 import DeanManage from '@/components/Manage/Manage';
 import type { ExtentedGroup } from './Group/Groups.page';
+import { useAuthStore } from '@/store/useAuthStore';
 
 export interface CafedraFullWorker extends CafedraInfo {
   workers: workerFullInfo[]
@@ -23,20 +24,30 @@ const ManagePage: React.FC = () => {
 
   const [loading, setLoading] = useState(true);
   const [faculty, setFaculty] = useState<FacultyFull | null>(null);
+  const [faculties, setFaculties] = useState<FacultyFull[]>([]);
 
   const [freeWorkers, setFreeWorkers] = useState<IfreeWorker[]>([]);
-
+  const { userRole } = useAuthStore();
   useEffect(() => {
     const fetchData = setTimeout(() => {
       setFaculty(testFaculties[1]);
       setFreeWorkers(testFreeWorkers);
+      if (userRole === 'admin') {
+        setFaculties(testFaculties);
+      }
+      // setFaculties(testFaculties);
       setLoading(false);
     }, 500);
 
     return () => clearTimeout(fetchData);
-  }, []);
+  }, [userRole]);
 
-
+  const handleSelectFaculty = async (facultyId: number) => {
+    setLoading(true);
+    const facultyDetails = testFaculties.find(f=>f.id==facultyId) || null;
+    setFaculty(facultyDetails);
+    setLoading(false);
+  };
   const handleSaveGroup = (id: number, newData: ExtentedGroup): Promise<void> => {
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -282,6 +293,9 @@ const ManagePage: React.FC = () => {
       onSaveWorker={handleSaveWorker}
       onAddWorker={handleAddWorker}
       onRemoveWorker={handleRemoveWorker}
+      onSelectFaculty={handleSelectFaculty}
+      faculties={faculties}
+      canSelectFaculty={userRole === 'admin' || userRole === 'prorector'}
     />
   )
 };

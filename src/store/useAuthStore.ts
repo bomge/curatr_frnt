@@ -2,7 +2,7 @@ import create from 'zustand';
 import Cookies from 'js-cookie';
 
 interface DecodedToken {
-  role: 'admin' | 'manager' | 'user';
+  role: 'admin' | 'manager' | 'user' | 'prorector' | 'dean';
   name: string;
 }
 
@@ -19,7 +19,7 @@ function decodeJWT(token: string): DecodedToken | null {
 
 export interface AuthState {
   isAuthenticated: boolean;
-  userRole: 'admin' | 'manager' | 'user' | null;
+  userRole: 'admin' | 'manager' | 'user' | 'prorector' | 'dean' | null;
   userName: string | null;
   setIsAuthenticated: (isAuthenticated: boolean, token: string | null) => void;
   logout: () => void;

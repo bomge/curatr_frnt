@@ -49,7 +49,7 @@ const WorkerRow: React.FC<UserRowProps> = ({groups,onCancel,onSave,worker, onRem
 	const [loading, setLoading] = useState(false);
 
 	const handleEdit = () => setIsEditing(true);
-
+	console.log(worker)
 	const handleSave = () => {
 		setLoading(true);
 	

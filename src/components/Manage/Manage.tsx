@@ -1,6 +1,6 @@
 import { workers, cafedras } from "@/pages/Cafedra/testDataCafedra";
 import type { FacultyFull, IfreeWorker } from "@/pages/Manage.page";
-import { Stack, LoadingOverlay, Group, ActionIcon, Paper, ScrollArea, Text, Accordion, useComputedColorScheme } from "@mantine/core";
+import { Stack, LoadingOverlay, Group, ActionIcon, Paper, ScrollArea, Text, Accordion, useComputedColorScheme, Select } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { IconPlus, IconX } from "@tabler/icons-react";
 import UserTable from "../Admin/UserTable";
@@ -11,6 +11,7 @@ import type { ExtentedGroup } from "@/pages/Group/Groups.page";
 import type { workerFullInfo } from "@/pages/Admin.page";
 import { useState } from "react";
 import WorkerAdd from "./WorkerAdd";
+import { useAuthStore } from "@/store/useAuthStore";
 
 interface DeanManageProps {
 	faculty: FacultyFull | null;
@@ -22,9 +23,12 @@ interface DeanManageProps {
 	onSaveWorker: (id: number, newData: workerFullInfo) => Promise<void>;
 	onAddWorker: (cafedraId: number, newWorker: workerFullInfo) => Promise<void>;
 	onRemoveWorker: (cafedraId: number,workerId: number) => Promise<void>;
+	onSelectFaculty: (facultyId: number) => void;
+	faculties?:FacultyFull[]
+	canSelectFaculty: boolean;
 }
 
-const DeanManage: React.FC<DeanManageProps> = ({ faculty, loading, onSaveGroup, onAddGroup, onCancelGroup, onSaveWorker, freeWorkers, onAddWorker,onRemoveWorker }) => {
+const DeanManage: React.FC<DeanManageProps> = ({ faculty, loading, onSaveGroup, onAddGroup, onCancelGroup, onSaveWorker, freeWorkers, onAddWorker,onRemoveWorker, onSelectFaculty, faculties,canSelectFaculty }) => {
 	const isMobile = useMediaQuery('(max-width: 600px)');
 	const [addingWorker, setAddingWorker] = useState<number | null>(null);
 
@@ -72,6 +76,17 @@ const DeanManage: React.FC<DeanManageProps> = ({ faculty, loading, onSaveGroup, 
 		<Text fw={700} size="md" ta='center' mb='1rem'>
 			{faculty?.shortName}
 		</Text>
+		{canSelectFaculty && (
+        <Select
+          label="Выберите факультет"
+          placeholder="Факультеты"
+          value={faculty?.id.toString()}
+          onChange={(value) => onSelectFaculty(Number(value))}
+          data={faculties?.map(fac => ({ value: fac.id.toString(), label: fac.shortName }))}
+          mb='1rem'
+		  maw='10rem'
+        />
+      )}
 		<Paper shadow="xs" p="0"
 			// bg='gray.1'
 			className={classes.paperSearch}
