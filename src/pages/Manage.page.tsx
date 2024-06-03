@@ -281,6 +281,37 @@ const ManagePage: React.FC = () => {
     });
   };
   
+  // const handleAddCafedra = async (newCafedra: CafedraInfo) => {
+  //   setLoading(true);
+  //   await addCafedra(faculty!.id, newCafedra);
+  //   handleSelectFaculty(faculty!.id); // Refresh the current faculty data
+  // };
+
+  const handleAddCafedra = async (newCafedra: CafedraFullWorker) => {
+    setLoading(true);
+    setFaculty((prevFaculty) => {
+      if (!prevFaculty) return prevFaculty;
+      const updatedFaculty = {
+        ...prevFaculty,
+        cafedras: [...prevFaculty.cafedras, newCafedra],
+      };
+
+      setFaculties((prevFaculties) =>
+        prevFaculties.map((fac) =>
+          fac.id === prevFaculty.id ? updatedFaculty : fac
+        )
+      );
+
+      // Update the testFaculties array
+      const updatedTestFaculties = testFaculties.map((fac) =>
+        fac.id === prevFaculty.id ? updatedFaculty : fac
+      );
+      testFaculties.splice(0, testFaculties.length, ...updatedTestFaculties);
+
+      return updatedFaculty;
+    });
+    setLoading(false);
+  };
 
   return (
     <DeanManage
@@ -296,6 +327,7 @@ const ManagePage: React.FC = () => {
       onSelectFaculty={handleSelectFaculty}
       faculties={faculties}
       canSelectFaculty={userRole === 'admin' || userRole === 'prorector'}
+      onAddCafedra={handleAddCafedra}
     />
   )
 };

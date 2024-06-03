@@ -39,6 +39,7 @@ const WorkerAdd: React.FC<AddWorkerProps> = ({ cafedraId, freeWorkers, onAddWork
     <Group gap='0.25rem' mb='0.2rem'>
       <Select
         placeholder="Выберите работника"
+        description='Работник без кафедры'
         data={freeWorkers.map(worker => ({
           value: worker.id.toString(),
           label: `${worker.firstName} ${worker.lastName}`

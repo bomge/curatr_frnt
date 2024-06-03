@@ -1,5 +1,5 @@
 import { workers, cafedras } from "@/pages/Cafedra/testDataCafedra";
-import type { FacultyFull, IfreeWorker } from "@/pages/Manage.page";
+import type { CafedraFullWorker, FacultyFull, IfreeWorker } from "@/pages/Manage.page";
 import { Stack, LoadingOverlay, Group, ActionIcon, Paper, ScrollArea, Text, Accordion, useComputedColorScheme, Select } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { IconPlus, IconX } from "@tabler/icons-react";
@@ -12,6 +12,8 @@ import type { workerFullInfo } from "@/pages/Admin.page";
 import { useState } from "react";
 import WorkerAdd from "./WorkerAdd";
 import { useAuthStore } from "@/store/useAuthStore";
+import type { CafedraInfo } from "@/pages/Cafedra/Cafedras.page";
+import AddCafedra from "./AddCafedra";
 
 interface DeanManageProps {
 	faculty: FacultyFull | null;
@@ -26,9 +28,10 @@ interface DeanManageProps {
 	onSelectFaculty: (facultyId: number) => void;
 	faculties?:FacultyFull[]
 	canSelectFaculty: boolean;
+	onAddCafedra: (newCafedra: CafedraFullWorker) => Promise<void>;
 }
 
-const DeanManage: React.FC<DeanManageProps> = ({ faculty, loading, onSaveGroup, onAddGroup, onCancelGroup, onSaveWorker, freeWorkers, onAddWorker,onRemoveWorker, onSelectFaculty, faculties,canSelectFaculty }) => {
+const DeanManage: React.FC<DeanManageProps> = ({ faculty, loading, onSaveGroup, onAddGroup, onCancelGroup, onSaveWorker, freeWorkers, onAddWorker,onRemoveWorker, onSelectFaculty, faculties,canSelectFaculty,onAddCafedra }) => {
 	const isMobile = useMediaQuery('(max-width: 600px)');
 	const [addingWorker, setAddingWorker] = useState<number | null>(null);
 
@@ -96,7 +99,7 @@ const DeanManage: React.FC<DeanManageProps> = ({ faculty, loading, onSaveGroup, 
 				styles={{ control: { boxShadow: '0 0 0 0.2px #0000001f' } }}
 			>
 				{faculty?.cafedras.map((cafedra) => (
-					<Accordion.Item key={cafedra.id} value={cafedra.shortName}>
+					<Accordion.Item key={cafedra.id} value={String(cafedra.id)}>
 						<Accordion.Control>Кафедра {cafedra.fullName}</Accordion.Control>
 						<Accordion.Panel bg={isDark ? 'dark.8' : "gray.0"}>
 							<Group gap='0.2rem' mb='0.2rem'>
@@ -130,6 +133,7 @@ const DeanManage: React.FC<DeanManageProps> = ({ faculty, loading, onSaveGroup, 
 				))}
 			</Accordion>
 		</Paper>
+			<AddCafedra onAddCafedra={onAddCafedra} />
 	</Stack>
 }
 

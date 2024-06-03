@@ -80,7 +80,7 @@ const GroupRow: React.FC<GroupRowProps> = ({ group, workers, onSave, onCancel })
 						loading={loading}
 					/>
 				) : (
-					<ActionIcon onClick={handleEdit}>
+					<ActionIcon onClick={handleEdit} color="blue.5">
 						<IconPencil size={16} />
 					</ActionIcon>
 				)}

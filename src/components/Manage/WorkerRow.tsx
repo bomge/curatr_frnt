@@ -128,7 +128,7 @@ const WorkerRow: React.FC<UserRowProps> = ({groups,onCancel,onSave,worker, onRem
 			) : (
 				<Group gap='xs'>
 				
-			  <ActionIcon onClick={handleEdit} disabled={loading}>
+			  <ActionIcon onClick={handleEdit} color="blue.5" disabled={loading}>
 				<IconPencil size={16} />
 			  </ActionIcon>
 			  <ActionIcon loading={loading} onClick={handleRemove} variant="subtle" color="red">
