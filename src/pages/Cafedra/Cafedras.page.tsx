@@ -23,8 +23,8 @@ export interface CafedraInfo {
   id: number;
   shortName: string;
   fullName: string;
-  dean: Person;
-  headCafedra: Person;
+  dean: Person | null;
+  headCafedra: Person | null;
   workers: Person[];
   groups: Group[];
 }

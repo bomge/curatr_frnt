@@ -12,6 +12,7 @@ const eventData = {
 	  name: 'Alex Durov',
 	  id: 1,
 	},
+	initiator:'Администрация',
 	groups: [{ id: 1, name: 'IT-21' }, { id: 2, name: 'IT-22' }],
 	isImportant: false,
 	description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl nec ultricies lacinia, nunc nisl aliquam nisl, eget aliquam nisl nisl eu nisl.',

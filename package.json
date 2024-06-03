@@ -19,10 +19,11 @@
     "storybook:build": "storybook build"
   },
   "dependencies": {
-    "@mantine/core": "7.9.1",
+    "@mantine/charts": "^7.10.1",
+    "@mantine/core": "^7.9.1",
     "@mantine/dates": "^7.9.1",
     "@mantine/emotion": "^7.9.1",
-    "@mantine/hooks": "7.9.1",
+    "@mantine/hooks": "^7.9.1",
     "@mantine/notifications": "^7.9.1",
     "@tabler/icons": "^3.3.0",
     "@tabler/icons-react": "^3.3.0",
@@ -33,6 +34,7 @@
     "react-persist": "^1.0.2",
     "react-quill": "^2.0.0",
     "react-router-dom": "^6.22.3",
+    "recharts": "^2.12.7",
     "yup": "^1.4.0",
     "zustand": "^4.5.2"
   },

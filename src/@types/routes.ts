@@ -1,6 +1,6 @@
 import { ReactNode, type LazyExoticComponent } from 'react';
 
-export type Role = 'admin' | 'manager' | 'user';
+export type Role = 'admin' | 'manager' | 'user' | 'dean';
 
 export type Route = {
   key: string;

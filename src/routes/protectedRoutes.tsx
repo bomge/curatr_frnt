@@ -6,7 +6,6 @@ const protectedRoutes_: Routes = [
 		key: 'dashboard',
 		path: '/main',
 		component: lazy(() => import('@/pages/Main/Main.page')),
-		role: ['admin', 'manager', 'user'],
 	},
 	{
 		key: 'admin',
@@ -18,19 +17,17 @@ const protectedRoutes_: Routes = [
 		key: 'manage',
 		path: '/manage',
 		component: lazy(() => import('@/pages/Manage.page')),
-		role: ['admin', 'manager'],
+		role: ['admin', 'manager','dean'],
 	},
 	{
 		key: 'event-detail',
 		path: '/event/:id',
 		component: lazy(() => import('@/pages/Event.page')),
-		role: ['admin', 'manager', 'user'], // Adjust roles as needed
 	},
 	{
 		key: 'profile-detail',
 		path: '/profile/:id',
 		component: lazy(() => import('@/pages/Profile.page')),
-		role: ['admin', 'manager', 'user'], // Adjust roles as needed
 	},
 	{
 		key: 'student-detail',

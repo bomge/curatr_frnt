@@ -6,6 +6,7 @@ import { BrowserRouter } from 'react-router-dom';
 import AppRoutes from './components/Routes/AppRoutes';
 import '@mantine/dates/styles.css';
 import '@mantine/notifications/styles.css';
+import '@mantine/charts/styles.css';
 
 import './style.css'
 import { Notifications } from '@mantine/notifications';

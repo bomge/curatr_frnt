@@ -46,6 +46,7 @@ interface EventData {
     status: string;
     isImportant: boolean;
     creator: EventCreator;
+    initiator:string
 }
 
 const eventTypeColor: Record<string, string> = {
@@ -151,6 +152,7 @@ const EventDetails: React.FC<EventDetailsProps> = ({
     const [eventType, setEventType] = useState(eventData.type);
     const [description, setDescription] = useState(eventData.description);
     const [selectedStatus, setSelectedStatus] = useState(eventData.status);
+    const [initiator, setInitiator] = useState(eventData.initiator);
     const [isImportant, setIsImportant] = useState(eventData.isImportant);
 
     const isMobile = !!useMediaQuery('(max-width: 600px)');
@@ -186,6 +188,7 @@ const EventDetails: React.FC<EventDetailsProps> = ({
             eventData.description = description;
             eventData.type = eventType;
             eventData.status = selectedStatus;
+            eventData.initiator = initiator;
             
             eventData.isImportant = isImportant;
             toggleEditing();
@@ -217,7 +220,8 @@ const EventDetails: React.FC<EventDetailsProps> = ({
         allGroups,
         eventData,
         toggleEditing,
-        isImportant
+        isImportant,
+        initiator
     ]);
 
     return (
@@ -320,6 +324,14 @@ const EventDetails: React.FC<EventDetailsProps> = ({
                             value={`${eventData.creator.name}`}
                             setValue={() => {}}
                             isEditing={false} // Set isEditing to false for non-editable field
+                            isMobile={isMobile}
+                            component={EditableTextField}
+                        />
+                        <EditableField
+                            label="Инициатор"
+                            value={`${eventData.initiator}`}
+                            setValue={() => {}}
+                            isEditing={isEditing} // Set isEditing to false for non-editable field
                             isMobile={isMobile}
                             component={EditableTextField}
                         />
