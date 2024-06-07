@@ -1,18 +1,13 @@
 import AdminManage from '@/components/Admin/AdminManage';
 import type React from 'react';
-import type { IInfo, ISearchPersonWorker } from './Search/Search.page';
-import type { CafedraInfo, FacultyInfo, Group, Person } from './Cafedra/Cafedras.page';
 // import { workers as testWorkers } from './Search/testDataSearch'
 import { faculties as testFaculties, cafedras as testCafedras, workers as testWorkers } from './Cafedra/testDataCafedra';
 import { useEffect, useState } from 'react';
+import type { workerFullInfo } from '@/@types/persons';
+import type { CafedraInfo } from '@/@types/cafedra';
+import type { FacultyInfo } from '@/@types/faculty';
 
-export interface workerFullInfo extends Person {
-  avatar?: string;
-  scienceDegree: string;
-  faculty?: IInfo;
-  cafedra?: IInfo //s.name f.name id
-  group?: IInfo | null
-}
+
 
 export interface AdminPageProps {
   workers: workerFullInfo[]

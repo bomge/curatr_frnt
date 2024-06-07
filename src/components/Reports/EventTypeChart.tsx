@@ -7,8 +7,15 @@ interface EventTypeChartProps {
   events: IEvent[];
 }
 
+const colors ={
+  'Академическое' : 'violet.6',
+  'Культурное': 'blue.6',
+    'Спортивное':'teal.6',
+    'Социальное': 'orange.6',
+    'Административное': 'grape.6',
+}
+
 const EventTypeChart: React.FC<EventTypeChartProps> = ({ events }) => {
-  const colors = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042','gray.6'];
 
   const data: PieChartCell[] = events.reduce((acc, event) => {
     const found = acc.find(item => item.name === event.type);
@@ -16,7 +23,7 @@ const EventTypeChart: React.FC<EventTypeChartProps> = ({ events }) => {
       found.value += 1;
     } else {
       acc.push({ name: event.type, value: 1, 
-		color: colors[acc.length % colors.length] 
+		color: colors[event.type] || 'gray' 
 	});
     }
     return acc;

@@ -20,6 +20,11 @@ const protectedRoutes_: Routes = [
 		role: ['admin', 'manager','dean'],
 	},
 	{
+		key: 'event-new',
+		path: '/event/new',
+		component: lazy(() => import('@/pages/Event.page')),
+	},
+	{
 		key: 'event-detail',
 		path: '/event/:id',
 		component: lazy(() => import('@/pages/Event.page')),

@@ -1,25 +1,15 @@
 import CafedraSearch from "@/components/Cafedra/CafedraSearch";
 import { useState, useEffect, useCallback } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import type { CafedraInfo, FacultyInfo, Group, Person } from "../Cafedra/Cafedras.page";
 import { persons } from "../Cafedra/testDataCafedra";
 import { faculties as testFaculties } from '../Cafedra/testDataCafedra';
 import GroupSearch from "@/components/Group/GroupSearch";
 import { cafedras_w_extendGr, students2 } from "./testDataGroup";
+import type { ExtendedCafedra } from "@/@types/cafedra";
+import type { ExtentedGroup } from "@/@types/group";
+import type { FacultyInfo } from "@/@types/faculty";
 
-export interface ExtentedGroup extends Group {
-	students: Student[]
-	curator?: Person | null
-	leader?: Person | null
-}
 
-export interface Student extends Person {
-	isLeader?: boolean
-}
-
-export interface ExtendedCafedra extends CafedraInfo {
-	groups: ExtentedGroup[];
-}
 
 
 //temp fix

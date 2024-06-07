@@ -669,7 +669,7 @@ export const EditableMultiSelectField: React.FC<EditableMultiSelectFieldProps> =
                             )}
                         </>
                     ) : (
-                        <Text>No groups selected</Text>
+                        <Text>Не выбраны</Text>
                     )}
                 </>
             )}

@@ -1,15 +1,34 @@
 import type React from 'react';
 import { useMemo } from 'react';
-import { BarChart, type BarChartEntry } from '@mantine/charts';
+import { BarChart, type BarChartType } from '@mantine/charts';
 import type { IEvent, IEventType } from '@/pages/Main/types';
 
 interface EventsByDateChartProps {
   events: IEvent[];
 }
 
-const transformEventsToDateData = (events: IEvent[]): BarChartEntry[] => {
+const transformEventsToDateData = (events: IEvent[]): BarChartType[] => {
   const dailyData: Record<string, Record<IEventType, number>> = {};
 
+  // Find the minimum and maximum dates from the events
+  const minDate = new Date(Math.min(...events.map(event => new Date(event.startDate).getTime())));
+  const maxDate = new Date(Math.max(...events.map(event => new Date(event.endDate).getTime())));
+
+  // Initialize dailyData with all dates within the range and set count to 0 for each event type
+  let currentDate = new Date(minDate);
+  while (currentDate <= maxDate) {
+    const day = currentDate.toLocaleDateString();
+    dailyData[day] = {
+      'Академическое': 0,
+      'Культурное': 0,
+      'Спортивное': 0,
+      'Социальное': 0,
+      'Административное': 0,
+    };
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
+
+  // Count the events for each date and event type
   events.forEach(event => {
     const startDate = new Date(event.startDate);
     const endDate = new Date(event.endDate);
@@ -19,23 +38,12 @@ const transformEventsToDateData = (events: IEvent[]): BarChartEntry[] => {
 
     while (currentDate <= endDate) {
       const day = currentDate.toLocaleDateString();
-
-      if (!dailyData[day]) {
-        dailyData[day] = {
-          'Академическое': 0,
-          'Культурное': 0,
-          'Спортивное': 0,
-          'Социальное': 0,
-        };
-      }
-
       dailyData[day][eventType]++;
-
       currentDate.setDate(currentDate.getDate() + 1);
     }
   });
 
-  const chartData: BarChartEntry[] = [];
+  const chartData: BarChartType[] = [];
 
   for (const day in dailyData) {
     const dayData = dailyData[day];
@@ -45,6 +53,7 @@ const transformEventsToDateData = (events: IEvent[]): BarChartEntry[] => {
       'Культурное': dayData['Культурное'],
       'Спортивное': dayData['Спортивное'],
       'Социальное': dayData['Социальное'],
+      'Административное': dayData['Административное'],
     });
   }
 
@@ -71,6 +80,7 @@ const EventsByDateChart: React.FC<EventsByDateChartProps> = ({ events }) => {
         { name: 'Культурное', color: 'blue.6' },
         { name: 'Спортивное', color: 'teal.6' },
         { name: 'Социальное', color: 'orange.6' },
+        { name: 'Административное', color: 'grape.6' },
       ]}
       tickLine="y"
 	  type="stacked"

@@ -1,24 +1,13 @@
 import type React from 'react';
 import { facultiesFull as testFaculties, freeWorkers as testFreeWorkers } from './Cafedra/testDataCafedra';
 import { useState, useEffect } from 'react';
-import type { workerFullInfo } from './Admin.page';
-import type { CafedraInfo, FacultyInfo, Person } from './Cafedra/Cafedras.page';
 import DeanManage from '@/components/Manage/Manage';
-import type { ExtentedGroup } from './Group/Groups.page';
 import { useAuthStore } from '@/store/useAuthStore';
+import type { CafedraFullWorker } from '@/@types/cafedra';
+import type { FacultyFull } from '@/@types/faculty';
+import type { ExtentedGroup } from '@/@types/group';
+import type { IfreeWorker, workerFullInfo } from '@/@types/persons';
 
-export interface CafedraFullWorker extends CafedraInfo {
-  workers: workerFullInfo[]
-  groups: ExtentedGroup[]
-}
-
-export interface FacultyFull extends FacultyInfo {
-  cafedras: CafedraFullWorker[]
-}
-
-export interface IfreeWorker extends Person {
-  scienceDegree: string
-}
 
 const ManagePage: React.FC = () => {
 

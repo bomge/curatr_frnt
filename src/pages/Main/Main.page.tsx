@@ -21,6 +21,7 @@ import { useState } from 'react';
 import { MobileStackPcGroup } from '@/components/Fields/EditableField';
 import FormattedDateTime from '@/components/EventCard/FormattedDateTime';
 import HighlightedDay from '@/components/Main/HighlightedDay';
+import { node } from 'prop-types';
 
 export const eventTypeColor = {
     'Академическое': 'indigo',
@@ -105,31 +106,31 @@ const MainPage = () => {
 
     const getYearControlProps: DatePickerProps['getYearControlProps'] = (date) => {
         if (date.getFullYear() === new Date().getFullYear()) {
-          return {
-            style: {
-              color: 'var(--mantine-color-blue-filled)',
-              fontWeight: 700,
-            },
-          };
+            return {
+                style: {
+                    color: 'var(--mantine-color-blue-filled)',
+                    fontWeight: 700,
+                },
+            };
         }
-      
-      
+
+
         return {};
-      };
-      
-      const getMonthControlProps: DatePickerProps['getMonthControlProps'] = (date) => {
+    };
+
+    const getMonthControlProps: DatePickerProps['getMonthControlProps'] = (date) => {
         if (date.getMonth() === new Date().getMonth() && date.getFullYear() === new Date().getFullYear()) {
-          return {
-            style: {
-              color: 'var(--mantine-color-blue-filled)',
-              fontWeight: 700,
-            },
-          };
+            return {
+                style: {
+                    color: 'var(--mantine-color-blue-filled)',
+                    fontWeight: 700,
+                },
+            };
         }
-      
-      
+
+
         return {};
-      };
+    };
 
     return (
         <Stack align="center" mt='md'>
@@ -152,7 +153,7 @@ const MainPage = () => {
                                 const endDate = new Date(event.endDate);
                                 return (
                                     +startDate <=
-                                        date.setHours(23, 59, 59, 999) &&
+                                    date.setHours(23, 59, 59, 999) &&
                                     +endDate >= date.setHours(0, 0, 0, 0)
                                 );
                             });
@@ -160,12 +161,12 @@ const MainPage = () => {
                                 getIndicatorColor(dateEvents);
                             return (
                                 <HighlightedDay
-                                date={date}
-                                currentDate={currentDate}
-                                dateEvents={dateEvents}
-                                indicatorColor={indicatorColor}
-                                selectedDate={selectedDate}
-                            />
+                                    date={date}
+                                    currentDate={currentDate}
+                                    dateEvents={dateEvents}
+                                    indicatorColor={indicatorColor}
+                                    selectedDate={selectedDate}
+                                />
                             );
                         }}
                         getYearControlProps={getYearControlProps}
@@ -173,131 +174,133 @@ const MainPage = () => {
                     />
                 </Paper>
 
-                <Button style={{ alignSelf:  isMobile?'' :'flex-start' }}>
-                    Создать мероприятие
-                </Button>
+                <Link to='/event/new' style={{textDecoration:'none', color:'inherit',alignSelf: isMobile ? '' : 'flex-start'}}>
+                    <Button style={{ alignSelf: isMobile ? '' : 'flex-start' }}>
+
+                        Создать мероприятие
+                    </Button>
+                </Link>
             </MobileStackPcGroup>
             <Stack>
                 {filteredEvents.length > 0 ? (
                     filteredEvents
-                    .sort((a, b) => {
-                        const aIsЗавершено = a.status === "Отменено" || a.status === "Завершено";
-                        const bIsЗавершено = b.status === "Отменено" || b.status === "Завершено";
-                      
-                        // If both events have the same completion status
-                        if (aIsЗавершено === bIsЗавершено) {
-                          // Sort by startDate
-                          return +new Date(a.startDate) - +new Date(b.startDate);
-                        }
-                      
-                        // Sort by completion status (active events first)
-                        return aIsЗавершено ? 1 : -1;
-                      })
-                        .map((event) => (
-                            <Link to='/event/1'  style={{ textDecoration: "none" }}>
-                            <Card
-                                shadow="sm"
-                                key={event.id}
-                                data-id={`event-${event.id}`}
-                                className={`${styles.card} ${
-                                    event.status === 'Завершено' ||
-                                    event.status === 'Отменено'
-                                        ? styles.cardЗавершено
-                                        : ''
-                                }`}
-                            >
-                                
+                        .sort((a, b) => {
+                            const aIsЗавершено = a.status === "Отменено" || a.status === "Завершено";
+                            const bIsЗавершено = b.status === "Отменено" || b.status === "Завершено";
 
-                                <Group>
-                                    <Text size="xs">
-                                    <FormattedDateTime date={event.startDate} />
-                                        {' - '}
-                                        <FormattedDateTime date={event.endDate} size='xs'/>{' '}
-                                        <Text size="xs" color="cyan">
-                                            {+new Date(event.endDate) <
-                                            Date.now()
-                                                ? `(${formatDistance(
-                                                      new Date(event.endDate),
-                                                      Date.now(),
-                                                      {
-                                                          addSuffix: true,
-                                                          locale: ru,
-                                                      },
-                                                  )})`
-                                                : +new Date(event.startDate) >
-                                                      Date.now()
-                                                  ? `(через ${formatDistance(
-                                                          new Date(
-                                                              event.startDate,
-                                                          ),
-                                                          Date.now(),
-                                                          {
-                                                              locale: ru,
-                                                          },
-                                                      )})`
-                                                  : '(активно)'}
+                            // If both events have the same completion status
+                            if (aIsЗавершено === bIsЗавершено) {
+                                // Sort by startDate
+                                return +new Date(a.startDate) - +new Date(b.startDate);
+                            }
+
+                            // Sort by completion status (active events first)
+                            return aIsЗавершено ? 1 : -1;
+                        })
+                        .map((event) => (
+                            <Link to='/event/1' style={{ textDecoration: "none" }}>
+                                <Card
+                                    shadow="sm"
+                                    key={event.id}
+                                    data-id={`event-${event.id}`}
+                                    className={`${styles.card} ${event.status === 'Завершено' ||
+                                            event.status === 'Отменено'
+                                            ? styles.cardЗавершено
+                                            : ''
+                                        }`}
+                                >
+
+
+                                    <Group>
+                                        <Text size="xs">
+                                            <FormattedDateTime date={event.startDate} />
+                                            {' - '}
+                                            <FormattedDateTime date={event.endDate} size='xs' />{' '}
+                                            <Text size="xs" color="cyan">
+                                                {+new Date(event.endDate) <
+                                                    Date.now()
+                                                    ? `(${formatDistance(
+                                                        new Date(event.endDate),
+                                                        Date.now(),
+                                                        {
+                                                            addSuffix: true,
+                                                            locale: ru,
+                                                        },
+                                                    )})`
+                                                    : +new Date(event.startDate) >
+                                                        Date.now()
+                                                        ? `(через ${formatDistance(
+                                                            new Date(
+                                                                event.startDate,
+                                                            ),
+                                                            Date.now(),
+                                                            {
+                                                                locale: ru,
+                                                            },
+                                                        )})`
+                                                        : '(активно)'}
+                                            </Text>
                                         </Text>
-                                    </Text>
-                                    <Group mb="0.5rem" gap='xs'>
-                                        <Badge
-                                            variant="light"
-                                            //@ts-ignore
-                                            color={eventTypeColor[event.type] || 'teal'}
-                                        >
-                                            {event.type}
-                                        </Badge>
-                                        <Badge
-                                            color={
-                                            //@ts-ignore
-                                            eventStatusColor[event.status]  || 'teal'
-                                            }
-                                        >
-                                            {event.status}
-                                        </Badge>
-                                        {event.isImportant ? (
-                                            <Badge color="red">
-                                                Важное❗️
+                                        <Group mb="0.5rem" gap='xs'>
+                                            <Badge
+                                                variant="light"
+                                                //@ts-ignore
+                                                color={eventTypeColor[event.type] || 'teal'}
+                                            >
+                                                {event.type}
                                             </Badge>
-                                        ) : (
-                                            ''
-                                        )}
+                                            <Badge
+                                                color={
+                                                    //@ts-ignore
+                                                    eventStatusColor[event.status] || 'teal'
+                                                }
+                                            >
+                                                {event.status}
+                                            </Badge>
+                                            {event.isImportant ? (
+                                                <Badge color="red">
+                                                    Важное❗️
+                                                </Badge>
+                                            ) : (
+                                                ''
+                                            )}
+                                        </Group>
                                     </Group>
-                                </Group>
-                                <Group align="center">
-                                    <Text size="lg" mb="0">
-                                        {event.name}
+                                    <Group align="center">
+                                        <Text size="lg" mb="0">
+                                            {event.name}
+                                        </Text>
+                                        <Text color="dimmed" size="sm">
+                                            {event.creator}
+                                        </Text>
+                                    </Group>
+                                    <Text color="dimmed">
+                                        {expandedEvents.includes(event.id) ? (
+                                            // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
+                                            <span
+                                                onClick={() =>
+                                                    toggleEventExpansion(event.id)
+                                                }
+                                                style={{ cursor: 'pointer' }}
+                                            >
+                                                {event.groups.join(', ')}
+                                            </span>
+                                        ) : (
+                                            // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
+                                            <span
+                                                onClick={() =>
+                                                    toggleEventExpansion(event.id)
+                                                }
+                                                style={{ cursor: 'pointer' }}
+                                            >
+                                                {event.groups
+                                                    .slice(0, 3)
+                                                    .join(', ')}
+                                                {event.groups.length > 3 && '...'}
+                                            </span>
+                                        )}
                                     </Text>
-                                    <Text color="dimmed" size="sm">
-                                        {event.creator}
-                                    </Text>
-                                </Group>
-                                <Text color="dimmed">
-                                    {expandedEvents.includes(event.id) ? (
-                                        // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
-                                        <span
-                                            onClick={() =>
-                                                toggleEventExpansion(event.id)
-                                            }
-                                            style={{ cursor: 'pointer' }}
-                                        >
-                                            {event.groups.join(', ')}
-                                        </span>
-                                    ) : (
-                                        // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
-                                        <span
-                                            onClick={() =>
-                                                toggleEventExpansion(event.id)
-                                            }
-                                            style={{ cursor: 'pointer' }}
-                                        >
-                                            {event.groups
-                                                .slice(0, 3)
-                                                .join(', ')}
-                                            {event.groups.length > 3 && '...'}
-                                        </span>
-                                    )}
-                                </Text>
-                            </Card>
+                                </Card>
                             </Link>
 
                         ))

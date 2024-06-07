@@ -25,7 +25,6 @@ import {
 import { EditableField } from '../Fields/EditableField';
 import { EditableDateTimeField, EditableSelectField, EditableTextField, EditableCheckboxField, DateTimeFieldWithButtons, EditableMultiSelectField, EditableRichTextField } from '../Fields/OtherFields';
 
-
 interface EventGroup {
     id: number;
     name: string;
@@ -46,8 +45,9 @@ interface EventData {
     status: string;
     isImportant: boolean;
     creator: EventCreator;
-    initiator:string
+    initiator: string;
 }
+
 
 const eventTypeColor: Record<string, string> = {
     'Академическое': 'indigo',
@@ -77,7 +77,7 @@ const validationSchema = Yup.object().shape({
     description: Yup.string(),
     groups: Yup.array()
         .of(Yup.string())
-        .min(1, 'At least one group is required'),
+        .min(0, 'At least one group is required'),
 });
 type FormErrors = {
     [K in keyof typeof validationSchema.fields]?: string;
@@ -85,7 +85,7 @@ type FormErrors = {
 type errorKeyValue = { [key: string]: string };
 export function isYupValidationError(error: unknown): error is Yup.ValidationError {
     return error instanceof Yup.ValidationError;
-  }
+}
 interface EventNameProps {
     isEditing: boolean;
     name: string;
@@ -135,13 +135,15 @@ const EventBadges: React.FC<EventBadgesProps> =
 interface EventDetailsProps {
     eventData: EventData;
     allGroups: EventGroup[];
+    isCreating: boolean;
 }
 
 const EventDetails: React.FC<EventDetailsProps> = ({
     eventData,
     allGroups,
+    isCreating
 }) => {
-    const [isEditing, setIsEditing] = useState(false);
+    const [isEditing, setIsEditing] = useState(isCreating);
     const [errors, setErrors] = useState<FormErrors>({});
     const [selectedGroups, setSelectedGroups] = useState(
         eventData.groups.map((group) => group.id.toString()),
@@ -156,7 +158,7 @@ const EventDetails: React.FC<EventDetailsProps> = ({
     const [isImportant, setIsImportant] = useState(eventData.isImportant);
 
     const isMobile = !!useMediaQuery('(max-width: 600px)');
-
+    console.log(description)
     const toggleEditing = useCallback(
         () => setIsEditing(!isEditing),
         [isEditing],
@@ -189,13 +191,11 @@ const EventDetails: React.FC<EventDetailsProps> = ({
             eventData.type = eventType;
             eventData.status = selectedStatus;
             eventData.initiator = initiator;
-            
+
             eventData.isImportant = isImportant;
             toggleEditing();
             setErrors({});
-            showSuccessNotification(
-                'Данные мероприятия были успешно обновлены',
-            );
+            showSuccessNotification(isCreating ? 'Новое мероприятие было успешно создано' : 'Данные мероприятия были успешно обновлены');
         } catch (validationErrors) {
             if (isYupValidationError(validationErrors)) {
                 const formattedErrors: errorKeyValue = {};
@@ -221,7 +221,8 @@ const EventDetails: React.FC<EventDetailsProps> = ({
         eventData,
         toggleEditing,
         isImportant,
-        initiator
+        initiator,
+        isCreating
     ]);
 
     return (
@@ -279,7 +280,7 @@ const EventDetails: React.FC<EventDetailsProps> = ({
                             showEstTime
                             // error={hasSaved && errors.firstName}
                             error={errors.endDate}
-                            compProps={{startDate}}
+                            compProps={{ startDate }}
                         />
                         <EditableField
                             label="Тип"
@@ -297,7 +298,7 @@ const EventDetails: React.FC<EventDetailsProps> = ({
                             isHidden={!isEditing}
                             error={errors.type}
                             compProps={{
-                                searchable:false
+                                searchable: false
                             }}
                         />
                         <EditableField
@@ -316,13 +317,13 @@ const EventDetails: React.FC<EventDetailsProps> = ({
                             isHidden={!isEditing}
                             error={errors.status}
                             compProps={{
-                                searchable:false
+                                searchable: false
                             }}
                         />
                         <EditableField
                             label="Создатель"
                             value={`${eventData.creator.name}`}
-                            setValue={() => {}}
+                            setValue={() => { }}
                             isEditing={false} // Set isEditing to false for non-editable field
                             isMobile={isMobile}
                             component={EditableTextField}
@@ -330,7 +331,7 @@ const EventDetails: React.FC<EventDetailsProps> = ({
                         <EditableField
                             label="Инициатор"
                             value={`${eventData.initiator}`}
-                            setValue={() => {}}
+                            setValue={setInitiator}
                             isEditing={isEditing} // Set isEditing to false for non-editable field
                             isMobile={isMobile}
                             component={EditableTextField}
@@ -366,7 +367,7 @@ const EventDetails: React.FC<EventDetailsProps> = ({
                             isMobile={isMobile}
                             // isHidden={!isEditing}
                             component={EditableCheckboxField}
-                            // showAnyWay
+                        // showAnyWay
                         />
                     </tbody>
                 </table>

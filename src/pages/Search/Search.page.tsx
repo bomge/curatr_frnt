@@ -1,29 +1,12 @@
 import { useSearchParams } from "react-router-dom";
-import type { Person } from "../Cafedra/Cafedras.page";
 import type { NameId } from "../Profile.page";
 import { useCallback, useEffect, useState } from "react";
 import { students, workers } from './testDataSearch';
 import PersonSearch from "@/components/Search/Search";
 import { useDebouncedValue } from '@mantine/hooks';
+import type { ISearchPersonStudent, ISearchPersonWorker } from "@/@types/persons";
 
-export interface IInfo {
-  id: number;
-  shortName: string;
-  fullName: string;
-}
 
-export interface ISearchPersonWorker extends Person {
-  avatar?: string;
-  scienceDegree: string;
-  faculty: IInfo;
-}
-
-export interface ISearchPersonStudent extends Person {
-  avatar?: string;
-  isStudent: boolean;
-  faculty: IInfo;
-  group: IInfo & { leader?: { id: number } };
-}
 
 export interface SearchPersonResult {
   result: (ISearchPersonWorker | ISearchPersonStudent)[];

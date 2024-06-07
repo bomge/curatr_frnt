@@ -1,5 +1,7 @@
+import type { ExtendedCafedra } from "@/@types/cafedra";
+import type { ExtentedGroup } from "@/@types/group";
+import type { Student } from "@/@types/persons";
 import { persons } from "../Cafedra/testDataCafedra";
-import type { Student, ExtentedGroup, ExtendedCafedra } from "./Groups.page";
 
 export const students2: Student[] = [
 	{ id: 36, firstName: 'Александр', lastName: 'Петров', surName: 'Иванович', role: 'Студент',isLeader:true },

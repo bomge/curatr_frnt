@@ -1,7 +1,27 @@
 import EventDetails from '@/components/EventDetails/EventDetails';
 import type React from 'react';
 
-const eventData = {
+import allEvents from './Main/testData'
+import { useLocation } from 'react-router-dom';
+
+const nullEventData = {
+	id: null,
+	name: '',
+	startDate: new Date().toISOString(),
+	endDate: new Date().toISOString(),
+	type: 'Академическое',
+	status: 'Предстоящее',
+	creator: {
+	  name: '',
+	  id: null,
+	},
+	initiator: '',
+	groups: [],
+	isImportant: false,
+	description: '',
+  };
+
+const initialEventData = {
 	id: 1,
 	name: 'Собрание кафедры',
 	startDate: new Date().toISOString(),
@@ -15,8 +35,10 @@ const eventData = {
 	initiator:'Администрация',
 	groups: [{ id: 1, name: 'IT-21' }, { id: 2, name: 'IT-22' }],
 	isImportant: false,
-	description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl nec ultricies lacinia, nunc nisl aliquam nisl, eget aliquam nisl nisl eu nisl.',
-  };
+	description: `
+	<strong>Собрание кафедры</strong> - это регулярное мероприятие, проводимое в рамках деятельности университета. На нем присутствуют все преподаватели и сотрудники конкретной кафедры под руководством заведующего.Основные цели собрания кафедры:<ol><li><em>Обсуждение текущих вопросов</em>, связанных с учебным процессом, научной работой, публикационной активностью и другими направлениями деятельности кафедры.</li><li>Планирование и координация работы кафедры на предстоящий период, распределение обязанностей между сотрудниками.</li><li>Заслушивание отчетов преподавателей о проделанной работе, достижениях и возникших проблемах.</li><li>Рассмотрение кадровых вопросов: назначение новых сотрудников, продление трудовых договоров, утверждение тем диссертационных исследований и т.д.</li><li>Представление и обсуждение новых учебно-методических материалов, научных публикаций, грантов и проектов.</li><li>Обмен опытом и лучшими практиками между коллегами, обсуждение путей повышения эффективности работы кафедры.</li></ol>
+	`
+};
 
   const allGroups = [
 	{ id: 1, name: 'IT-21' },
@@ -28,8 +50,11 @@ const eventData = {
   ];
 
 const EventPage: React.FC = () => {
-//   return <div>Event Page</div>;
-	return <EventDetails eventData={eventData} allGroups={allGroups}/>
+	const location = useLocation();
+  const isCreating = location.pathname === '/event/new';
+  const eventData = isCreating ? nullEventData : initialEventData
+
+	return <EventDetails eventData={eventData} allGroups={allGroups} isCreating={isCreating}/>
 };
 
 export default EventPage;

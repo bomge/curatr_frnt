@@ -4,37 +4,13 @@ import { faculties as testFaculties, cafedras  as testCafedras} from './testData
 import { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Box, LoadingOverlay } from '@mantine/core';
+import type { CafedraInfo } from '@/@types/cafedra';
+import type { FacultyInfo } from '@/@types/faculty';
 
-export interface Person {
-  id: number;
-  firstName: string;
-  lastName: string;
-  surName: string;
-  role?:string
-}
 
-export interface Group {
-  id: number;
-  shortName: string;
-  fullName: string;
-}
 
-export interface CafedraInfo {
-  id: number;
-  shortName: string;
-  fullName: string;
-  dean: Person | null;
-  headCafedra: Person | null;
-  workers: Person[];
-  groups: Group[];
-}
 
-export interface FacultyInfo {
-  id: number;
-  shortName: string;
-  fullName: string;
-  cafedras: { id: number }[]
-}
+
 
 
 

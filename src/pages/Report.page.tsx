@@ -6,7 +6,10 @@ import Report from '@/components/Reports/Report';
 const ReportPage: React.FC = () => {
   console.log('123')
   const [events,setEvents] = useState(testEvents)
-  return <Report events={events} />
+  const allGroups = Array.from(new Set(events.flatMap(event => event.groups)))
+    .map((group, index) => ({ id: index, name: group })).sort((a, b) =>a.name-b.name);
+  console.log(allGroups)
+  return <Report events={events} allGroups={allGroups}/>
   // return <div>123</div>
 };
 
