@@ -1,5 +1,6 @@
 import type React from 'react';
 import { useAuth } from '@/hooks/useAuth';
+import { Button, Group, Stack, TextInput, PasswordInput } from '@mantine/core';
 
 const Login: React.FC = () => {
   const { signIn, isLoading } = useAuth();
@@ -13,22 +14,28 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div>
-      <h1>Login</h1>
+    <Stack align="center">
+      <h1>Авторизация</h1>
       <form onSubmit={handleSubmit}>
-        <label>
-          Username:
-          <input type="text" name="username" required />
-        </label>
-        <label>
-          Password:
-          <input type="password" name="password" required />
-        </label>
-        <button type="submit" disabled={isLoading}>
-          {isLoading ? 'Loading...' : 'Login'}
-        </button>
+        <Stack>
+          <TextInput
+            label="Логин"
+            name="username"
+            placeholder="Введите логин"
+            required
+          />
+          <PasswordInput
+            label="Пароль"
+            name="password"
+            placeholder="Введите пароль"
+            required
+          />
+          <Button type="submit" disabled={isLoading} w="100%" mt="0.5rem">
+            {isLoading ? 'Загрузка...' : 'Вйоти'}
+          </Button>
+        </Stack>
       </form>
-    </div>
+    </Stack>
   );
 };
 

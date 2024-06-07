@@ -376,7 +376,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
         const validFileTypes = ['image/jpeg', 'image/png', 'image/webp'];
         if (!validFileTypes.includes(file.type)) {
             setUploadError(
-                'Invalid file type. Please upload a JPEG, PNG, or WebP image.',
+                'Неправильный тип. Пожалуйста загрузите JPEG, PNG, или WebP image.',
             );
             return;
         }
@@ -488,7 +488,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
                             disabled={isUploading}
                             onClick={handleImageUpload}
                         >
-                            Upload Image
+                        Загрузить
                         </Button>
                     </Flex>
                     {uploadError && (

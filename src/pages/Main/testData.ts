@@ -332,3 +332,6 @@ export const events = [
 		isImportant: false,
 	  },
 	]
+
+const eventObj = {events}
+export {eventObj}

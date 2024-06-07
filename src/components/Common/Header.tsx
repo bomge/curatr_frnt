@@ -11,7 +11,7 @@ const links = [
   { link: '/groups', label: 'Группы'},
   { link: '/search', label: 'Поиск'},
   { link: '/student/1', label: 'Студент' },
-  { link: '/reports', label: 'Статистика', role: ['admin', 'manager','dean'], disabled:true },
+  { link: '/reports', label: 'Статистика', role: ['admin', 'manager','dean','curator'], disabled:true },
   { link: '/management', label: 'Управление', role: ['admin','dean'], disabled:true },
   { link: '/admin', label: 'Админ', role: ['admin'], disabled:true },
   { link: '/profile/1', label: 'Аккаунт'},

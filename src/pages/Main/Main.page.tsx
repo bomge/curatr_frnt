@@ -10,7 +10,7 @@ import {
     useMantineColorScheme,
 } from '@mantine/core';
 import { DatePicker, type DatePickerProps } from '@mantine/dates';
-import { events } from './testData';
+import { eventObj } from './testData';
 import 'dayjs/locale/ru';
 import { formatDistance, format } from 'date-fns';
 import { ru } from 'date-fns/locale';
@@ -22,6 +22,7 @@ import { MobileStackPcGroup } from '@/components/Fields/EditableField';
 import FormattedDateTime from '@/components/EventCard/FormattedDateTime';
 import HighlightedDay from '@/components/Main/HighlightedDay';
 import { node } from 'prop-types';
+import { useAuthStore } from '@/store/useAuthStore';
 
 export const eventTypeColor = {
     'Академическое': 'indigo',
@@ -57,6 +58,15 @@ const MainPage = () => {
     const isMobile = !!useMediaQuery('(max-width: 600px)');
     const currentDate = new Date();
 
+    let events = eventObj.events 
+
+    const { userRole } = useAuthStore();
+    console.log(userRole)
+    
+    if(userRole == 'curator'){
+         events = events.filter(event=>event.groups.some(g=>g == 'ИП-21'))
+    }
+
     const filteredEvents = events.filter((event) => {
         const startDate = new Date(event.startDate);
         const endDate = new Date(event.endDate);
@@ -64,6 +74,9 @@ const MainPage = () => {
         startOfDay.setHours(0, 0, 0, 0);
         const endOfDay = new Date(selectedDate);
         endOfDay.setHours(23, 59, 59, 999);
+
+        
+
         return (
             (startDate >= startOfDay && startDate <= endOfDay) ||
             (endDate >= startOfDay && endDate <= endOfDay) ||
