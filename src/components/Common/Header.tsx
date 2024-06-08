@@ -7,11 +7,11 @@ import { useMantineColorScheme } from '@mantine/core';
 
 const links = [
   { link: '/main', label: 'Главная',},
+  { link: '/stats', label: 'Статистика', role: ['admin', 'manager','dean','curator'], disabled:true },
   { link: '/cafedras', label: 'Кафедры',},
   { link: '/groups', label: 'Группы'},
   { link: '/search', label: 'Поиск'},
   { link: '/student/1', label: 'Студент' },
-  { link: '/reports', label: 'Статистика', role: ['admin', 'manager','dean','curator'], disabled:true },
   { link: '/management', label: 'Управление', role: ['admin','dean'], disabled:true },
   { link: '/admin', label: 'Админ', role: ['admin'], disabled:true },
   { link: '/profile/1', label: 'Аккаунт'},

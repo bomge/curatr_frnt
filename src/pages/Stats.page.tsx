@@ -1,7 +1,7 @@
 import type React from 'react';
 import {events as testEvents} from './Main/testData'
 import { useState } from 'react';
-import Report from '@/components/Reports/Report';
+import Report from '@/components/Stats/Stats';
 import { useAuthStore } from '@/store/useAuthStore';
 
 const ReportPage: React.FC = () => {
