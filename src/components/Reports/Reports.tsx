@@ -148,7 +148,7 @@ const Reports: React.FC<EventsProps> = ({
 
 				<ScrollArea h='30rem' maw={isMobile ? '' : '40rem'} miw={isMobile ? '100%' : '40rem'}>
 
-					<Paper shadow="xs" withBorder pt='0.5rem' h='30rem'
+					<Paper shadow="xs" withBorder pt='0.5rem'
 						// bg='gray.1'
 						className='paperSearch'
 					>

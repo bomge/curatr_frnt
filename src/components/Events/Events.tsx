@@ -77,7 +77,7 @@ const Events: React.FC<EventsProps> = ({
 							</Tabs.Tab>
 						))}
 					</Tabs.List>
-					<Paper shadow="xs" p="0"
+					<Paper shadow="xs" p="0" pt='0.3rem' pb='0.1rem'
 						// bg='gray.1'
 						className={classes.paperSearch}
 					>
