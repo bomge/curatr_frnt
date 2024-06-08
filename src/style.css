@@ -24,3 +24,26 @@ label:has(+ input:required)::after {
 	/* background-color: light-dark(#fb6767, #c82323); */
 	background-color: light-dark(#f25e5e, #ff35359e);
 }
+
+.paperSearch {
+	/* background-color:light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-7)); */
+	/* background-color:light-dark(var(--mantine-color-gray-1), #1f1f1f75); */
+	background-color:light-dark(var(--mantine-color-gray-1), #1f1f1f75);
+}
+
+.paperCard{
+	background-color:light-dark(#ffffffbf, var(--mantine-color-dark-6));
+
+}
+
+.alignCenter{
+	align-self: center;
+}
+
+.currentDay{
+	background-color: light-dark(var(--mantine-color-yellow-2), #5c98d463)
+}
+
+.eventCardName:hover{
+	color:rgb(54 54 54 / 75%)
+}

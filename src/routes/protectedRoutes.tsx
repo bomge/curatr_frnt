@@ -76,6 +76,12 @@ const protectedRoutes_: Routes = [
 		component: lazy(() => import('@/pages/Events.page')),
 		// role: ['admin', 'manager', 'user'], // Adjust roles as needed
 	},
+	{
+		key: 'reports',
+		path: '/reports',
+		component: lazy(() => import('@/pages/Reports.page')),
+		// role: ['admin', 'manager', 'user'], // Adjust roles as needed
+	},
 ];
 
 export default protectedRoutes_;

@@ -36,7 +36,7 @@ const Events: React.FC<EventsProps> = ({
 	});
 
 	const filteredEvents = showOnlyEventsWithoutReport
-		? sortedEvents.filter((event) => event.status === 'Завершено' && !event.report)
+		? sortedEvents.filter((event) =>  !event.report)
 		: sortedEvents;
 
 	const eventsCards = filteredEvents.map((event) => (

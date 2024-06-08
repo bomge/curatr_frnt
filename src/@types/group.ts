@@ -7,7 +7,7 @@ export interface Group {
   }
 
   export interface ExtentedGroup extends Group {
-	students: Student[]
+	students?: Student[]
 	curator?: Person | null
 	leader?: Person | null
 }

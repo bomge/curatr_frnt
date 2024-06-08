@@ -8,6 +8,7 @@ import { useMantineColorScheme } from '@mantine/core';
 const links = [
   { link: '/main', label: 'Главная',},
   { link: '/events', label: 'Мероприятия'},
+  { link: '/reports', label: 'Отчеты',role:['admin','dean']},
   { link: '/stats', label: 'Статистика', role: ['admin', 'manager','dean','curator'], disabled:true },
   { link: '/cafedras', label: 'Кафедры',},
   { link: '/groups', label: 'Группы'},

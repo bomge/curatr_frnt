@@ -57,9 +57,6 @@ const EventCard: React.FC<EventCardProps> = ({
 
 	const isOngoingOrCanceled = event.status === 'В процессе' || event.status === 'Отменено' || event.status == 'Завершено';
 
-	if(event.name =='Открытая лекция по искусству'){
-		console.log(event)
-	}
 
 	return (
 		<Card
@@ -108,9 +105,11 @@ const EventCard: React.FC<EventCardProps> = ({
 				</Group>
 			</Group>
 			<Group align="center" >
-				<Text size="lg" m="0">
+				<Link to='/event/1' style={{textDecoration:'none',color:'inherit'}}>
+				<Text size="lg" m="0" className='eventCardName'>
 					{event.name}
 				</Text>
+				</Link>
 				<Text color="dimmed" size="sm" m='0'>
 					{event.creator}
 				</Text>
@@ -122,7 +121,7 @@ const EventCard: React.FC<EventCardProps> = ({
 					// biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
 					<span
 						onClick={toggleExpansion}
-						style={{ cursor: 'pointer' }}
+						style={{ cursor: event.groups.length>3?'pointer' : '' }}
 					>
 						{event.groups.join(', ')}
 					</span>

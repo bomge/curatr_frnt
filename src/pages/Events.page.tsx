@@ -10,8 +10,10 @@ const EventsPage = () => {
 
   useEffect(() => {
     const fetchData = setTimeout(() => {
+		// @ts-ignore
       setEvents(testEvents);
-      setFilteredEvents(testEvents.filter((event) =>['Предстоящее', 'Перенесено'].includes(event.status)));
+		// @ts-ignore
+		setFilteredEvents(testEvents.filter((event) =>['Предстоящее', 'Перенесено'].includes(event.status)));
       setLoading(false);
     }, 500);
 
