@@ -79,11 +79,11 @@ const Reports: React.FC<EventsProps> = ({
 	const getNoEventsMessage = () => {
 		console.log(dateRange)
 		if (dateRange[0] && dateRange[1] && dateRange[0]?.getDate() != dateRange[1]?.getDate()) {
-		  return `в период с ${format(dateRange[0], 'dd MMM yyyy', { locale: ru })} по ${format(dateRange[1], 'dd MMM yyyy', { locale: ru })} мероприятия не найдено`;
+		  return `в период с ${format(dateRange[0], 'dd MMM yyyy', { locale: ru })} по ${format(dateRange[1], 'dd MMM yyyy', { locale: ru })} мероприятий не найдено`;
 		} else if (dateRange[0]) {
-		  return `на ${format(dateRange[0], 'dd MMM yyyy', { locale: ru })} мероприятия не найдено`;
+		  return `на ${format(dateRange[0], 'dd MMM yyyy', { locale: ru })} мероприятий не найдено`;
 		} else if (dateRange[1]) {
-		  return `на ${format(dateRange[1], 'dd MMM yyyy', { locale: ru })} мероприятия не найдено`;
+		  return `на ${format(dateRange[1], 'dd MMM yyyy', { locale: ru })} мероприятий не найдено`;
 		} else {
 		  return 'Мероприятий не найдено';
 		}

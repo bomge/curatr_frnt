@@ -31,7 +31,7 @@ const Login: React.FC = () => {
             required
           />
           <Button type="submit" disabled={isLoading} w="100%" mt="0.5rem">
-            {isLoading ? 'Загрузка...' : 'Вйоти'}
+            {isLoading ? 'Загрузка...' : 'Войти'}
           </Button>
         </Stack>
       </form>
