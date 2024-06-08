@@ -14,11 +14,11 @@ interface EventCardProps {
 }
 
 export const eventTypeColor = {
-    'Академическое': 'indigo',
-    'Культурное': 'plum',
-    'Спортивное': 'teal',
-    'Социальное': 'coral',
-    'Административное': 'slategray',
+	'Академическое': 'indigo',
+	'Культурное': 'plum',
+	'Спортивное': 'teal',
+	'Социальное': 'coral',
+	'Административное': 'slategray',
 };
 
 export const eventStatusColor = {
@@ -40,7 +40,7 @@ const EventCard: React.FC<EventCardProps> = ({
 	const toggleExpansion = () => setExpanded((prev) => !prev);
 
 	const [modalOpened, setModalOpened] = useState(false);
-	const [numParticipants, setNumParticipants] = useState<string|number>(event.report?.numParticipants || 0);
+	const [numParticipants, setNumParticipants] = useState<string | number>(event.report?.numParticipants || 0);
 	const [comment, setComment] = useState(event.report?.comment || '');
 
 	const openModal = () => setModalOpened(true);
@@ -48,7 +48,7 @@ const EventCard: React.FC<EventCardProps> = ({
 
 	const handleSaveReport = () => {
 		const report: IReport = {
-			numParticipants:+numParticipants,
+			numParticipants: +numParticipants,
 			comment,
 		};
 		onSaveReport(event.id, report);
@@ -105,10 +105,10 @@ const EventCard: React.FC<EventCardProps> = ({
 				</Group>
 			</Group>
 			<Group align="center" >
-				<Link to='/event/1' style={{textDecoration:'none',color:'inherit'}}>
-				<Text size="lg" m="0" className='eventCardName'>
-					{event.name}
-				</Text>
+				<Link to='/event/1' style={{ textDecoration: 'none', color: 'inherit' }}>
+					<Text size="lg" m="0" className='eventCardName'>
+						{event.name}
+					</Text>
 				</Link>
 				<Text color="dimmed" size="sm" m='0'>
 					{event.creator}
@@ -116,57 +116,57 @@ const EventCard: React.FC<EventCardProps> = ({
 			</Group>
 			<Group>
 
-			<Text color="dimmed">
-				{expanded ? (
-					// biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
-					<span
-						onClick={toggleExpansion}
-						style={{ cursor: event.groups.length>3?'pointer' : '' }}
-					>
-						{event.groups.join(', ')}
-					</span>
-				) : (
-					// biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
-					<span
-						onClick={toggleExpansion}
-						style={{ cursor: 'pointer' }}
-					>
-						{event.groups.slice(0, 3).join(', ')}
-						{event.groups.length > 3 && '...'}
-					</span>
+				<Text color="dimmed">
+					{expanded ? (
+						// biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
+						<span
+							onClick={toggleExpansion}
+							style={{ cursor: event.groups.length > 3 ? 'pointer' : '' }}
+						>
+							{event.groups.join(', ')}
+						</span>
+					) : (
+						// biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
+						<span
+							onClick={toggleExpansion}
+							style={{ cursor: 'pointer' }}
+						>
+							{event.groups.slice(0, 3).join(', ')}
+							{event.groups.length > 3 && '...'}
+						</span>
+					)}
+				</Text>
+				{isOngoingOrCanceled && (
+					<Group align="right">
+						<Button onClick={openModal} size='compact-xs' color={event.report ? 'gray.7' : "yellow.9"} variant="light" radius='sm' style={{ cursor: 'pointer' }}>
+							{event.report ? 'Редактировать отчет' : 'Отправить отчет'}
+						</Button>
+					</Group>
 				)}
-			</Text>
-			{isOngoingOrCanceled && (
-				<Group align="right">
-					<Button onClick={openModal} size='compact-xs' color={event.report?'gray.7':"yellow.9"} variant="light" radius='sm' style={{ cursor: 'pointer' }}>
-						{event.report ? 'Редактировать отчет' : 'Отправить отчет'}
-					</Button>
-				</Group>
-			)}
 			</Group>
-			      <Modal opened={modalOpened} onClose={closeModal} title= {`Отчет ${event.name}`}
-				  >
-        <NumberInput
-          label="Количество участников"
-          value={numParticipants}
-          onChange={setNumParticipants}
-          min={0}
-		  allowDecimal={false}
-		  leftSection={<IconUser style={{ width: rem(20), height: rem(20) }} stroke={1.5}/>}
-        />
-        <Textarea
-          label="Комментарий"
-          value={comment}
-          onChange={(event) => setComment(event.currentTarget.value)}
-          mt="md"
-		  leftSection={<IconMessage style={{ width: rem(20), height: rem(20) }} stroke={1.5}/>}
-        />
-        <Group align="right" mt="md">
-          <Badge onClick={handleSaveReport} color="green" variant="light" style={{ cursor: 'pointer' }}>
-            Сохранить
-          </Badge>
-        </Group>
-      </Modal>
+			<Modal opened={modalOpened} onClose={closeModal} title={<span>Отчет на <Text component='span' fw='600'>{event.name}</Text></span>}
+			>
+				<NumberInput
+					label="Количество участников"
+					value={numParticipants}
+					onChange={setNumParticipants}
+					min={0}
+					allowDecimal={false}
+					leftSection={<IconUser style={{ width: rem(20), height: rem(20) }} stroke={1.5} />}
+				/>
+				<Textarea
+					label="Комментарий"
+					value={comment}
+					onChange={(event) => setComment(event.currentTarget.value)}
+					mt="md"
+					leftSection={<IconMessage style={{ width: rem(20), height: rem(20) }} stroke={1.5} />}
+				/>
+				<Group align="right" mt="md">
+					<Badge onClick={handleSaveReport} color="green" variant="light" style={{ cursor: 'pointer' }}>
+						Сохранить
+					</Badge>
+				</Group>
+			</Modal>
 		</Card>
 	);
 };
