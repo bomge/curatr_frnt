@@ -195,6 +195,9 @@ const MainPage = () => {
                 </Link>
             </MobileStackPcGroup>
             <Stack>
+                {userRole == 'curator' && <Text ta='center'>
+                        ИП-21
+                </Text>}
                 {filteredEvents.length > 0 ? (
                     filteredEvents
                         .sort((a, b) => {

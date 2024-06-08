@@ -1,8 +1,9 @@
-import type { workerFullInfo } from "../Admin.page";
-import type { ExtentedGroup } from "../Group/Groups.page";
 // import { extendsGroups } from "../Group/testDataGroup";
-import type { CafedraFullWorker, FacultyFull, IfreeWorker } from "../Manage.page";
-import type { CafedraInfo, Person, Group, FacultyInfo } from "./Cafedras.page";
+
+import type { CafedraInfo, CafedraFullWorker } from "@/@types/cafedra";
+import type { FacultyInfo, FacultyFull } from "@/@types/faculty";
+import type { ExtentedGroup, Group } from "@/@types/group";
+import type { Person, workerFullInfo, IfreeWorker } from "@/@types/persons";
 
 export  const persons: Person[] = [
 	{ id: 1, firstName: 'Алексей', lastName: 'Иванов', surName: 'Петрович', role: 'Профессор', },

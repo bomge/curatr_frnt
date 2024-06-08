@@ -1,0 +1,36 @@
+.paperSearch {
+	/* background-color:light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-7)); */
+	/* background-color:light-dark(var(--mantine-color-gray-1), #1f1f1f75); */
+	background-color:light-dark(var(--mantine-color-gray-1), #1f1f1f75);
+}
+
+.paperCard{
+	background-color:light-dark(#ffffffbf, var(--mantine-color-dark-6));
+
+}
+
+.cancelBtn{
+	/* background-color: light-dark(#fb6767, #c82323); */
+	background-color: light-dark(#fb6767, #f93a3ab5);
+}
+
+.cancelBtn:hover{
+	/* background-color: light-dark(#fb6767, #c82323); */
+	background-color: light-dark(#f25e5e, #ff35359e);
+}
+
+.card {
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.card:hover {
+    transform: scale(1.02);
+}
+
+.cardЗавершено {
+    opacity: 0.6;
+}
+
+.cardЗавершено:hover {
+    opacity: 1;
+}
