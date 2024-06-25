@@ -7,6 +7,7 @@ import { formatDistance } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { useState } from 'react';
 import { IconMessage, IconUser } from '@tabler/icons-react';
+import { useAuthStore } from '@/store/useAuthStore';
 
 interface EventCardProps {
 	event: IEvent;
@@ -57,7 +58,7 @@ const EventCard: React.FC<EventCardProps> = ({
 
 	const isOngoingOrCanceled = event.status === 'В процессе' || event.status === 'Отменено' || event.status == 'Завершено';
 
-
+	const { userRole } = useAuthStore();
 	return (
 		<Card
 			shadow="sm"
@@ -136,7 +137,7 @@ const EventCard: React.FC<EventCardProps> = ({
 						</span>
 					)}
 				</Text>
-				{isOngoingOrCanceled && (
+				{isOngoingOrCanceled && userRole == 'curator' && (
 					<Group align="right">
 						<Button onClick={openModal} size='compact-xs' color={event.report ? 'gray.7' : "yellow.9"} variant="light" radius='sm' style={{ cursor: 'pointer' }}>
 							{event.report ? 'Редактировать отчет' : 'Отправить отчет'}
