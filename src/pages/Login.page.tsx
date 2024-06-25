@@ -1,16 +1,21 @@
-import type React from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
-import { Button, Group, Stack, TextInput, PasswordInput } from '@mantine/core';
+import { Button, Group, Stack, TextInput, PasswordInput, Text } from '@mantine/core';
 
 const Login: React.FC = () => {
   const { signIn, isLoading } = useAuth();
+  const [formError, setFormError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setFormError(null);
     const formData = new FormData(e.currentTarget);
     const username = formData.get('username') as string;
     const password = formData.get('password') as string;
-    await signIn(username, password);
+    const result = await signIn(username, password);
+    if (!result) {
+      setFormError('Неверный логин или пароль.');
+    }
   };
 
   return (
@@ -30,6 +35,11 @@ const Login: React.FC = () => {
             placeholder="Введите пароль"
             required
           />
+          {(formError) && (
+            <Text color="red" size="sm">
+              {formError }
+            </Text>
+          )}
           <Button type="submit" disabled={isLoading} w="100%" mt="0.5rem">
             {isLoading ? 'Загрузка...' : 'Войти'}
           </Button>

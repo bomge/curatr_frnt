@@ -13,11 +13,14 @@ export const useAuth = () => {
 
       if (response.success) {
         setIsAuthenticated(true, response.token);
+        return true
       } else {
         console.error('Authentication failed');
+        return false
       }
     } catch (error) {
       console.error('An error occurred during authentication:', error);
+      return false
     } finally {
       setIsLoading(false);
     }
